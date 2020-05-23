@@ -1,0 +1,17 @@
+{
+  "name": "sports-rec",
+  "version": "1.0.0",
+  "description": "Record of personal sports activity.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js -e js,html"
+  },
+  "author": "Alex Terliuk",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
