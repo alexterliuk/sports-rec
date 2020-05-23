@@ -10,10 +10,7 @@ const publicDirectoryPath = path.join(__dirname, '/public');
 app.use(express.static(publicDirectoryPath));
 
 app.get('', (req, res) => {
-  res.render('index', {
-    title: 'Weather',
-    name: 'Alex'
-  });
+  res.render('index');
 });
 
 app.listen(port, () => {
