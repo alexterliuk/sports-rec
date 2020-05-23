@@ -1,0 +1,60 @@
+html {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #353535;
+} /*8rem - 128px, 60rem - 960px*/
+
+body {
+  display: block;
+  margin: .5rem;
+}
+
+#sports {
+  display: flex;
+  justify-content: space-between;
+}
+
+#leftSide, #rightSide {
+  flex: 1 1 20%;
+  background: lightsteelblue;
+  outline: 1px solid lightsteelblue;
+  padding: .25rem;
+}
+
+#main {
+  flex: 1 0 50%;
+  padding: 0 .667rem;
+}
+
+#mCont {
+  display: flex;
+  flex-direction: column;
+}
+
+#mButtons, #mBottom {
+  background: lightblue;
+  outline: 1px solid lightblue;
+}
+
+#mButtons {
+  height: 5rem;
+  padding: .25rem;
+}
+
+#mBottom {
+  min-height: 5rem;
+  padding: .5rem;
+}
+
+p {
+  margin: 0 0 .5rem 0;
+}
+
+div.bottom {
+  margin: 0 auto 2rem;
+  width: 720px;
+}
+
+.bottom p {
+  margin-bottom: 5px;
+}
