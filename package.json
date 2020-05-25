@@ -4,12 +4,13 @@
   "description": "Record of personal sports activity.",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js -e js,html"
+    "dev": "nodemon app.js -e js,html,css"
   },
   "author": "Alex Terliuk",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "postman-request": "^2.88.1-postman.22"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
