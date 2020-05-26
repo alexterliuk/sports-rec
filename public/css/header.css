@@ -95,7 +95,7 @@ span[role=button] {
 
 .login-button {
   width: 64px;
-  margin: .25rem 0 0 12.333rem;
+  margin: .25rem 0 0 11.95rem;
 }
 
 #signUpPanel {
@@ -109,12 +109,14 @@ span[role=button] {
 @media(max-width: 38rem) {
   header {
     display: block;
+    height: 123px;
   }
 
   .title-block {
     padding-left: 0;
     padding-bottom: 0;
     text-align: center;
+    height: 43px;
   }
 
   .title-block, .sign-container {
@@ -128,5 +130,9 @@ span[role=button] {
 
   #subtitle {
     font-size: .5rem;
+  }
+
+  #signInPanel, #signUpPanel {
+    margin: 0 0 .5rem;
   }
 }
