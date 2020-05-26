@@ -7,17 +7,26 @@
   <meta name="description" content="Table making playground.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="img/biceps.png">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/table.css">
 </head>
 
 <body>
   <header>
-    <h1>Tabulator</h1>
-    <h3>This site serves as table making playground. You can create your table by clicking corresponding buttons, or by uploading table data in JSON format to the server.</h3>
+    <div class="title-block">
+      <h1>Tabulator</h1>
+      <p id="subtitle">Table making playground</p>
+    </div>
   </header>
-  <main role="main"></main>
+
+  <main role="main">
+    <div class="description">Create a table by clicking corresponding buttons, or by uploading JSON data to the server. When logged in, you can save a new table or fetch existing one from the server. This site serves as a playground, do not save any confidential information.</div>
+  </main>
+
   <footer></footer>
+
   <script defer src="js/table/main.js"></script>
   <script src="js/table/build-table.js"></script>
   <script src="js/table/sort-highlight-column.js"></script>
