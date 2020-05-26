@@ -19,6 +19,40 @@
       <h1>Tabulator</h1>
       <p id="subtitle">Table making playground</p>
     </div>
+
+    <div class="sign-container">
+      <div id="signInPanel" class="log-panel">
+        <form method="post" action="/sign-in" novalidate>
+          <div class="login-field">
+            <label for="signInUsername">Username</label>
+            <input id="signInUsername" name="username">
+          </div>
+          <div class="login-field">
+            <label for="signInPassword">Password</label>
+            <input id="signInPassword" name="password" type="password">
+            <span role="button" class="toggle-password-view">show</span>
+          </div>
+          <button id="signIn" class="login-button" type="submit">Sign In</button>
+        </form>
+        <span id="needSignUp" role="button" class="toggle-sign-mode">Need Sign Up?</span>
+      </div>
+
+      <div id="signUpPanel" class="log-panel">
+        <form method="post" action="/sign-up" novalidate>
+          <div class="login-field">
+            <label for="signUpUsername">Username</label>
+            <input id="signUpUsername" name="username">
+          </div>
+          <div class="login-field">
+            <label for="signUpPassword">Password</label>
+            <input id="signUpPassword" name="password" type="password">
+            <span role="button" class="toggle-password-view">show</span>
+          </div>
+          <button id="signUp" class="login-button" type="submit">Sign Up</button>
+        </form>
+        <span id="needSignIn" role="button" class="toggle-sign-mode">Need Sign In?</span>
+      </div>
+    </div>
   </header>
 
   <main role="main">
@@ -33,6 +67,8 @@
   <script src="js/table/sort.js"></script>
   <script src="js/utils/days-without-workout.js"></script>
   <script src="js/utils/days-without-sugar.js"></script>
+  <script src="js/utils/toggle-password-view.js"></script>
+  <script src="js/utils/toggle-sign-mode.js"></script>
 </body>
 
 </html>

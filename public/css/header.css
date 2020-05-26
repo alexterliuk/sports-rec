@@ -51,6 +51,58 @@ header {
 }
 
 /**
+===== sign-in-container =====
+*/
+
+.sign-container {
+  flex: none;
+  padding-bottom: .5rem;
+  color: #222222;
+  width: 300px;
+}
+
+.log-panel {
+  position: relative;
+  margin-bottom: .5rem;
+}
+
+.toggle-sign-mode {
+  position: absolute;
+  bottom: 0;
+  text-decoration: underline;
+}
+
+.login-field {
+  width: 300px;
+  padding: .25rem 0 0;
+}
+
+.login-field label {
+  display: inline-block;
+  width: 78px;
+}
+
+.login-field input {
+  width: 169px;
+}
+
+span[role=button] {
+  width: 92px;
+  font: .8rem "Arial";
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-button {
+  width: 64px;
+  margin: .25rem 0 0 12.333rem;
+}
+
+#signUpPanel {
+  margin-top: -166px;
+}
+
+/**
    ===== style for size < 608px =====
  */
 
@@ -65,7 +117,7 @@ header {
     text-align: center;
   }
 
-  .title-block {
+  .title-block, .sign-container {
     width: 300px;
     margin: 0 auto;
   }
