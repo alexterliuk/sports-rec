@@ -12,8 +12,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minLength: 6,
-    maxLength: 20,
+    minlength: 6,
+    maxlength: 20,
     validate(value) {
       return true;/*value.split('').every(char => char.search(/\w/) !== -1);*/
     }
