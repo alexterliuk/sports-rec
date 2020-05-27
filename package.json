@@ -9,10 +9,13 @@
   "author": "Alex Terliuk",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.16",
-    "postman-request": "^2.88.1-postman.22"
+    "postman-request": "^2.88.1-postman.22",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
