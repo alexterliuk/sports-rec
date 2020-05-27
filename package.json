@@ -4,7 +4,7 @@
   "description": "Record of personal sports activity.",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js -e js,html,css"
+    "dev": "env-cmd -f ./config/dev.env nodemon app.js -e js,html,css"
   },
   "author": "Alex Terliuk",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "postman-request": "^2.88.1-postman.22"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "nodemon": "^2.0.4"
   }
 }
