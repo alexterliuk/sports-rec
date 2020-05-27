@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
     minlength: 6,
-    maxlength: 20,
     validate(value) {
       return true;/*value.split('').every(char => char.search(/\w/) !== -1);*/
     }
