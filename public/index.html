@@ -25,7 +25,8 @@
         <form method="post" action="/sign-in" novalidate>
           <div class="login-field">
             <label for="signInUsername">Username</label>
-            <input id="signInUsername" name="username">
+            <input id="signInUsername" name="username" type="text">
+            <div class="err-msg"><span></span><span class="btn-cross">x</span></div>
           </div>
           <div class="login-field">
             <label for="signInPassword">Password</label>
@@ -41,7 +42,8 @@
         <form method="post" action="/sign-up" novalidate>
           <div class="login-field">
             <label for="signUpUsername">Username</label>
-            <input id="signUpUsername" name="username">
+            <input id="signUpUsername" name="username" type="text">
+            <div class="err-msg"><span></span><span class="btn-cross">x</span></div>
           </div>
           <div class="login-field">
             <label for="signUpPassword">Password</label>
@@ -70,6 +72,7 @@
   <script src="js/utils/toggle-password-view.js"></script>
   <script src="js/utils/toggle-sign-mode.js"></script>
   <script src="js/services/sign-up.js"></script>
+  <script src="js/utils/show-error.js"></script>
 </body>
 
 </html>
