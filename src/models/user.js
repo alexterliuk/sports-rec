@@ -55,6 +55,16 @@ userSchema.methods.toJSON = function() {
   return userObject;
 };
 
+// Find user by name and authorization token
+userSchema.statics.findByCredentials = async (name, password) => {
+  const user = await User.findOne({ name });
+
+  const isMatch = await bcrypt.compare(password, (user || {}).password);
+  if (!isMatch) throw new Error('Unable to sign in.');
+
+  return user;
+};
+
 // Hash the plain text password before saving
 userSchema.pre('save', async function(next) {
   const user = this;
