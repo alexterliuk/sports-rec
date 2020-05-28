@@ -13,9 +13,9 @@ const userSchema = new mongoose.Schema({
       const valid = containsOnlyLetNumUnderscore(name);
 
       if (!valid) {
-        throw new Error('Name cannot contain characters other than letters, numbers, or _.')
+        throw new Error('Name cannot contain characters other than letters, numbers, or _.');
       }
-    }
+    },
   },
   password: {
     type: String,
@@ -26,11 +26,11 @@ const userSchema = new mongoose.Schema({
   tokens: [{
     token: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   }],
 }, {
-  timeStamps: true
+  timeStamps: true,
 });
 
 // Create token for authentication

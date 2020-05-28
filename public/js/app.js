@@ -16,7 +16,7 @@ function $listenToServerResponses(response, emitter, emitType) {
       pickElem('signUpPanel').style.display = 'none';
       pickElem('signInPanel').style.display = 'none';
       pickElem('logInPanel').style.display = 'block';
-    }
+    },
   };
 
   lib[emitType]();

@@ -7,5 +7,5 @@ function showError(message, errElem) {
     errElem.style.display = '';
     errElem.children[0].textContent = '';
     errElem.classList.remove('active-error');
-  })
+  });
 }
