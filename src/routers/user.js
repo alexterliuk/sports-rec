@@ -17,4 +17,16 @@ router.post('/sign-up', isValidPassword, async (req, res) => {
   }
 });
 
+// Sign in
+router.post('/sign-in', async (req, res) => {
+  try {
+    const user = await User.findByCredentials(req.body.name, req.body.password);
+    const token = await user.generateAuthToken();
+
+    res.send({ user, token });
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
 module.exports = router;
