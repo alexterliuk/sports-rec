@@ -1,6 +1,8 @@
+const { containsOnlyLetNumUnderscore } = require('../utils/check-string');
+
 const isValidPassword = (req, res, next) => {
   const { password } = req.body;
-  const valid = [...password].every(char => RegExp('\\w').test(char));
+  const valid = containsOnlyLetNumUnderscore(password);
 
   try {
     if (!valid) throw new Error();

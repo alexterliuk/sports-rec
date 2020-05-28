@@ -1,12 +1,21 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { containsOnlyLetNumUnderscore } = require('../utils/check-string');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
+    maxlength: 20,
+    validate(name) {
+      const valid = containsOnlyLetNumUnderscore(name);
+
+      if (!valid) {
+        throw new Error('Name cannot contain characters other than letters, numbers, or _.')
+      }
+    }
   },
   password: {
     type: String,
