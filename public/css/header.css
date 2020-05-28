@@ -93,6 +93,40 @@ span[role=button] {
   cursor: pointer;
 }
 
+span[role=button].button-look {
+  background: #676767;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.err-msg {
+  display: none;
+  position: absolute;
+  width: 274px;
+  margin-left: -254px;
+  background: #f1cbcb;
+  padding: 2px 14px 2px 4px;
+  border: 1px solid brown;
+  border-radius: 2px;
+  font-size: .8rem;
+  word-break: break-word;
+  z-index: 1;
+}
+
+.err-msg .btn-cross {
+  color: white;
+  cursor: default;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+  line-height: 1.1;
+  background: brown;
+}
+
 .login-button {
   width: 64px;
   margin: .25rem 0 0 11.95rem;
@@ -100,6 +134,10 @@ span[role=button] {
 
 #signUpPanel {
   margin-top: -166px;
+}
+
+#logInPanel {
+  display: none;
 }
 
 /**
