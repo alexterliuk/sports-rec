@@ -22,7 +22,7 @@ signUpForm.addEventListener('submit', async event => {
       });
 
       if (response.status === 400) {
-        const message = 'User saving failed. Only letters, numbers and underscores allowed. Max length of name - 20 chars, min length of password - 6 chars.';
+        const message = 'Sign Up failed. Only letters, numbers and _ allowed. Name - max 20 chars, password - min 6 chars. The chosen name might belong to another user.';
         showError(message, errElem);
       }
 
