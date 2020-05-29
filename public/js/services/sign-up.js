@@ -1,4 +1,4 @@
-const signUpForm = document.querySelector('#signUpPanel form');
+const signUpForm = querySel('#signUpPanel form');
 
 signUpForm.addEventListener('submit', async event => {
   event.preventDefault();
