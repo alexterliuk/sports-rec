@@ -39,7 +39,7 @@ function $emit(response, emitter, emitType) {
 
   if (response.status === 200) {
     const { name } = await response.json();
-    querySel('#logInPanel span:first-child').textContent = `Welcome, ${name}`;
+    querySel('#logInPanel span:first-child').textContent = `Welcome, ${name}.`;
 
     setTimeout(() => {
       $emit(undefined, undefined, '_showLogInPanel');
