@@ -20,7 +20,7 @@ router.get('/is-logged-in', async (req, res) => {
   const user = await User.findById(req.session.userId);
 
   if (user) {
-    res.json({ name: user.name });
+    res.send({ name: user.name });
   } else {
     res.status(204).send();
   }
