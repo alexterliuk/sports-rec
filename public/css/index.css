@@ -13,3 +13,23 @@ body {
 * {
   transition: all .3s;
 }
+
+*.spinner::before {
+  content: '';
+  visibility: initial;
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(0, 0, 0, 0);
+  border-right: 2px solid rgba(8, 169, 177, 0.67);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0);
+  top: 25%;
+  left: 45%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
