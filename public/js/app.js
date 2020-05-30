@@ -25,3 +25,29 @@ function $listenToServerResponses(response, emitter, emitType) {
 function $emit(response, emitter, emitType) {
   return $listenToServerResponses(response, emitter, emitType);
 }
+
+// Check whether current session is under logged in user
+(async () => {
+  const signInPanel = pickElem('signInPanel');
+
+  const response = await fetch('http:/is-logged-in', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.status === 200) {
+    const { name } = await response.json();
+    querySel('#logInPanel span:first-child').textContent = `Welcome, ${name}`;
+
+    setTimeout(() => {
+      $emit(undefined, undefined, '_showLogInPanel');
+      signInPanel.classList.remove('spinner');
+    }, 150);
+
+  } else {
+    signInPanel.classList.remove('spinner');
+    signInPanel.style.visibility = 'initial';
+  }
+})();
