@@ -25,7 +25,7 @@
         <form method="post" action="/sign-in" novalidate>
           <div class="login-field">
             <label for="signInUsername">Username</label>
-            <input id="signInUsername" name="username" type="text">
+            <input id="signInUsername" name="username">
             <div class="err-msg"><span></span><span class="btn-cross">x</span></div>
           </div>
           <div class="login-field">
@@ -33,7 +33,7 @@
             <input id="signInPassword" name="password" type="password">
             <span role="button" class="toggle-password-view">show</span>
           </div>
-          <button id="signIn" class="login-button" type="submit">Sign In</button>
+          <button id="signIn" class="login-button">Sign In</button>
         </form>
         <span id="needSignUp" role="button" class="toggle-sign-mode">Need Sign Up?</span>
       </div>
@@ -42,7 +42,7 @@
         <form method="post" action="/sign-up" novalidate>
           <div class="login-field">
             <label for="signUpUsername">Username</label>
-            <input id="signUpUsername" name="username" type="text">
+            <input id="signUpUsername" name="username">
             <div class="err-msg"><span></span><span class="btn-cross">x</span></div>
           </div>
           <div class="login-field">
@@ -50,7 +50,7 @@
             <input id="signUpPassword" name="password" type="password">
             <span role="button" class="toggle-password-view">show</span>
           </div>
-          <button id="signUp" class="login-button" type="submit">Sign Up</button>
+          <button id="signUp" class="login-button">Sign Up</button>
         </form>
         <span id="needSignIn" role="button" class="toggle-sign-mode">Need Sign In?</span>
       </div>
