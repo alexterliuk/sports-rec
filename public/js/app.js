@@ -12,11 +12,25 @@ function $listenToServerResponses(response, emitter, emitType) {
       querySel('#logInPanel span:first-child').textContent = `Welcome, ${pickElem('signInUsername').value}.`;
       this._showLogInPanel();
     },
+    'log-out'() {
+      pickElem('signInUsername').value = '';
+      pickElem('signInPassword').value = '';
+      pickElem('signUpUsername').value = '';
+      pickElem('signUpPassword').value = '';
+      this._showSignInPanel();
+    },
     _showLogInPanel() {
       pickElem('signUpPanel').style.display = 'none';
       pickElem('signInPanel').style.display = 'none';
       pickElem('logInPanel').style.display = 'block';
     },
+    _showSignInPanel() {
+      pickElem('signUpPanel').style.display = 'block';
+      pickElem('signInPanel').style.display = 'block';
+      pickElem('signInPanel').style.visibility = 'initial';
+      pickElem('logInPanel').style.display = 'none';
+      querySel('#logInPanel span:first-child').textContent = '';
+    }
   };
 
   lib[emitType]();
