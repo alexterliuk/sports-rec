@@ -29,6 +29,7 @@ router.get('/is-logged-in', async (req, res) => {
 // Create user
 router.post('/sign-up', isValidPassword, async (req, res) => {
   const user = new User(req.body);
+  req.session.userId = user._id;
 
   try {
     await user.save();
