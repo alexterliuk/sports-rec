@@ -1,5 +1,3 @@
-const logInPanel = pickElem('logInPanel');
-
 pickElem('logOut').addEventListener('click', async event => {
   event.preventDefault();
 

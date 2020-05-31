@@ -5,7 +5,7 @@ function showDaysWithoutWorkout(id) {
   const days = [];
 
   setTimeout(() => {
-    const tbody = document.getElementById('tbody');
+    const tbody = pickElem('tbody');
 
     if (tbody) {
       for (let i = 0, qtyOfRows = tbody.childElementCount; i < qtyOfRows; i++) {
@@ -19,7 +19,7 @@ function showDaysWithoutWorkout(id) {
         if (cells.length === 1) days.push(cells[0]);
       }
 
-      const elem = document.getElementById(id);
+      const elem = pickElem(id);
       if (elem) elem.textContent = `No workout (${days.length}) - ${days.join(', ')}.`;
     }
   }, 50);

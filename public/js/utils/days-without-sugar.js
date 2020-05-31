@@ -9,7 +9,7 @@ function showDaysWithoutSugar(id) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const currentDateString = `${months[currentDate.getMonth()]} ${currentDate.getDate()}`;
 
-    const elem = document.getElementById(id);
+    const elem = pickElem(id);
     const text = 'Previous period without sugar: Mar 3 - Apr 18 (47 days). ';
     if (elem) elem.textContent = text + `Current period without sugar: Apr 24 - ${currentDateString} end (${daysElapsed} days) (NB: on May 12-13 I ate cake).`;
 

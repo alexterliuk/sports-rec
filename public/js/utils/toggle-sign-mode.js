@@ -1,16 +1,8 @@
 for (const modeButton of document.getElementsByClassName('toggle-sign-mode')) {
   modeButton.addEventListener('click', event => {
     const id = event.target.id;
-
-    const signInPanel = document.getElementById('signInPanel');
-    const signInUsername = document.getElementById('signInUsername');
-    const signInPassword = document.getElementById('signInPassword');
-    const signInShowHide = document.querySelector('#signInPanel .toggle-password-view');
-
-    const signUpPanel = document.getElementById('signUpPanel');
-    const signUpUsername = document.getElementById('signUpUsername');
-    const signUpPassword = document.getElementById('signUpPassword');
-    const signUpShowHide = document.querySelector('#signUpPanel .toggle-password-view');
+    const signInShowHide = querySel('#signInPanel .toggle-password-view');
+    const signUpShowHide = querySel('#signUpPanel .toggle-password-view');
 
     if (!pickElem(id).classList.value.includes('not-clickable')) {
       if (id === 'needSignUp') {

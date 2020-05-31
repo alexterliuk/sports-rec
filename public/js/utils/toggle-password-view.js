@@ -1,6 +1,6 @@
 for (const showButton of document.getElementsByClassName('toggle-password-view')) {
   showButton.addEventListener('click', event => {
-    const passwordElement = document.getElementById(event.target.previousElementSibling.id);
+    const passwordElement = pickElem(event.target.previousElementSibling.id);
     const node = event.target.childNodes[0];
     const content = node.textContent;
 

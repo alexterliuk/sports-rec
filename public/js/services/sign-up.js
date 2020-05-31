@@ -1,10 +1,8 @@
-const signUpForm = querySel('#signUpPanel form');
-
 signUpForm.addEventListener('submit', async event => {
   event.preventDefault();
 
-  const name = pickElem('signUpUsername').value;
-  const password = pickElem('signUpPassword').value;
+  const name = signUpUsername.value;
+  const password = signUpPassword.value;
   const errElem = querySel('#signUpPanel .err-msg');
 
   if (!errElem.classList.value.includes('active-error')) {
