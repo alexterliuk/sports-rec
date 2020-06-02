@@ -1,5 +1,6 @@
 // global variables
 const pickElem = id => document.getElementById(id);
+const pickTags = tag => document.getElementsByTagName(tag);
 const querySel = sel => document.querySelector(sel);
 
 const signInForm = querySel('#signInPanel form');
