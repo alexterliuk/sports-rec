@@ -1,0 +1,6 @@
+:root {
+  --pad: .25rem;
+  --wid: 4rem;
+  --mtb-pad-vert: var(--pad) 0;
+  --mtb-pad-hori: 0 var(--pad);
+}
