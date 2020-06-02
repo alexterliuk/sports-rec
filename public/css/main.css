@@ -1,11 +1,24 @@
+#mainTableBlock {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--mtb-pad-vert);
+}
+
+.side-panel {
+  padding: var(--mtb-pad-hori);
+}
+
+#leftSide {
+  flex: 1 1 20%;
+}
+
+#rightSide {
+  flex: 1 1 20%;
+}
+
 #main {
   flex: 1 0 50%;
   padding: 0 .667rem;
-}
-
-#mCont {
-  display: flex;
-  flex-direction: column;
 }
 
 #mButtons, #mBottom {
