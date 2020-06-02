@@ -59,3 +59,19 @@ function $emit(response, emitter, emitType) {
     signInPanel.style.visibility = 'initial';
   }
 })();
+
+// Decide whether to switch table to scrolling mode
+(function onPageLoad() {
+  const table = pickTags('table')[0];
+  if (table.clientWidth > window.outerWidth) table.style.overflowX = 'scroll';
+
+  window.addEventListener('resize', () => {
+    const tables = pickTags('table');
+
+    for (const table of tables) {
+      if (table.clientWidth > window.outerWidth) {
+        table.style.overflowX = 'scroll';
+      }
+    }
+  });
+})();
