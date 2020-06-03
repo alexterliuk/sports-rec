@@ -7,10 +7,6 @@ table {
   padding: 0;
 }
 
-thead {
-  outline: 1px solid slategrey;
-}
-
 th, td {
   min-width: calc(2 * var(--wid));
 }
@@ -31,18 +27,20 @@ th:hover {
   border-bottom-color: #617a92;
 }
 
+tbody tr {
+  border-bottom: 1px solid transparent;
+}
+
+tbody tr:last-child {
+  border-bottom-color: rgba(112, 128, 144, 0.2);
+}
+
 tbody tr:nth-child(even) {
-  border: rgba(112, 128, 144, .15);
   background-color: rgba(112, 128, 144, .15);
 }
 
-tbody tr:nth-child(odd) {
-  border: rgba(112, 128, 144, .15);
-}
-
-tbody tr:hover {
-  outline: 1px solid rgba(112, 128, 144, 0.55);
-  cursor: default;
+tbody tr:hover { /*tbody tr:not(:last-child):hover*/
+  border-bottom-color: rgba(112, 128, 144, 0.55);
 }
 
 td {
