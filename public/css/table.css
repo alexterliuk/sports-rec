@@ -9,6 +9,7 @@ table {
 
 th, td {
   min-width: calc(2 * var(--wid));
+  position: relative;
 }
 
 th {
@@ -44,6 +45,7 @@ tbody tr:hover { /*tbody tr:not(:last-child):hover*/
 }
 
 td {
+  height: 19px;
   line-height: 1.2;
   padding: .2rem 0;
   position: relative;
@@ -52,4 +54,54 @@ td {
 
 td:hover {
   font-weight: bold;
+}
+
+td textarea {
+  position: absolute;
+  left: 0;
+  bottom: 6px;
+  border: 0;
+  outline: 1px solid transparent;
+  margin: 0;
+  padding: 0 17px 0 0;
+  height: 15px;
+  min-height: 15px;
+  max-width: 111px;
+  min-width: 111px;
+  background: inherit;
+  font-size: 1rem;
+  font-family: inherit;
+  text-align: center;
+  z-index: 0;
+}
+
+td textarea ~ span {
+  width: 17px;
+  height: 19px;
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  z-index: 1;
+}
+
+tr:nth-child(odd) td textarea ~ span {
+  background: #fff;
+}
+
+tr:nth-child(even) td textarea ~span {
+  background: #eaecee;
+}
+
+span[role=button].delete-stick {
+  width: 12px;
+  height: 5px;
+  background: #8ca3a7;
+  position: absolute;
+  top: 0;
+  left: 3px;
+}
+
+span[role=button].delete-stick:hover {
+  cursor: default;
+  background: darkred;
 }
