@@ -62,27 +62,9 @@ function $emit(response, emitter, emitType) {
 
 // Decide whether to switch table to scrolling mode
 (function onPageLoad() {
-  const table = pickTags('table')[0];
-
-  if (table.clientWidth > window.outerWidth) {
-    table.style.overflowX = 'scroll';
-    const rowWidth = window.getComputedStyle(pickElem('row0')).width;
-
-    table.children[0].style.width = rowWidth;
-    table.children[1].style.width = rowWidth;
-  }
+  toggleScrollMode(querySelAll('.table-panel'));
 
   window.addEventListener('resize', () => {
-    const tables = pickTags('table');
-
-    for (const table of tables) {
-      if (table.clientWidth > window.outerWidth) {
-        const rowWidth = window.getComputedStyle(pickElem('row0')).width;
-        table.style.overflowX = 'scroll';
-
-        table.children[0].style.width = rowWidth;
-        table.children[1].style.width = rowWidth;
-      }
-    }
+    toggleScrollMode(querySelAll('.table-panel'));
   });
 })();
