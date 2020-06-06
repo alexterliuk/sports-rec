@@ -75,15 +75,6 @@ td textarea {
   z-index: 0;
 }
 
-td textarea ~ span {
-  width: 17px;
-  height: 19px;
-  position: absolute;
-  right: 0;
-  bottom: 4px;
-  z-index: 1;
-}
-
 tr:nth-child(odd) td textarea ~ span {
   background: #fff;
 }
@@ -104,4 +95,13 @@ span[role=button].delete-stick {
 span[role=button].delete-stick:hover {
   cursor: default;
   background: darkred;
+}
+
+span.resizer-hider {
+  width: 17px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }
