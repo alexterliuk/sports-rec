@@ -17,19 +17,25 @@ const signUpPassword = pickElem('signUpPassword');
 const logInPanel = pickElem('logInPanel');
 const welcomeMessage = pickElem('welcomeMessage');
 
-const parsedCssVars = {};
-for (const stylesheet of document.styleSheets) {
-  if (stylesheet.href.includes('variables.css')) {
+const parsedCssVars = (() => {
+  const parsedVars = {};
+  parsedVars.oneRem = parseInt(window.getComputedStyle(querySel('html')).fontSize, 10);
 
-    for (const rule of stylesheet.rules) {
-      if (rule.selectorText === ':root') {
-        rule.cssText.split(/:root { |; |}/)
-                    .filter(val => val)
-                    .forEach(val => {
-                      const entry = val.split(': ');
-                      parsedCssVars[entry[0]] = entry[1];
-                    });
+  for (const stylesheet of document.styleSheets) {
+    if (stylesheet.href.includes('variables.css')) {
+
+      for (const rule of stylesheet.rules) {
+        if (rule.selectorText === ':root') {
+          rule.cssText.split(/:root { |; |}/)
+            .filter(val => val)
+            .forEach(val => {
+              const entry = val.split(': ');
+              parsedVars[entry[0]] = entry[1];
+            });
+        }
       }
     }
   }
-}
+
+  return parsedVars;
+})();
