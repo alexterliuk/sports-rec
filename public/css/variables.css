@@ -1,6 +1,15 @@
+/* Max nesting level - 1
+     i.e. CSS var must point to real value (e.g. 2.5rem),
+          or to another CSS var with real value (not to the one which points to some another CSS var) */
 :root {
   --pad: .25rem;
   --wid: 4rem;
   --mtb-pad-vert: var(--pad) 0;
   --mtb-pad-hori: 0 var(--pad);
+  --cellTextareaDiffHeight: 6px;
+  --cellHeight: 21px;
+  --cellPad: .2rem;
+  --cellPadVert: var(--cellPad) 0;
+  --rowBorderBottomWidth: 1px;
+  --rowDefaultHeight: 28px; /* --cellHeight + (2 * --cellPad) + --rowBorderBottomWidth */
 }
