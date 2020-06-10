@@ -1,3 +1,12 @@
+const funcLib = {
+  addRow,
+  deleteRow,
+  addColumn,
+  deleteColumn,
+  sortColumn,
+  highlightColumn,
+};
+
 /**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
