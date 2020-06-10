@@ -22,6 +22,7 @@ function makeElem(id) {
 
       return newElem;
     },
+
     addExisting(elemOrId, childOrId) {
       const elem   = typeof elemOrId !== 'string' && elemOrId;
       const elemId = typeof elemOrId === 'string' && elemOrId;
@@ -30,57 +31,71 @@ function makeElem(id) {
 
       (elem || pickElem(elemId)).appendChild(child || pickElem(childId));
     },
-    addClass: (id, classNames) => {
-      classNames.forEach(className => { document.getElementById(id).classList.add(className); });
+
+    addClass(elem, classNames) {
+      classNames.forEach(className => { elem.classList.add(className); });
     },
-    addText: (id, text) => {
-      document.getElementById(id).appendChild(document.createTextNode(text));
+
+    addText(elem, text) {
+      elem.appendChild(document.createTextNode(text));
     },
+
     addTextRow(ids, textRow) {
       ids.forEach((id, idx) => {
         const columnId = this.columnsIds[`col${idx}`];
         document.getElementById(id).appendChild(document.createTextNode(textRow[columnId]));
       });
     },
-    addLink: (id, linkData) => {
-      const elem = document.getElementById(id);
-      elem.setAttribute(linkData.href ? 'href' : 'src', linkData.href && (linkData.href.slice(0, 4) === 'http' ? linkData.href : `img/${linkData.href}`) || linkData.src);
+
+    addLink(elem, linkData) {
+      elem.setAttribute(linkData.href ? 'href' : 'src', linkData.href || linkData.src);
       if (linkData.href) elem.setAttribute('target', linkData.target || '_blank');
       elem.appendChild(document.createTextNode(linkData.text));
     },
-    addStyle: (id, styleData) => {
-      styleData.forEach(entry => { document.getElementById(id).style[entry[0]] = entry[1]; });
+
+    addStyle(elem, styleData) {
+      styleData.forEach(entry => { elem.style[entry[0]] = entry[1]; });
     },
-    addDataset(id) {
-      document.getElementById(id).dataset[this.columnsIds[`col${id.slice(id.search(/[0-9]+$/))}`]] = '';
+
+    addDataset(elem) {
+      elem.dataset[this.columnsIds[`col${elem.id.slice(elem.id.search(/[0-9]+$/))}`]] = '';
     },
-    addOnClick(id, onClickData) {
-      const elem = document.getElementById(id);
+
+    addOnClick(elem, onClickData) {
       const params = { dom: this, eventType: 'click' };
       if (onClickData.hasOwnProperty('funcArgs')) params.args = onClickData.funcArgs;
       const call = () => { funcLib[onClickData.funcName](elem, params); };
       elem.addEventListener('click', call);
     },
-    addOnHover(id, onHoverData) {
-      const elem = document.getElementById(id);
+
+    addOnHover(elem, onHoverData) {
       const params = { dom: this, eventType: 'hover' };
       if (onHoverData.hasOwnProperty('funcArgs')) params.args = onHoverData.funcArgs;
       const call = () => { funcLib[onHoverData.funcName](elem, params); };
       elem.addEventListener('mouseover', call);
     },
-    hangOnElem: (id, param) => {
+
+    hangOnElem: (elem, param) => {
       const keys = ['class', 'text', 'link', 'style', 'dataset', 'onClick', 'onHover'];
-      keys.forEach(key => { if (param[key]) lib[`add${key[0].toUpperCase() + key.slice(1)}`](id, param[key]); });
+      keys.forEach(key => {
+        if (param[key]) {
+          lib[`add${key[0].toUpperCase() + key.slice(1)}`](elem, param[key]);
+        }
+      });
     },
-    pickElem: id => document.getElementById(id),
+
     collectColumnsIds(ids) {
       const columnsIds = {}, columnsIndexes = {};
-      ids.forEach((id, idx) => { columnsIds[`col${idx}`] = `${id}`; columnsIndexes[id] = idx; });
+      ids.forEach((id, idx) => {
+        columnsIds[`col${idx}`] = `${id}`;
+        columnsIndexes[id] = idx;
+      });
       this.columnsIds = columnsIds;
       this.columnsIndexes = columnsIndexes;
     },
+
     collectCellsVals() {
-      const tb = document.getElementById('tbody');
+      const tb = querySel(`#${this.rootId} tbody`);
       const columnsData = Object.entries(this.columnsIds).reduce((acc, curr) => { acc.push({ id: curr[1], vals: [] }); return acc; }, []);
       const monthChars = { '01': 'a', '02': 'b', '03': 'c', '04': 'd', '05': 'e', '06': 'f', '07': 'g', '08': 'h', '09': 'i', '10': 'j', '11': 'k', '12': 'l' };
 
@@ -94,7 +109,11 @@ function makeElem(id) {
             const sets = !cell.textContent ? [0] : (chunks[1] || chunks[0]).split(/\D/).map(val => +val).filter(num => num);
             columnsData.find(col => col.id === columnId).vals.push({ sum, sets, id: cell.id });
           } else { // date
-            columnsData.find(col => col.id === columnId).vals.push({ cellDate: cell.textContent, charCellDate: monthChars[cell.textContent.slice(-2)] + cell.textContent, id: cell.id });
+            columnsData.find(col => col.id === columnId).vals.push({
+              cellDate: cell.textContent,
+              charCellDate: monthChars[cell.textContent.slice(-2)] + cell.textContent,
+              id: cell.id,
+            });
           }
         }
       }
@@ -108,9 +127,11 @@ function makeElem(id) {
 
   const init = id && id.slice(0, 5) === ':root';
   if (init) {
+    lib.rootId = id.slice(5);
     const root = document.createElement('div');
-    root.setAttribute('id', id.slice(5));
-    body.appendChild(root);
+    root.setAttribute('id', lib.rootId);
+    querySel('body').appendChild(root);
+    lib.elementsBy$name = {};
   }
 
   return lib;
