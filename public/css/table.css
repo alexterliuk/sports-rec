@@ -29,7 +29,7 @@ th:hover {
 }
 
 tbody tr {
-  border-bottom: 1px solid transparent;
+  border-bottom: var(--rowBorderBottomWidth) solid transparent;
 }
 
 tbody tr:last-child {
@@ -45,9 +45,9 @@ tbody tr:hover { /*tbody tr:not(:last-child):hover*/
 }
 
 td {
-  height: 19px;
+  height: var(--cellHeight);
   line-height: 1.2;
-  padding: .2rem 0;
+  padding: var(--cellPadVert);
   position: relative;
   text-align: center;
 }
