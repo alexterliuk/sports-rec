@@ -22,8 +22,13 @@ function makeElem(id) {
 
       return newElem;
     },
-    addExisting: (parentId, childId) => {
-      document.getElementById(parentId).appendChild(document.getElementById(childId));
+    addExisting(elemOrId, childOrId) {
+      const elem   = typeof elemOrId !== 'string' && elemOrId;
+      const elemId = typeof elemOrId === 'string' && elemOrId;
+      const child   = typeof childOrId !== 'string' && childOrId;
+      const childId = typeof childOrId === 'string' && childOrId;
+
+      (elem || pickElem(elemId)).appendChild(child || pickElem(childId));
     },
     addClass: (id, classNames) => {
       classNames.forEach(className => { document.getElementById(id).classList.add(className); });
