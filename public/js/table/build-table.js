@@ -152,9 +152,9 @@ function makeTable(data) {
 
   data.elems.forEach(spec => {
     if (!spec.multiple) {
-      const elemNewId = spec.newId || spec.tagName;
-      dom.add(spec.parentId || data.contId, spec.tagName, elemNewId);
-      dom.hangOnElem(elemNewId, spec);
+      const elemNewId = spec.newId;
+      const newElem = dom.addAndGet(elemNewId, spec);
+      dom.hangOnElem(newElem, spec);
 
     } else {
       const qty = typeof spec.multiple.qty === 'string' ? data[spec.multiple.qty] : spec.multiple.qty;
@@ -163,37 +163,51 @@ function makeTable(data) {
         if (spec.multiple.columnsIds) dom.collectColumnsIds(spec.multiple.newIds);
 
         const columnsSpec = spec.multiple.hasOwnProperty('columnsIds') && spec.multiple.columnsIds;
-        const createdId = `${spec.newId || spec.multiple.newIds[i] || spec.tagName}${columnsSpec ? '' : i}`;
-        dom.add(spec.parentId || data.contId, spec.tagName, createdId);
-        dom.hangOnElem(createdId, spec);
+        const noIndexAtIdEnd = spec.multiple.hasOwnProperty('noIndexAtIdEnd') && spec.multiple.noIndexAtIdEnd;
 
-        const parentId = `${spec.newId || spec.multiple.newIds[i] || spec.tagName}`;
+        const createdId = (() => {
+          if (spec.newId || (spec.multiple.newIds || [])[i]) {
+            return `${spec.newId || spec.multiple.newIds[i]}${(columnsSpec || noIndexAtIdEnd) ? '' : i}`;
+          }
+        })();
+
+        const newElem = dom.addAndGet(createdId, spec);
+        dom.hangOnElem(newElem, spec);
+
+        const parentId = `${spec.newId || (spec.multiple.newIds || [])[i] || spec.tagName}`;
+
         if (spec.multiple.nested) {
           const nestedIds = [];
           const nested = spec.multiple.nested;
           const qty = typeof nested.multiple.qty === 'string' ? data[nested.multiple.qty] : nested.multiple.qty;
           const qtyOrig = qty;
+
           for (let y = 0; y < qty; y++) {
             const createdNestedId = !nested.newId ? `${parentId}${i}${nested.tagName}${y}` :
               Array.isArray(nested.newId) ? `${nested.newId[0] || parentId}${i}${nested.newId[1] || nested.tagName}${y}` :
                 `${parentId}${i}${nested.newId}${y}`;
-            dom.add(`${parentId}${i}`, nested.tagName, createdNestedId);
-            dom.hangOnElem(createdNestedId, nested);
+
+            const params = { parentId: `${parentId}${i}`, tagName: nested.tagName, $name: spec.$name, $parentName: spec.$parentName };
+            const newElem = dom.addAndGet(createdNestedId, params);
+            dom.hangOnElem(newElem, nested);
             nestedIds.push(createdNestedId);
 
-            if (y === qty - 1 && nested.textRows[i]) dom.addTextRow(nestedIds, nested.textRows[i]);
+            if (y === qty - 1 && nested.textRows[i]) dom.addTextRow(nestedIds, nested.textRows[i], { nested: true });
           }
         }
-        dom.addExisting(spec.parentId || data.contId, `${parentId}${columnsSpec ? '' : i}`);
 
-        if (i === qty - 1 && spec.multiple.textRow) dom.addTextRow(spec.multiple.newIds, spec.multiple.textRow);
+        const newElemOrId = (spec.multiple.newIds || spec.multiple.nested) ? `${parentId}${(columnsSpec || noIndexAtIdEnd) ? '' : i}` : newElem;
+        dom.addExisting(spec.parentId || dom.elementsBy$name[spec.$parentName], newElemOrId);
+
+        if (i === qty - 1 && spec.multiple.textRow) {
+          dom.addTextRow(spec.multiple.newIds, spec.multiple.textRow, { columnsIds: columnsSpec, noIndexAtIdEnd });
+        }
       }
-
     }
   });
 
   dom.collectCellsVals();
 
-  sessionStorage.setItem('page_v1', body.children[body.children.length - 1].outerHTML);
+  sessionStorage.setItem('page_v1', querySel('body').children[1].outerHTML);
   sessionStorage.setItem('params_v1', JSON.stringify(params));
 }
