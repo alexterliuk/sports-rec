@@ -40,10 +40,17 @@ function makeElem(id) {
       elem.appendChild(document.createTextNode(text));
     },
 
-    addTextRow(ids, textRow) {
+    addTextRow(ids, textRow, config) {
+      if (!ids) throw new Error('No ids. Array with ids (option.multiple.newIds) must be specified for addTextRow.');
+
       ids.forEach((id, idx) => {
-        const columnId = this.columnsIds[`col${idx}`];
-        document.getElementById(id).appendChild(document.createTextNode(textRow[columnId]));
+        if (config.columnsIds || config.nested) {
+          const columnId = this.columnsIds[`col${idx}`];
+          pickElem(id).appendChild(document.createTextNode(textRow[columnId]));
+        } else {
+          const indexedId = !config.noIndexAtIdEnd && `${id}${idx}`;
+          pickElem(indexedId || id).appendChild(document.createTextNode(textRow[id]));
+        }
       });
     },
 
