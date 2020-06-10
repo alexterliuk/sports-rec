@@ -111,8 +111,3 @@ function highlightColumn(column, params) {
     }
   }
 }
-
-const funcLib = {
-  sortColumn,
-  highlightColumn,
-};
