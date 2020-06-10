@@ -5,11 +5,22 @@ const body = document.querySelector('body');
  */
 function makeElem(id) {
   const lib = {
-    add: (parentId, tagName, newId) => {
+    addAndGet(newId, { parentId, tagName, $name, $parentName }) {
       const newElem = document.createElement(tagName);
-      if (newId) newElem.setAttribute('id', newId);
+
       if (tagName === 'table') newElem.classList.add('pristine');
-      document.getElementById(parentId).appendChild(newElem);
+      if (newId) newElem.setAttribute('id', newId);
+      if ($name) this.elementsBy$name[$name] = newElem;
+
+      if (parentId) {
+        pickElem(parentId).appendChild(newElem);
+      } else if ($parentName) {
+        this.elementsBy$name[$parentName].appendChild(newElem);
+      } else {
+        throw new Error('No parentId or $parentName is provided. Created element nowhere to append.');
+      }
+
+      return newElem;
     },
     addExisting: (parentId, childId) => {
       document.getElementById(parentId).appendChild(document.getElementById(childId));
