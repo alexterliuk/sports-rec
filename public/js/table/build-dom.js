@@ -1,5 +1,3 @@
-const body = querySel('body');
-
 /**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
@@ -155,6 +153,7 @@ function makeElem(id, parentId) {
  *        data.colsQty {number} - quantity of columns to build (for table)
  *        data.rowsQty {number} - quantity of rows to build (for table)
  *        data.elems {array} - comprises objects with specs for each element
+ * Within single call of buildDOM might be created 0 or 1 table.
  */
 function buildDOM(data) {
   const dom = makeElem(`:root${data.contId}`, data.parentId);
@@ -215,8 +214,8 @@ function buildDOM(data) {
     }
   });
 
-  dom.collectCellsVals();
+  if (querySel(`#${dom.root.id} table`)) dom.collectCellsVals();
 
   sessionStorage.setItem('page_v1', querySel('body').children[1].outerHTML);
-  sessionStorage.setItem('params_v1', JSON.stringify(params));
+  sessionStorage.setItem('data_v1', JSON.stringify(data));
 }
