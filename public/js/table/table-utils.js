@@ -98,3 +98,14 @@ function createDelStick(title, callback) {
 
   return delStick;
 }
+
+/**
+ * Initialize listener for textarea elements.
+ * @type {MutationObserver}
+ */
+const listener = new MutationObserver(rec => {
+  const touchedTxtAr = rec[0].target;
+  const cell = touchedTxtAr.parentElement;
+  const txtArHeight = touchedTxtAr.style.height;
+  alignTextAreasHeight(cell, txtArHeight);
+});
