@@ -1,7 +1,9 @@
-const body = document.querySelector('body');
+const body = querySel('body');
 
 /**
- * makeElem
+ * Provider of library for building DOM elements.
+ * @param {string} id - id of root element which will be created by buildDOM
+ * @returns {object} with functions
  */
 function makeElem(id) {
   const lib = {
@@ -145,9 +147,14 @@ function makeElem(id) {
 }
 
 /**
- * makeTable
+ * Creator of DOM parts within current body by using makeElem library.
+ * @param data {object} - specs about what to build
+ *        data.contId {string} - id of root element
+ *        data.colsQty {number} - quantity of columns to build (for table)
+ *        data.rowsQty {number} - quantity of rows to build (for table)
+ *        data.elems {array} - comprises objects with specs for each element
  */
-function makeTable(data) {
+function buildDOM(data) {
   const dom = makeElem(`:root${data.contId}`);
 
   data.elems.forEach(spec => {
