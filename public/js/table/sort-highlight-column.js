@@ -10,17 +10,17 @@ function sortColumn(column, params) {
     dom = params.dom;
   } else {
     dom = { pickElem: id => document.getElementById(id) };
-    const tableIsPristine = dom.pickElem('table').classList.value.includes('pristine');
+    const tableIsPristine = querySel(`#${dom.root.id} table`).classList.value.includes('pristine');
     dom.columnsData = JSON.parse(tableIsPristine ? sessionStorage['initColumnsData'] : sessionStorage['columnsData']);
   }
 
   const clickStyle = Array.isArray(params.args) && params.args[0] || 'background-color: rgba(112, 128, 144, 0.08)';
-  const table = dom.pickElem('table');
-  const tb = dom.pickElem('tbody');
-  const tableHead = dom.pickElem('tableHead');
+  const table = querySel(`#${dom.root.id} table`);
+  const tb = querySel(`#${dom.root.id} tbody`);
+  const tableHeadRow = querySel(`#${dom.root.id} thead tr`);
 
   let columnClass, prevSortedColumn;
-  for (const th of tableHead.children) {
+  for (const th of tableHeadRow.children) {
     if (th.id !== column.id) {
       for (const cl of th.classList) {
         if (cl === 'ascending' || cl === 'descending') prevSortedColumn = th;

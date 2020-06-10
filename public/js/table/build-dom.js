@@ -3,9 +3,10 @@ const body = querySel('body');
 /**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
+ * @param {string} parentId - id of an element to which root element is appended
  * @returns {object} with functions
  */
-function makeElem(id) {
+function makeElem(id, parentId) {
   const lib = {
     addAndGet(newId, { parentId, tagName, $name, $parentName }) {
       const newElem = document.createElement(tagName);
@@ -104,7 +105,7 @@ function makeElem(id) {
     },
 
     collectCellsVals() {
-      const tb = querySel(`#${this.rootId} tbody`);
+      const tb = querySel(`#${this.root.id} tbody`);
       const columnsData = Object.entries(this.columnsIds).reduce((acc, curr) => { acc.push({ id: curr[1], vals: [] }); return acc; }, []);
       const monthChars = { '01': 'a', '02': 'b', '03': 'c', '04': 'd', '05': 'e', '06': 'f', '07': 'g', '08': 'h', '09': 'i', '10': 'j', '11': 'k', '12': 'l' };
 
@@ -136,10 +137,11 @@ function makeElem(id) {
 
   const init = id && id.slice(0, 5) === ':root';
   if (init) {
-    lib.rootId = id.slice(5);
+    lib.root = { id: id.slice(5) };
+    lib.root.parent = typeof parentId === 'string' && pickElem(parentId) || querySel('body');
     const root = document.createElement('div');
-    root.setAttribute('id', lib.rootId);
-    querySel('body').appendChild(root);
+    root.setAttribute('id', lib.root.id);
+    lib.root.parent.appendChild(root);
     lib.elementsBy$name = {};
   }
 
@@ -155,7 +157,7 @@ function makeElem(id) {
  *        data.elems {array} - comprises objects with specs for each element
  */
 function buildDOM(data) {
-  const dom = makeElem(`:root${data.contId}`);
+  const dom = makeElem(`:root${data.contId}`, data.parentId);
 
   data.elems.forEach(spec => {
     if (!spec.multiple) {
