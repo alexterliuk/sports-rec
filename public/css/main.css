@@ -1,19 +1,35 @@
+main {
+  overflow: hidden;
+}
+
 #mainTableBlock {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   padding: var(--mtb-pad-vert);
 }
 
+.buttons-block {
+  width: 48rem;
+  margin: 0 auto .25rem;
+}
+
+.buttons-block button {
+  margin-right: .25rem;
+}
+
+.table-block {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.table-block td, .table-block td * {
+  transition: none;
+}
+
 .side-panel {
+  flex: 1 1 1%;
   padding: var(--mtb-pad-hori);
-}
-
-#leftSide {
-  flex: 1 1 20%;
-}
-
-#rightSide {
-  flex: 1 1 20%;
 }
 
 #main {
