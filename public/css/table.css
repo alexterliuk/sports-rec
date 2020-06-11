@@ -75,11 +75,11 @@ td textarea {
   z-index: 0;
 }
 
-tr:nth-child(odd) td textarea ~ span {
+tr:nth-child(odd) .resizer-hider {
   background: #fff;
 }
 
-tr:nth-child(even) td textarea ~span {
+tr:nth-child(even) .resizer-hider {
   background: #eaecee;
 }
 
