@@ -63,7 +63,7 @@ td textarea {
   border: 0;
   outline: 1px solid transparent;
   margin: 0;
-  padding: 0 17px 0 0;
+  padding: 0 var(--textareaResizerWidth) 0 0;
   height: 15px;
   min-height: 15px;
   max-width: 111px;
@@ -98,7 +98,7 @@ span[role=button].delete-stick:hover {
 }
 
 span.resizer-hider {
-  width: 17px;
+  width: var(--textareaResizerWidth);
   height: 100%;
   position: absolute;
   right: 0;
