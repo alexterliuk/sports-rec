@@ -143,6 +143,32 @@ function makeElem(id, options) {
       sessionStorage.setItem('columnsData', columnsDataJSON);
       sessionStorage.setItem('initColumnsData', columnsDataJSON);
     },
+
+    addDataHyphenId(elem) {
+      const alphabet = (alph => alph + alph + alph + alph)('abcdefghijklmnopqrstuvwxyz');
+      const hyphenIds = [];
+      for (const table of querySelAll('* table')) {
+        hyphenIds.push(table.dataset.hyphenId);
+      }
+
+      const getRandomIndex = () => +`${('' + Math.random()).slice(-2)}`;
+      const makeHyphenId = () => {
+        let hyphenId = '-';
+        for (let i = 0; i < 3; i++) {
+          hyphenId += alphabet[getRandomIndex()];
+        }
+        return hyphenId;
+      };
+
+      let newHyphenId = makeHyphenId();
+      let stop = 0;
+      while (hyphenIds.includes(newHyphenId)) {
+        newHyphenId = makeHyphenId();
+        if (++stop === 1000) break;
+      }
+
+      elem.dataset.hyphenId = newHyphenId;
+    },
   };
 
   const init = id && id.slice(0, 5) === ':root';
@@ -156,6 +182,7 @@ function makeElem(id, options) {
     root.setAttribute('id', lib.root.id);
     lib.root.parent.appendChild(root);
     lib.hangOnElem(root, options);
+    if (root.tagName === 'TABLE') lib.addDataHyphenId(root);
     lib.elementsBy$name = {};
   }
 
