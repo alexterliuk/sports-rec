@@ -155,6 +155,7 @@ function makeElem(id, options) {
     const root = document.createElement(typeof tagName === 'string' && tagName || 'div');
     root.setAttribute('id', lib.root.id);
     lib.root.parent.appendChild(root);
+    lib.hangOnElem(root, options);
     lib.elementsBy$name = {};
   }
 
