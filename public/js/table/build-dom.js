@@ -202,21 +202,20 @@ function buildDOM(data) {
 
         if (spec.multiple.nested) {
           const nestedIds = [];
-          const nested = spec.multiple.nested;
-          const qty = typeof nested.multiple.qty === 'string' ? data[nested.multiple.qty] : nested.multiple.qty;
-          const qtyOrig = qty;
+          const nestedSpec = spec.multiple.nested;
+          const qty = typeof nestedSpec.multiple.qty === 'string' ? data[nestedSpec.multiple.qty] : nestedSpec.multiple.qty;
 
           for (let y = 0; y < qty; y++) {
-            const createdNestedId = !nested.newId ? `${parentId}${i}${nested.tagName}${y}` :
-              Array.isArray(nested.newId) ? `${nested.newId[0] || parentId}${i}${nested.newId[1] || nested.tagName}${y}` :
-                `${parentId}${i}${nested.newId}${y}`;
+            const createdNestedId = !nestedSpec.newId ? `${parentId}${i}${nestedSpec.tagName}${y}` :
+              Array.isArray(nestedSpec.newId) ? `${nestedSpec.newId[0] || parentId}${i}${nestedSpec.newId[1] || nestedSpec.tagName}${y}` :
+                `${parentId}${i}${nestedSpec.newId}${y}`;
 
-            const params = { parentId: `${parentId}${i}`, tagName: nested.tagName, $name: spec.$name, $parentName: spec.$parentName };
+            const params = { parentId: `${parentId}${i}`, tagName: nestedSpec.tagName, $name: spec.$name, $parentName: spec.$parentName };
             const newElem = dom.addAndGet(createdNestedId, params);
-            dom.hangOnElem(newElem, nested);
+            dom.hangOnElem(newElem, nestedSpec);
             nestedIds.push(createdNestedId);
 
-            if (y === qty - 1 && nested.textRows[i]) dom.addTextRow(nestedIds, nested.textRows[i], { nested: true });
+            if (y === qty - 1 && nestedSpec.textRows[i]) dom.addTextRow(nestedIds, nestedSpec.textRows[i], { nested: true });
           }
         }
 
