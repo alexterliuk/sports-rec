@@ -1,10 +1,17 @@
 /**
  * Add new row to table.
- * @param {string} id
+ * @param {HTMLButtonElement} btn
+ * @param {object} spec
  */
-function addRow(id) {
-  const hyphenId = pickElem(id).dataset.hyphenId;
-  const tbody = querySel(`#${id} tbody`);
+function addRow(btn, spec) {
+  const { tableId } = ((spec.args || []).find(argSpec => argSpec.tableId) || {});
+  if (!tableId) {
+    console.error('Failed to add row, because no tableId provided.');
+    return;
+  }
+
+  const hyphenId = pickElem(tableId).dataset.hyphenId;
+  const tbody = querySel(`#${tableId} tbody`);
   const row = tbody.insertRow();
   row.setAttribute('id', `row${tbody.children.length}${hyphenId}`);
 

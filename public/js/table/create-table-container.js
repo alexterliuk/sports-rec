@@ -19,11 +19,11 @@ function createTableContainer() {
     { parentId: params.contId, tagName: 'h2', class: ['table-title'], text: `Table ${containerId}` },
     { parentId: params.contId, tagName: 'div', class: ['buttons-block'], $name: 'buttons-block' },
     { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'addRow', funcArgs: [tableId] },
+      onClick: { funcName: 'addRow', funcArgs: [{ tableId }] },
       text: 'Add row',
     },
     { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'addColumn', funcArgs: [tableId] },
+      onClick: { funcName: 'addColumn', funcArgs: [{ tableId }] },
       text: 'Add column',
     },
     { parentId: params.contId, tagName: 'div', class: ['table-block'], $name: 'table-block' },
@@ -37,8 +37,8 @@ function createTableContainer() {
   const tableInitParams = {
     parentSelector: `#${params.contId} .table-panel`,
     contId: tableId,
-    rowsQty: 3,
     colsQty: 3,
+    rowsQty: 3,
   };
 
   createTableTemplate(tableInitParams);
