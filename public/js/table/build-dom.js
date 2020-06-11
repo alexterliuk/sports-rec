@@ -10,10 +10,13 @@ const funcLib = {
 /**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
- * @param {string} parentId - id of an element to which root element is appended
+ * @param {object} options:
+ *         - parentId {string} - id of an element to which root element is appended
+ *         - parentSelector {string} - selector to get an element to which root element is appended
+ *         - tagName {string} - tag name of root element
  * @returns {object} with functions
  */
-function makeElem(id, parentId) {
+function makeElem(id, options) {
   const lib = {
     addAndGet(newId, { parentId, tagName, $name, $parentName }) {
       const newElem = document.createElement(tagName);
@@ -144,9 +147,12 @@ function makeElem(id, parentId) {
 
   const init = id && id.slice(0, 5) === ':root';
   if (init) {
+    const { parentId, parentSelector, tagName } = options;
+
     lib.root = { id: id.slice(5) };
-    lib.root.parent = typeof parentId === 'string' && pickElem(parentId) || querySel('body');
-    const root = document.createElement('div');
+    lib.root.parent = pickElem(parentId) || querySel(parentSelector) || querySel('body');
+
+    const root = document.createElement(typeof tagName === 'string' && tagName || 'div');
     root.setAttribute('id', lib.root.id);
     lib.root.parent.appendChild(root);
     lib.elementsBy$name = {};
@@ -165,7 +171,7 @@ function makeElem(id, parentId) {
  * Within single call of buildDOM might be created 0 or 1 table.
  */
 function buildDOM(data) {
-  const dom = makeElem(`:root${data.contId}`, data.parentId);
+  const dom = makeElem(`:root${data.contId}`, data);
 
   data.elems.forEach(spec => {
     if (!spec.multiple) {
