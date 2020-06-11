@@ -33,4 +33,13 @@ function createTableContainer() {
   ];
 
   buildDOM(params);
+
+  const tableInitParams = {
+    parentSelector: `#${params.contId} .table-panel`,
+    contId: tableId,
+    rowsQty: 3,
+    colsQty: 3,
+  };
+
+  createTableTemplate(tableInitParams);
 }
