@@ -242,7 +242,9 @@ function buildDOM(data) {
             dom.hangOnElem(newElem, nestedSpec);
             nestedIds.push(createdNestedId);
 
-            if (y === qty - 1 && nestedSpec.textRows[i]) dom.addTextRow(nestedIds, nestedSpec.textRows[i], { nested: true });
+            if (y === qty - 1 && (nestedSpec.textRows || [])[i]) {
+              dom.addTextRow(nestedIds, nestedSpec.textRows[i], { nested: true });
+            }
           }
         }
 
