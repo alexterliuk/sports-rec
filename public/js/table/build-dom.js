@@ -214,6 +214,25 @@ function buildDOM(data) {
   const hyphenId = dom.root.hyphenId;
 
   data.elems.forEach(spec => {
+    if (spec.builder) {
+      const func = typeof funcLib[spec.builder.funcName] === 'function' && funcLib[spec.builder.funcName];
+      const args = spec.builder.funcArgs;
+      const callsQty = spec.builder.callsQty;
+
+      if (!func) {
+        console.error('Builder contents of', spec, 'is not valid. It must have funcName to get function by from funcLib.');
+        return;
+      }
+
+      if (typeof callsQty === 'number' || !callsQty) {
+        for (let i = 0; i < (callsQty || 1); i++) {
+          Array.isArray(args) ? func(null, { args }) : func(null);
+        }
+      }
+
+      return;
+    }
+
     if (!spec.multiple) {
       const elemNewId = spec.newId && hyphenId ? `${spec.newId}${hyphenId}` : spec.newId;
       const newElem = dom.addAndGet(elemNewId, spec);
