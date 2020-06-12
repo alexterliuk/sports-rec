@@ -216,7 +216,7 @@ function buildDOM(data) {
   data.elems.forEach(spec => {
     if (spec.builder) {
       const func = typeof funcLib[spec.builder.funcName] === 'function' && funcLib[spec.builder.funcName];
-      const args = spec.builder.funcArgs;
+      const args = Array.isArray(spec.builder.funcArgs) && spec.builder.funcArgs[0];
       const callsQty = spec.builder.callsQty;
 
       if (!func) {
@@ -226,7 +226,7 @@ function buildDOM(data) {
 
       if (typeof callsQty === 'number' || !callsQty) {
         for (let i = 0; i < (callsQty || 1); i++) {
-          Array.isArray(args) ? func(null, { args }) : func(null);
+          func(null, args || {});
         }
       }
 

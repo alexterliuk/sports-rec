@@ -4,7 +4,7 @@
  * @param {object} spec
  */
 function addRow(btn, spec) {
-  const { tableId } = ((spec.args || []).find(argSpec => argSpec.tableId) || {});
+  const { tableId } = spec;
   if (!tableId) {
     console.error('Failed to add row, because no tableId provided.');
     return;
