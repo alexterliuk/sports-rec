@@ -1,7 +1,9 @@
+/**
+ * Main table styles
+ */
 table {
   display: flex;
   flex-direction: column;
-  width: auto;
   border: 0;
   border-collapse: collapse;
   padding: 0;
@@ -28,22 +30,6 @@ th:hover {
   border-bottom-color: #617a92;
 }
 
-tbody tr {
-  border-bottom: var(--rowBorderBottomWidth) solid transparent;
-}
-
-tbody tr:last-child {
-  border-bottom-color: rgba(112, 128, 144, 0.2);
-}
-
-tbody tr:nth-child(even) {
-  background-color: rgba(112, 128, 144, .15);
-}
-
-tbody tr:hover { /*tbody tr:not(:last-child):hover*/
-  border-bottom-color: rgba(112, 128, 144, 0.55);
-}
-
 td {
   height: var(--cellHeight);
   line-height: 1.2;
@@ -56,7 +42,46 @@ td:hover {
   font-weight: bold;
 }
 
-td textarea {
+tbody tr:nth-child(even) {
+  background-color: #f0f2f4;
+}
+
+tbody tr:hover { /*tbody tr:not(:last-child):hover*/
+  border-bottom-color: #bbc2ca;
+}
+
+tbody tr:last-child:hover {
+  border-bottom-color: #bbc2ca;
+}
+
+/**
+ * Styles for table borders
+ */
+th:last-child {
+  border-right: 2px solid slategrey;
+}
+
+tbody tr {
+  border-bottom: var(--rowBorderBottomWidth) solid transparent;
+}
+
+tbody tr:last-child {
+  border-bottom-color: #e1e4e6;
+}
+
+td:first-child {
+  border-left: 1px solid #e1e4e6;
+}
+
+td:last-child {
+  border-right: 1px solid #e1e4e6;
+}
+
+/**
+ * Styles for textarea
+ */
+td textarea, th textarea {
+  color: inherit;
   position: absolute;
   left: 0;
   bottom: 6px;
@@ -75,14 +100,39 @@ td textarea {
   z-index: 0;
 }
 
+thead th textarea {
+  font-weight: 600;
+  bottom: 15px;
+  letter-spacing: 1px;
+}
+
+/**
+ * Styles for .resizer-hider
+ */
+.resizer-hider {
+  width: var(--textareaResizerWidth);
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+thead tr:first-child .resizer-hider {
+  background-color: inherit;
+}
+
 tr:nth-child(odd) .resizer-hider {
   background: #fff;
 }
 
 tr:nth-child(even) .resizer-hider {
-  background: #eaecee;
+  background-color: #f0f2f4;
 }
 
+/**
+ * Styles for .delete-stick
+ */
 span[role=button].delete-stick {
   width: 12px;
   height: 5px;
@@ -97,11 +147,14 @@ span[role=button].delete-stick:hover {
   background: darkred;
 }
 
-span.resizer-hider {
-  width: var(--textareaResizerWidth);
-  height: 100%;
+/**
+ * Styles for .edit-mask
+ */
+thead tr .edit-mask {
+  height: 2.4rem;
+  width: calc(2 * var(--wid));
   position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
+  top: 8px;
+  left: 0;
+  background-color: transparent;
 }
