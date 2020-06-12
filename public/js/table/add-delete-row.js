@@ -2,8 +2,9 @@
  * Add new row to table.
  * @param {HTMLButtonElement} btn
  * @param {object} spec
+ * @param {object} dom - makeElem instance
  */
-function addRow(btn, spec) {
+function addRow(btn, spec, dom) {
   const { tableId } = spec;
   if (!tableId) {
     console.error('Failed to add row, because no tableId provided.');

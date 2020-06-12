@@ -226,7 +226,7 @@ function buildDOM(data) {
 
       if (typeof callsQty === 'number' || !callsQty) {
         for (let i = 0; i < (callsQty || 1); i++) {
-          func(null, args || {});
+          func(null, args || {}, dom);
         }
       }
 
