@@ -83,8 +83,14 @@ function makeElem(id, options) {
     },
 
     addOnClick(elem, onClickData) {
-      const params = { dom: this, eventType: 'click' };
-      if (onClickData.hasOwnProperty('funcArgs')) params.args = onClickData.funcArgs;
+      const params = { eventType: 'click' };
+      const args = Array.isArray(onClickData.funcArgs) && onClickData.funcArgs[0];
+
+      if (typeof args === 'object') {
+        Object.keys(args).forEach(key => {
+          if (!params.hasOwnProperty(key)) params[key] = args[key];
+        });
+      }
       const call = () => { funcLib[onClickData.funcName](elem, params); };
       elem.addEventListener('click', call);
     },
