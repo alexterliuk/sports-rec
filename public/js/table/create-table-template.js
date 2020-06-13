@@ -16,18 +16,24 @@ function createTableTemplate({ parentSelector, contId, colsQty, rowsQty }) {
 
   params.elems = [
     { parentId: params.contId, tagName: 'thead', $name: 'thead' },
+    { parentId: params.contId, tagName: 'tbody', $name: 'tbody' },
     { $parentName: 'thead', tagName: 'tr', $name: 'thead-tr' },
-    { $parentName: 'thead-tr', tagName: 'th',
-      onClick: { funcName: 'sortColumn' },
-      onHover: { funcName: 'highlightColumn' },
-      multiple: {
-        qty: colsQty,
-        newIds: ['col1', 'col2', 'col3'],
-        columnsIds: true,
-        textRow: { col1: 'Col 1', col2: 'Col 2', col3: 'Col 3' },
+    { $parentName: 'thead-tr',
+      builder: {
+        funcName: 'addColumn',
+        funcArgs: [
+          {
+            tableId,
+            onClick: { funcName: 'sortColumn' },
+            onHover: { funcName: 'highlightColumn' },
+            newIds: ['col1', 'col2', 'col3'],
+            columnsIds: true,
+            textRow: { col1: 'Col 1', col2: 'Col 2', col3: 'Col 3' },
+          },
+        ],
+        callsQty: colsQty,
       },
     },
-    { parentId: params.contId, tagName: 'tbody', $name: 'tbody' },
     { $parentName: 'tbody',
       builder: {
         funcName: 'addRow',
