@@ -8,6 +8,28 @@ const funcLib = {
 };
 
 /**
+ * Collector of tables.
+ * Each table is accessible by hyphenId (id ending which is unique for a table).
+ */
+const tables = (function() {
+  const _tables = {};
+  const add = (hyphenId, buildingDOMLibraryAndTable) => {
+    _tables[hyphenId] = buildingDOMLibraryAndTable.root;
+  };
+  const get = hyphenId => _tables[hyphenId];
+  const getAll = () => _tables;
+  const remove = hyphenId => {
+    const table = get(hyphenId);
+    if (table) {
+      pickElem(`${table.elementId.slice(0, -5)}`).remove();
+      delete _tables[hyphenId];
+    }
+  };
+
+  return { add, get, getAll, remove };
+})();
+
+/**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
  * @param {object} options:
@@ -195,6 +217,7 @@ function buildDOMLibrary(id, options) {
     if (element.tagName === 'TABLE') {
       lib.addDataHyphenId(element);
       lib.root.hyphenId = element.dataset.hyphenId;
+      tables.add(lib.root.hyphenId, lib);
     }
 
     lib.elementsBy$name = {};
