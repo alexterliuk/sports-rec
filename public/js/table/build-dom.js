@@ -38,7 +38,7 @@ const tables = (function() {
  *         - tagName {string} - tag name of root element
  * @returns {object} with functions
  */
-function buildDOMLibrary(id, options) {
+function getBuildDOMLibrary(id, options) {
   const lib = {
     addAndGet(newId, { parentId, tagName, $name, $parentName }) {
       const newElem = document.createElement(tagName);
@@ -239,7 +239,7 @@ function buildDOMLibrary(id, options) {
  * Hyphen-id endings are added to all children of table which have id. This allows to have many tables on page.
  */
 function buildDOM(data) {
-  const dom = buildDOMLibrary(`:root${data.contId}`, data);
+  const dom = getBuildDOMLibrary(`:root${data.contId}`, data);
   const hyphenId = dom.root.hyphenId;
 
   data.elems.forEach(spec => {

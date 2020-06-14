@@ -2,7 +2,7 @@
  * Add new row to table.
  * @param {HTMLButtonElement} btn
  * @param {object} spec
- * @param {object} dom - buildDOMLibrary instance
+ * @param {object} dom - buildDOMLibrary
  */
 function addRow(btn, spec, dom) {
   const { tableId } = spec;
