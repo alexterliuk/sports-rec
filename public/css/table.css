@@ -165,6 +165,7 @@ thead tr .edit-mask {
 .sorting-cont {
   position: absolute;
   left: 0;
+  top: 18px;
   width: 12px;
   height: 24px;
 }
