@@ -11,6 +11,9 @@ function addRow(btn, spec, dom) {
     return;
   }
 
+  const theadRow = querySel(`#${tableId} thead tr`);
+  if (!theadRow.children.length) return;
+
   const hyphenId = pickElem(tableId).dataset.hyphenId;
   const tbody = querySel(`#${tableId} tbody`);
   const row = tbody.insertRow();
