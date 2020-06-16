@@ -235,6 +235,7 @@ function getBuildDOMLibrary(id, options) {
     lib.root = { elementId, element, parent };
 
     if (element.tagName === 'TABLE') {
+      element.classList.add('pristine');
       lib.addDataHyphenId(element);
       lib.root.hyphenId = element.dataset.hyphenId;
       tables.add(lib.root.hyphenId, lib);
