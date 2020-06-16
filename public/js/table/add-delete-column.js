@@ -17,7 +17,11 @@ function addColumn(btn, spec, dom) {
   const theadRow = querySel(`#${spec.tableId} thead tr`);
   const tbody = querySel(`#${spec.tableId} tbody`);
   const th = document.createElement('th');
-  th.setAttribute('id', `col${theadRow.children.length}${hyphenId}`);
+
+  const currentColIndex = theadRow.children.length;
+  const idBeginning = (Array.isArray(spec.newIds) && spec.newIds[currentColIndex]) || `col${currentColIndex}`;
+  th.setAttribute('id', `${idBeginning}${hyphenId}`);
+
   addTextareaAndHider(th);
 
   const currentTable = tables.get(hyphenId);
@@ -28,7 +32,7 @@ function addColumn(btn, spec, dom) {
   th.append(createEditMask());
   th.append(createDelStick('Delete column', deleteColumn));
 
-  (dom || getBuildDOMLibrary()).hangOnElem(th, { onClick, onHover, newIds, textRow } = currentTable);
+  (dom || getBuildDOMLibrary()).hangOnElem(th, currentTable);
   theadRow.append(th);
 
   if (theadRow.children.length === 1) {
