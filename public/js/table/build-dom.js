@@ -363,7 +363,7 @@ function buildDOM(data) {
     }
   });
 
-  if (dom.root.element.tagName === 'TABLE') dom.collectCellsVals();
+  //if (dom.root.element.tagName === 'TABLE') dom.collectCellsVals();
 
   sessionStorage.setItem('page_v1', querySel('body').children[1].outerHTML);
   sessionStorage.setItem('data_v1', JSON.stringify(data));
