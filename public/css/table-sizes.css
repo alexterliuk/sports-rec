@@ -1,0 +1,35 @@
+table.wid-2 th, table.wid-2 td { /*base width*/
+  min-width: calc(2 * var(--wid));
+}
+
+table.wid-3 th, table.wid-3 td {
+  min-width: calc(3 * var(--wid));
+}
+
+table.wid-4 th, table.wid-4 td {
+  min-width: calc(4 * var(--wid));
+}
+
+table.wid-5 th, table.wid-5 td {
+  min-width: calc(5 * var(--wid));
+}
+
+table.wid-6 th, table.wid-6 td {
+  min-width: calc(6 * var(--wid));
+}
+
+table.wid-7 th, table.wid-7 td {
+  min-width: calc(7 * var(--wid));
+}
+
+table.wid-8 th, table.wid-8 td {
+  min-width: calc(8 * var(--wid));
+}
+
+table.wid-9 th, table.wid-9 td {
+  min-width: calc(9 * var(--wid));
+}
+
+table.wid-10 th, table.wid-10 td {
+  min-width: calc(10 * var(--wid));
+}
