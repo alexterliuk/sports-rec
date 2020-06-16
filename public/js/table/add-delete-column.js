@@ -61,7 +61,9 @@ function addColumn(btn, spec, dom) {
 /**
  * Delete column.
  */
-function deleteColumn() {
+function deleteColumn(event) {
+  event.stopPropagation();
+
   const th = this.parentElement;
   const cellIndex = th.cellIndex;
   const tbody = th.parentElement.parentElement.nextElementSibling;
