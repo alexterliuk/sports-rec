@@ -5,8 +5,6 @@
  * @param {object} dom - buildDOMLibrary
  */
 function addColumn(btn, spec, dom) {
-  console.log('addColumn spec:', spec);
-
   if (!spec.tableId) {
     console.error('Failed to add column, because no tableId provided.');
     return;
@@ -19,14 +17,21 @@ function addColumn(btn, spec, dom) {
   const th = document.createElement('th');
 
   const currentColIndex = theadRow.children.length;
-  const idBeginning = (Array.isArray(spec.newIds) && spec.newIds[currentColIndex]) || `col${currentColIndex}`;
-  th.setAttribute('id', `${idBeginning}${hyphenId}`);
+  const idBeginning = (Array.isArray(spec.columnsIds) && spec.columnsIds[currentColIndex]) || `col${currentColIndex}`;
+  const colId = `${idBeginning}${hyphenId}`;
+  th.setAttribute('id', colId);
 
   addTextareaAndHider(th);
 
   const currentTable = tables.get(hyphenId);
+  currentTable.columnsIds = (currentTable.columnsIds || []).concat(colId);
+
   Object.keys(spec).forEach(key => {
-    if (!currentTable.hasOwnProperty(key)) currentTable[key] = spec[key];
+    if (!currentTable.hasOwnProperty(key)) {
+      if (key !== 'columnsIds') {
+        currentTable[key] = spec[key];
+      }
+    }
   });
 
   th.append(createEditMask());
