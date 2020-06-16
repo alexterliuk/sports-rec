@@ -158,3 +158,36 @@ thead tr .edit-mask {
   left: 0;
   background-color: transparent;
 }
+
+/**
+ * Styles for .sorting-button
+ */
+.sorting-cont {
+  position: absolute;
+  left: 0;
+  width: 12px;
+  height: 24px;
+}
+
+span[role=button].sorting-button {
+  position: relative;
+}
+
+span[role=button].sorting-button::after {
+  opacity: .3;
+  content: "\025b4";
+  position: absolute;
+  left: -6px;
+  top: -10px;
+  font-size: 22px;
+}
+
+span[role=button].sorting-button::before {
+  opacity: .3;
+  content: "\025be";
+  position: absolute;
+  left: -6px;
+  top: 0;
+  font-size: 22px;
+  z-index: 1;
+}

@@ -145,7 +145,9 @@ function getBuildDOMLibrary(id, options) {
     },
 
     hangOnElem: (elem, param) => {
-      const keys = ['class', 'text', 'link', 'style', 'dataset', 'onClick', 'onHover'];
+      const keys = ['class', 'text', 'link', 'style', 'dataset', 'onHover'];
+      if (elem.tagName !== 'TH') keys.push('onClick');
+
       keys.forEach(key => {
         if (param[key]) {
           lib[`add${key[0].toUpperCase() + key.slice(1)}`](elem, param[key]);

@@ -37,6 +37,10 @@ function addColumn(btn, spec, dom) {
   th.append(createEditMask());
   th.append(createDelStick('Delete column', deleteColumn));
 
+  if ((currentTable.onClick || {}).funcName === 'sortColumn') {
+    th.append(createSortingButton('Sort column', sortColumn));
+  }
+
   (dom || getBuildDOMLibrary()).hangOnElem(th, currentTable);
   theadRow.append(th);
 
