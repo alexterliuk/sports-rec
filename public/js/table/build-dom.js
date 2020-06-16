@@ -18,6 +18,14 @@ const tables = (function() {
       _tables[hyphenId] = buildingDOMLibraryAndTable.root;
     }
   };
+  const addToTable = (hyphenId, spec) => {
+    const table = get(hyphenId);
+    const specName = Object.keys(spec)[0];
+
+    if (table && !table.hasOwnProperty(specName)) {
+      table[specName] = spec[specName];
+    }
+  };
   const get = hyphenId => _tables[hyphenId];
   const getAll = () => _tables;
   const remove = hyphenId => {
