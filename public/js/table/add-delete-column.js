@@ -35,6 +35,7 @@ function addColumn(btn, spec, dom) {
   });
 
   th.append(createEditMask());
+  th.append(createEditButton());
   th.append(createDelStick('Delete column', deleteColumn));
 
   if ((currentTable.onClick || {}).funcName === 'sortColumn') {

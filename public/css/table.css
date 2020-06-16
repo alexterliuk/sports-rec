@@ -148,7 +148,7 @@ span[role=button].delete-stick:hover {
 }
 
 /**
- * Styles for .edit-mask
+ * Styles for editing column's name
  */
 thead tr .edit-mask {
   height: 2.4rem;
@@ -157,6 +157,29 @@ thead tr .edit-mask {
   top: 8px;
   left: 0;
   background-color: transparent;
+}
+
+thead tr .edit-button {
+  font-size: .8rem;
+  font-weight: 600;
+  font-style: italic;
+  width: 16px;
+  height: 12px;
+  color: #8ca3a7;
+  position: absolute;
+  top: -2px;
+  left: 20px;
+}
+
+thead tr .edit-button:hover {
+  cursor: default;
+  background-color: #4f5e61;
+  color: #fff;
+}
+
+thead tr .edit-button.active {
+  background-color: #4f5e61;
+  color: #fff;
 }
 
 /**
