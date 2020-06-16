@@ -26,7 +26,7 @@ function createTableTemplate({ parentSelector, contId, colsQty }) {
             onClick: { funcName: 'sortColumn' },
             onHover: { funcName: 'highlightColumn' },
             columnsIds: ['col1', 'col2', 'col3'],
-            columnsNames: ['Col 1', 'Col 2','Col 3'],
+            columnsNames: ['Col 1', 'Col 2', 'Col 3'],
           },
         ],
         callsQty: colsQty,
