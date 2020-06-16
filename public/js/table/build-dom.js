@@ -14,7 +14,9 @@ const funcLib = {
 const tables = (function() {
   const _tables = {};
   const add = (hyphenId, buildingDOMLibraryAndTable) => {
-    _tables[hyphenId] = buildingDOMLibraryAndTable.root;
+    if (!_tables.hasOwnProperty(hyphenId) && typeof (buildingDOMLibraryAndTable || {}).root === 'object') {
+      _tables[hyphenId] = buildingDOMLibraryAndTable.root;
+    }
   };
   const get = hyphenId => _tables[hyphenId];
   const getAll = () => _tables;
