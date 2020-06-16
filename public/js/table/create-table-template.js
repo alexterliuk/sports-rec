@@ -3,9 +3,8 @@
  * @param parentSelector {string}
  * @param contId {string}
  * @param colsQty {number}
- * @param rowsQty {number}
  */
-function createTableTemplate({ parentSelector, contId, colsQty, rowsQty }) {
+function createTableTemplate({ parentSelector, contId, colsQty }) {
   const params = {
     parentSelector,
     contId,
@@ -32,13 +31,6 @@ function createTableTemplate({ parentSelector, contId, colsQty, rowsQty }) {
           },
         ],
         callsQty: colsQty,
-      },
-    },
-    { $parentName: 'tbody',
-      builder: {
-        funcName: 'addRow',
-        funcArgs: [{ tableId }],
-        callsQty: rowsQty,
       },
     },
   ];

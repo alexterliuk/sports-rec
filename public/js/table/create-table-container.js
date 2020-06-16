@@ -34,12 +34,15 @@ function createTableContainer() {
 
   buildDOM(params);
 
+  const colsQty = tables.getConfigItem('colsQty') || 3;
+  const rowsQty = tables.getConfigItem('rowsQty') || 3;
+
   const tableInitParams = {
     parentSelector: `#${params.contId} .table-panel`,
     contId: tableId,
-    colsQty: 3,
-    rowsQty: 3,
+    colsQty,
   };
 
+  tables.addToConfig({ colsQty }, { rowsQty });
   createTableTemplate(tableInitParams);
 }
