@@ -23,7 +23,7 @@ main {
   margin-bottom: 20px;
 }
 
-.table-block td, .table-block td * {
+.table-block td, .table-block td *, .table-block th, .table-block th * {
   transition: none;
 }
 
