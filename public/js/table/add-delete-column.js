@@ -40,9 +40,13 @@ function addColumn(btn, spec, dom) {
   (dom || getBuildDOMLibrary()).hangOnElem(th, currentTable);
   theadRow.append(th);
 
+  if (spec.columnsNames && Array.isArray(spec.columnsNames)) {
+    querySel(`#${th.id} textarea`).value = spec.columnsNames[th.cellIndex];
+  }
+
   if (theadRow.children.length === 1) {
     for (let i = 0, { rowsQty } = tables.getAllConfig(); i < rowsQty; ++i) {
-      addRow(null, { tableId } = spec, getBuildDOMLibrary());
+      addRow(null, spec, getBuildDOMLibrary());
     }
   } else {
     for (const row of tbody.children) {
