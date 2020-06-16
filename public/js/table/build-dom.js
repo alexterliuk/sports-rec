@@ -12,6 +12,16 @@ const funcLib = {
  * Each table is accessible by hyphenId (id ending which is unique for a table).
  */
 const tables = (function() {
+  const _config = {};
+  const addToConfig = (...items) => {
+    items.forEach(item => {
+      const name = Object.keys(item)[0];
+      _config[name] = item[name];
+    });
+  };
+  const getConfigItem = name => _config[name];
+  const getAllConfig = () => _config;
+
   const _tables = {};
   const add = (hyphenId, buildingDOMLibraryAndTable) => {
     if (!_tables.hasOwnProperty(hyphenId) && typeof (buildingDOMLibraryAndTable || {}).root === 'object') {
@@ -36,7 +46,7 @@ const tables = (function() {
     }
   };
 
-  return { add, get, getAll, remove };
+  return { add, addToTable, get, getAll, remove, addToConfig, getConfigItem, getAllConfig };
 })();
 
 /**
