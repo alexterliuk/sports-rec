@@ -13,4 +13,5 @@
   --rowBorderBottomWidth: 1px;
   --rowDefaultHeight: 28px; /* --cellHeight + (2 * --cellPad) + --rowBorderBottomWidth */
   --textareaResizerWidth: 17px;
+  --textareaWidth: 111px;
 }
