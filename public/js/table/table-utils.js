@@ -127,7 +127,7 @@ function createEditButton() {
   editBtn.classList.add('edit-button');
   editBtn.setAttribute('title', 'Edit column title');
   editBtn.setAttribute('role', 'button');
-  editBtn.textContent = 'i';
+  editBtn.textContent = 'e';
   editBtn.addEventListener('click', event => {
     const th = event.target.parentElement;
     const editMask = querySel(`#${th.id} .edit-mask`);
