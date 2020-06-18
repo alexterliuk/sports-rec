@@ -10,7 +10,7 @@ const funcLib = {
 
 /**
  * Collector of tables.
- * Each table is accessible by hyphenId (id ending which is unique for a table).
+ * Each table is accessible by hyphenId (id ending which is unique for each table).
  */
 const tables = (function() {
   const _config = {};

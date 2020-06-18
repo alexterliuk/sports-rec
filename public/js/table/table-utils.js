@@ -15,7 +15,7 @@ function toggleScrollMode(nodeOrHTMLCollection) {
 }
 
 /**
- * Create empty cell.
+ * Create cell.
  * @param {HTMLTableRowElement} row
  * @param {string} cellId
  * @param {string} textValue
@@ -63,7 +63,7 @@ function enactShowHideResizer(txtAr) {
 
 /**
  * On resizing a textarea, make same height to all other textareas.
- * @param {HTMLTableCellElement} cell - <td>
+ * @param {HTMLTableDataCellElement} cell - <td>
  * @param {string} txtArHeight - e.g. '20px'
  */
 function alignTextAreasHeight(cell, txtArHeight) {
@@ -99,7 +99,8 @@ function createDelStick(title, callback) {
 
 /**
  * Add editing block to element.
- * @param elem {HTMLTableDataCellElement | HTMLTableHeaderCellElement}
+ * @param {HTMLTableDataCellElement | HTMLTableHeaderCellElement} elem
+ * @returns {{ HTMLTextAreaElement, HTMLSpanElement }}
  */
 function addTextareaAndHider(elem) {
   const textarea = document.createElement('textarea');
@@ -112,7 +113,8 @@ function addTextareaAndHider(elem) {
 }
 
 /**
- *
+ * Create span to cover textarea so that it is not editable.
+ * @returns {HTMLSpanElement}
  */
 function createEditMask() {
   const editMask = document.createElement('span');
@@ -122,7 +124,8 @@ function createEditMask() {
 }
 
 /**
- *
+ * Create button to turn on/off editing of column's title.
+ * @returns {HTMLSpanElement}
  */
 function createEditButton() {
   const editBtn = document.createElement('span');
@@ -182,9 +185,9 @@ const listener = new MutationObserver(rec => {
 
 /**
  * Increase or decrease width of table columns.
- * @param btn {HTMLButtonElement}
- * @param tableId {string}
- * @param type {string} - 'increase' | 'decrease'
+ * @param {HTMLButtonElement} btn
+ * @param {string} tableId
+ * @param {string} type - 'increase' | 'decrease'
  */
 function changeColumnsWidth(btn, { tableId, type }) {
   const table = pickElem(tableId);

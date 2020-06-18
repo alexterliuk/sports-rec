@@ -1,8 +1,8 @@
 /**
  * Create table within table-container.
- * @param parentSelector {string}
- * @param contId {string}
- * @param colsQty {number}
+ * @param {string} parentSelector
+ * @param {string} contId
+ * @param {number} colsQty
  */
 function createTableTemplate({ parentSelector, contId, colsQty }) {
   const params = {

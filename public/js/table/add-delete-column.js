@@ -70,6 +70,7 @@ function addColumn(btn, spec, dom) {
 
 /**
  * Delete column.
+ * @param {Event} event
  */
 function deleteColumn(event) {
   event.stopPropagation();
