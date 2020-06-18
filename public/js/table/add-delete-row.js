@@ -19,7 +19,7 @@ function addRow(btn, spec, dom) {
   const row = tbody.insertRow();
   row.setAttribute('id', `row${tbody.children.length}${hyphenId}`);
 
-  for (let i = 0; i < (row.previousElementSibling || /*thead tr*/ row.parentElement.previousElementSibling.children[0]).children.length; i++) {
+  for (let i = 0; i < (row.previousElementSibling || theadRow).children.length; i++) {
     const cellId = `r${row.rowIndex}c${i}${hyphenId}`;
     const cell = createCell(row, cellId);
 
