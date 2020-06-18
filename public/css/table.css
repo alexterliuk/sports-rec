@@ -89,8 +89,8 @@ td textarea, th textarea {
   outline: 1px solid transparent;
   margin: 0;
   padding: 0 var(--textareaResizerWidth) 0 0;
-  height: 15px;
-  min-height: 15px;
+  height: 17px;
+  min-height: 17px;
   max-width: var(--textareaWidth);
   min-width: var(--textareaWidth);
   background: inherit;
