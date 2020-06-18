@@ -5,6 +5,7 @@ const funcLib = {
   deleteColumn,
   sortColumn,
   highlightColumn,
+  changeColumnsWidth,
 };
 
 /**
