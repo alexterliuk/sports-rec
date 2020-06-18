@@ -10,12 +10,32 @@ main {
 }
 
 .buttons-block {
+  display: flex;
   width: 48rem;
   margin: 0 auto .25rem;
 }
 
 .buttons-block button {
   margin-right: .25rem;
+}
+
+.btn-save {
+  margin-left: auto;
+  background-color: #e9f0f9;
+  border: 1px solid #8ea5c5;
+  height: 21px;
+  border-radius: 2px;
+  transition: none;
+}
+
+.btn-save:hover {
+  background-color: #d9e9f3;
+}
+
+.btn-save:focus {
+  background-color: #bdd0e2;
+  outline: none;
+  border: 1px solid #8eadc5;
 }
 
 .table-block {
