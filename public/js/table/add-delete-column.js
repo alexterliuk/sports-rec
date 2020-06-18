@@ -53,10 +53,15 @@ function addColumn(btn, spec, dom) {
     for (let i = 0, { rowsQty } = tables.getAllConfig(); i < rowsQty; ++i) {
       addRow(null, spec, getBuildDOMLibrary());
     }
+
   } else {
+    const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues;
+
     for (const row of tbody.children) {
       const cellId = `r${row.rowIndex}c${row.children.length}${hyphenId}`;
-      createCell(row, cellId);
+      const text = (textValues[row.rowIndex] || [])[row.children.length];
+
+      createCell(row, cellId, text);
     }
   }
 

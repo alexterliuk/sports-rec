@@ -19,9 +19,13 @@ function addRow(btn, spec, dom) {
   const row = tbody.insertRow();
   row.setAttribute('id', `row${tbody.children.length}${hyphenId}`);
 
+  const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues;
+
   for (let i = 0; i < (row.previousElementSibling || theadRow).children.length; i++) {
     const cellId = `r${row.rowIndex}c${i}${hyphenId}`;
-    const cell = createCell(row, cellId);
+    const text = (textValues[row.rowIndex] || [])[row.children.length];
+
+    const cell = createCell(row, cellId, text);
 
     if (i === 0) {
       cell.append(createDelStick('Delete row', deleteRow));

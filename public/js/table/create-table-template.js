@@ -27,6 +27,12 @@ function createTableTemplate({ parentSelector, contId, colsQty }) {
             onHover: { funcName: 'highlightColumn' },
             columnsIds: ['col1', 'col2', 'col3'],
             columnsNames: ['Col 1', 'Col 2', 'Col 3'],
+            cellsTextValues: [
+              null, // because row 0 is thead tr
+              ['cell 1', 'cell 2', 'cell 3'],
+              ['cell 1', 'cell 2', 'cell 3'],
+              ['cell 1', 'cell 2', 'cell 3'],
+            ]
           },
         ],
         callsQty: colsQty,

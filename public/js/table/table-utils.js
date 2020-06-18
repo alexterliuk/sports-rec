@@ -18,12 +18,14 @@ function toggleScrollMode(nodeOrHTMLCollection) {
  * Create empty cell.
  * @param {HTMLTableRowElement} row
  * @param {string} cellId
+ * @param {string} textValue
  * @returns {HTMLTableDataCellElement}
  */
-function createCell(row, cellId) {
+function createCell(row, cellId, textValue) {
   const cell = row.insertCell();
   cell.setAttribute('id', cellId);
   const { textarea } = addTextareaAndHider(cell);
+  textarea.value = textValue || '';
 
   if (row.children.length > 1) {
     const rowDefaultHeight = parsedCssVars.find(parsed => parsed.varKey === '--rowDefaultHeight').vals[0].px;
