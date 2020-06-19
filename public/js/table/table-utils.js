@@ -227,10 +227,12 @@ function collectCellsData(row) {
   for (const cell of row.children) {
     const { id } = cell;
     const classNames = (cell.classList.value && cell.classList.value.split(' ')) || [];
-    const textareaValue = querySel(`#${cell.id} textarea`).value;
+    const textarea = querySel(`#${cell.id} textarea`);
+    const textareaValue = textarea.value;
+    const textareaStyles = parseStyleAttr(textarea.outerHTML).filter(st => st.name === 'height');
     const styles = parseStyleAttr(cell.outerHTML);
 
-    data.push({ id, classNames, textareaValue, styles });
+    data.push({ id, classNames, styles, textareaValue, textareaStyles });
   }
 
   return data;
