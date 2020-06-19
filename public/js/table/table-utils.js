@@ -242,11 +242,14 @@ function collectCellsData(row) {
  * @returns {Array}
  */
 function parseStyleAttr(htmlStr) {
-  const stylesRawStr = htmlStr.split('style="')[1];
+  const firstTagOnlyStr = htmlStr.slice(0, htmlStr.search('>'));
+
+  const stylesRawStr = firstTagOnlyStr.split('style="')[1];
   if (!stylesRawStr) return [];
 
   const styles = [];
   const stylesOnlyStr = stylesRawStr.slice(stylesRawStr.search(/\w/), stylesRawStr.search('"')).trim();
+
   let stylesNotParsed = stylesOnlyStr.split(';');
 
   for (const style of stylesNotParsed) {
