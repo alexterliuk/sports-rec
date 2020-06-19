@@ -29,12 +29,16 @@ const tables = (function() {
       _tables[hyphenId] = buildingDOMLibraryAndTable.root;
     }
   };
-  const addToTable = (hyphenId, spec) => {
+  const addToTable = (hyphenId, spec, override) => {
     const table = get(hyphenId);
     const specName = Object.keys(spec)[0];
 
-    if (table && !table.hasOwnProperty(specName)) {
-      table[specName] = spec[specName];
+    if (table) {
+      if (override) {
+        table[specName] = spec[specName];
+      } else if (!table.hasOwnProperty(specName)) {
+        table[specName] = spec[specName];
+      }
     }
   };
   const get = hyphenId => _tables[hyphenId];
