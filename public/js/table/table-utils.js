@@ -214,3 +214,39 @@ function changeColumnsWidth(btn, { tableId, type }) {
 
   if (type === 'increase') table.classList.add('wid-3');
 }
+
+/**
+ * Parse style attribute of html tag.
+ * @param {string} htmlStr - outerHTML | innerHTML
+ * @returns {Array}
+ */
+function parseStyleAttr(htmlStr) {
+  const stylesRawStr = htmlStr.split('style="')[1];
+  if (!stylesRawStr) return [];
+
+  const styles = [];
+  const stylesOnlyStr = stylesRawStr.slice(stylesRawStr.search(/\w/), stylesRawStr.search('"')).trim();
+  let stylesNotParsed = stylesOnlyStr.split(';');
+
+  for (const style of stylesNotParsed) {
+    if (style) {
+      const _st = style.trim();
+      const split = _st.split(':');
+
+      const parsedStyle = {
+        name: split[0].trim(),
+        value: (split[1] || '').trim(),
+      };
+
+      const styleNameSplit = parsedStyle.name.split('-');
+      if (styleNameSplit[1]) {
+        const camelCasedPart = styleNameSplit.slice(1).map(str => `${str[0].toUpperCase()}${str.slice(1)}`).join('');
+        parsedStyle.name = styleNameSplit[0].concat(camelCasedPart);
+      }
+
+      styles.push(parsedStyle);
+    }
+  }
+
+  return styles;
+}
