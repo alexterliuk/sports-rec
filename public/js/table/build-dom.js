@@ -6,6 +6,7 @@ const funcLib = {
   sortColumn,
   highlightColumn,
   changeColumnsWidth,
+  collectTableDataAndSave,
 };
 
 /**
