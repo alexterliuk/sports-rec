@@ -216,6 +216,27 @@ function changeColumnsWidth(btn, { tableId, type }) {
 }
 
 /**
+ * Collect data from th or td tag.
+ * @param {HTMLTableRowElement} row
+ * @returns {Array}
+ */
+function collectCellsData(row) {
+  const data = [];
+  if (!row.children.length) return [];
+
+  for (const cell of row.children) {
+    const { id } = cell;
+    const classNames = (cell.classList.value && cell.classList.value.split(' ')) || [];
+    const textareaValue = querySel(`#${cell.id} textarea`).value;
+    const styles = parseStyleAttr(cell.outerHTML);
+
+    data.push({ id, classNames, textareaValue, styles });
+  }
+
+  return data;
+}
+
+/**
  * Parse style attribute of html tag.
  * @param {string} htmlStr - outerHTML | innerHTML
  * @returns {Array}
