@@ -243,7 +243,7 @@ function collectTableDataAndSave(btn, { tableId }) {
 /**
  * Collect data from th or td tag.
  * @param {HTMLTableRowElement} row
- * @returns {Array}
+ * @returns {array}
  */
 function collectCellsData(row) {
   const data = [];
@@ -266,7 +266,7 @@ function collectCellsData(row) {
 /**
  * Parse style attribute of html tag.
  * @param {string} htmlStr - outerHTML | innerHTML
- * @returns {Array}
+ * @returns {array}
  */
 function parseStyleAttr(htmlStr) {
   const firstTagOnlyStr = htmlStr.slice(0, htmlStr.search('>'));
