@@ -11,6 +11,7 @@ main {
 
 .buttons-block {
   display: flex;
+  position: relative;
   width: 48rem;
   margin: 0 auto .25rem;
 }
