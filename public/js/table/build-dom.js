@@ -288,6 +288,13 @@ function buildDOM(data) {
         }
       }
 
+      if (data.tagName === 'table') {
+        const table = dom.root.element;
+
+        dom.root.theadRow = collectRowsData(table.children[0]);
+        dom.root.tbodyRows = collectRowsData(table.children[1]);
+      }
+
       return;
     }
 

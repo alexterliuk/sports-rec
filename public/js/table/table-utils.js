@@ -224,20 +224,33 @@ function collectTableDataAndSave(btn, { tableId }) {
   const tableElem = pickElem(tableId);
   const hyphenId = tableElem.dataset.hyphenId;
   const classNames = (tableElem.classList.value && tableElem.classList.value.split(' ')) || [];
-  const theadRow = collectCellsData(tableElem.children[0].children[0]);
-
-  const tbody = querySel(`#${tableId} tbody`);
-  const tbodyRows = [];
-  for (const row of tbody.children) {
-    const _r = {};
-    _r.id = row.id;
-    _r.cells = collectCellsData(row);
-    tbodyRows.push(_r);
-  }
+  const theadRow = collectRowsData(tableElem.children[0]);
+  const tbodyRows = collectRowsData(tableElem.children[1]);
 
   const _table = { hyphenId, tableId, classNames, theadRow, tbodyRows};
 
   tables.addToTable(hyphenId, { _table }, true);
+}
+
+/**
+ * Collect data by calling collectCellsData once or multiple times.
+ * @param {HTMLElement} tableChild - thead | tbody
+ */
+function collectRowsData(tableChild) {
+  const tbodyRows = [];
+
+  for (const row of tableChild.children) {
+    if (tableChild.tagName === 'THEAD') return collectCellsData(row);
+
+    if (tableChild.tagName === 'TBODY') {
+      tbodyRows.push({
+        id: row.id,
+        cells: collectCellsData(row),
+      });
+    }
+  }
+
+  return tbodyRows;
 }
 
 /**
