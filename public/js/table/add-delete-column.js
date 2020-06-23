@@ -1,5 +1,5 @@
 /**
- * Add new column to table.
+ * Add new column to table. A new table is created by this function by column-by-column way.
  * @param {HTMLButtonElement} btn
  * @param {object} spec
  * @param {object} dom - buildDOMLibrary
