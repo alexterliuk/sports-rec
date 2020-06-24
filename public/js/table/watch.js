@@ -26,6 +26,26 @@ function watch(type, node) {
     };
   };
 
+  // detect changes in table (except textarea.value) and remove .pristine class
+  _mobs.pristine = () => {
+    const m = new MutationObserver(() => {
+      if (node.classList.contains('pristine')) {
+        node.classList.remove('pristine');
+        console.log('node.classList:', node.classList);
+        m.disconnect();
+      }
+    });
+
+    return {
+      observe: () => {
+        m.observe(node, { attributes: true, subtree: true, childList: true /*detects removal of row | column*/ });
+      },
+      disconnect: () => {
+        m.disconnect();
+      },
+    };
+  };
+
   const initializedMobs = _mobs[type]();
   initializedMobs.observe();
 
