@@ -314,3 +314,21 @@ function parseStyleAttr(htmlStr) {
 
   return styles;
 }
+
+/**
+ * Check if objects have same values by keys.
+ * @param {array} keys - what values to look at for comparing
+ * @param {objects} objs
+ */
+function areObjectsEqualByKeys(keys, ...objs) {
+  for (const key of keys) {
+    if (typeof key !== 'string') return;
+
+    let value = objs[0][key];
+
+    for (const obj of objs) {
+      if (value !== obj[key]) return false;
+    }
+  }
+  return !keys.length ? undefined : true;
+}
