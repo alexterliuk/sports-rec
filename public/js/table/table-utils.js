@@ -38,7 +38,7 @@ function createCell(row, cellId, textValue) {
   }
 
   enactShowHideResizer(textarea);
-  listener.observe(textarea, { attributeFilter: ['style'] });
+  watch('textareaHeight', textarea);
 
   return cell;
 }
@@ -171,17 +171,6 @@ function createSortingButton(title, callback) {
 
   return sortingCont;
 }
-
-/**
- * Initialize listener for textarea elements.
- * @type {MutationObserver}
- */
-const listener = new MutationObserver(rec => {
-  const touchedTxtAr = rec[0].target;
-  const cell = touchedTxtAr.parentElement;
-  const txtArHeight = touchedTxtAr.style.height;
-  alignTextAreasHeight(cell, txtArHeight);
-});
 
 /**
  * Increase or decrease width of table columns.
@@ -320,7 +309,7 @@ function parseStyleAttr(htmlStr) {
  * @param {object} oldData
  * @param {object} currData
  * @param {array} keys - strings
- * @param {string} arrKey
+ * @param {string} arrKey - optional
  * @returns {boolean}
  */
 function detectChanges(oldData, currData, keys, arrKey) {
