@@ -31,7 +31,6 @@ function watch(type, node) {
     const m = new MutationObserver(() => {
       if (node.classList.contains('pristine')) {
         node.classList.remove('pristine');
-        console.log('node.classList:', node.classList);
         m.disconnect();
       }
     });
