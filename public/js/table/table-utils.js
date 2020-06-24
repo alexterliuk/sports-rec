@@ -211,12 +211,13 @@ function changeColumnsWidth(btn, { tableId, type }) {
  */
 function collectTableDataAndSave(btn, { tableId }) {
   const tableElem = pickElem(tableId);
+  const tableTitle = querySel(`#${tableId.slice(0, -5)} .table-title`).textContent;
   const hyphenId = tableElem.dataset.hyphenId;
   const classNames = (tableElem.classList.value && tableElem.classList.value.split(' ')) || [];
   const theadRow = collectRowsData(tableElem.children[0]);
   const tbodyRows = collectRowsData(tableElem.children[1]);
 
-  const _table = { hyphenId, tableId, classNames, theadRow, tbodyRows};
+  const _table = { tableTitle, hyphenId, tableId, classNames, theadRow, tbodyRows };
 
   tables.addToTable(hyphenId, { _table }, true);
 

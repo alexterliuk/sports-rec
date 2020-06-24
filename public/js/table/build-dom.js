@@ -246,6 +246,7 @@ function getBuildDOMLibrary(id, options) {
       element.classList.add('pristine');
       lib.addDataHyphenId(element);
       lib.root.hyphenId = element.dataset.hyphenId;
+      lib.root.tableTitle = querySel(`#${elementId.slice(0, -5)} .table-title`).textContent;
       tables.add(lib.root.hyphenId, lib);
     }
 
