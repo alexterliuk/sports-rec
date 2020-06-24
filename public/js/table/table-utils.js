@@ -219,6 +219,19 @@ function collectTableDataAndSave(btn, { tableId }) {
   const _table = { hyphenId, tableId, classNames, theadRow, tbodyRows};
 
   tables.addToTable(hyphenId, { _table }, true);
+
+  if (!_table.classNames.find(name => name === 'pristine')) {
+    saveTable(btn, _table);
+
+  } else {
+    const table = tables.get(hyphenId);
+    const columnsNamesNotChanged = detectChanges(table.theadRow, theadRow, ['textareaValue']);
+    const cellsTextNotChanged = detectChanges(table.tbodyRows, tbodyRows, ['textareaValue'], 'cells');
+
+    if (columnsNamesNotChanged && cellsTextNotChanged) return;
+
+    saveTable(btn, _table);
+  }
 }
 
 /**
