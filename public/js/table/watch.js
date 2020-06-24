@@ -38,7 +38,7 @@ function watch(type, node) {
 
     return {
       observe: () => {
-        m.observe(node, { attributes: true, subtree: true, childList: true /*detects removal of row | column*/ });
+        m.observe(node, { attributes: true, subtree: true, childList: true /*detects addition/removal of row | column*/ });
       },
       disconnect: () => {
         m.disconnect();
