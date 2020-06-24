@@ -316,6 +316,44 @@ function parseStyleAttr(htmlStr) {
 }
 
 /**
+ * Check if objects' values are same by calling areObjectsEqualByKeys.
+ * @param {object} oldData
+ * @param {object} currData
+ * @param {array} keys - strings
+ * @param {string} arrKey
+ * @returns {boolean}
+ */
+function detectChanges(oldData, currData, keys, arrKey) {
+  if (!arrKey) return _checkEquality(oldData, currData);
+
+  if (typeof arrKey === 'string') {
+    let idx = 0;
+
+    for (const item of oldData) {
+      const equal = _checkEquality(item[arrKey], currData[idx][arrKey]);
+      if (!equal) return false;
+      idx++;
+    }
+
+    return true;
+  }
+
+  function _checkEquality(oldD, currD) {
+    if (Array.isArray(oldD) && Array.isArray(currD)) {
+      let idx = 0;
+
+      for (const item of oldD) {
+        const _equal = areObjectsEqualByKeys(keys, item, currD[idx]);
+        if (!_equal) return false;
+        idx++;
+      }
+
+      return true;
+    }
+  }
+}
+
+/**
  * Check if objects have same values by keys.
  * @param {array} keys - what values to look at for comparing
  * @param {objects} objs
