@@ -1,0 +1,37 @@
+/**
+   ===== header error =====
+ */
+.header-error {
+  display: none;
+  position: absolute;
+  margin-left: -254px;
+  padding: 2px 14px 2px 4px;
+  width: 274px;
+  font-size: .8rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  word-break: break-word;
+  z-index: 1;
+}
+
+.header-error {
+  background: #f1cbcb;
+  border-color: brown;
+}
+
+.header-error .btn-cross {
+  background: brown;
+}
+
+.btn-cross {
+  color: white;
+  cursor: default;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+  line-height: 1.1;
+}
