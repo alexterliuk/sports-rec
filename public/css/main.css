@@ -48,6 +48,10 @@ main {
   transition: none;
 }
 
+.table-panel {
+  position: relative;
+}
+
 .side-panel {
   flex: 1 1 1%;
   padding: var(--mtb-pad-hori);

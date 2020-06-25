@@ -1,11 +1,7 @@
 /**
-   ===== header error =====
+   ===== header error, table notification shared styles =====
  */
-.header-error {
-  display: none;
-  position: absolute;
-  margin-left: -254px;
-  padding: 2px 14px 2px 4px;
+.header-error, .notify {
   width: 274px;
   font-size: .8rem;
   border-width: 1px;
@@ -15,12 +11,13 @@
   z-index: 1;
 }
 
-.header-error {
+.header-error, .notify.error {
   background: #f1cbcb;
   border-color: brown;
 }
 
-.header-error .btn-cross {
+.header-error .btn-cross,
+.notify.error .btn-cross {
   background: brown;
 }
 
@@ -34,4 +31,43 @@
   right: 0;
   text-align: center;
   line-height: 1.1;
+}
+
+/**
+   ===== header error =====
+ */
+.header-error {
+  display: none;
+  position: absolute;
+  margin-left: -254px;
+  padding: 2px 14px 2px 4px;
+}
+
+/**
+   ===== table notification =====
+ */
+
+.notify-wrapper {
+  position: absolute;
+  background: transparent;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.notify {
+  position: relative;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.notify.success {
+  border-color: green;
+  background: #e7f5e7;
+}
+
+.notify.success .btn-cross {
+  background: green;
 }
