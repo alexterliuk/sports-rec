@@ -394,6 +394,9 @@ function notify(tableId, message, type, fadeAfter) {
   const btnCross = document.createElement('span');
   btnCross.textContent = 'x';
   btnCross.classList.add('btn-cross');
+  btnCross.addEventListener('click', event => {
+    event.target.parentElement.style.display = 'none';
+  });
 
   notify.append(text);
   notify.append(btnCross);
