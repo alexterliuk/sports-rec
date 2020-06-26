@@ -373,3 +373,43 @@ function areObjectsEqualByKeys(keys, ...objs) {
   }
   return !keys.length ? undefined : true;
 }
+
+/**
+ * Create and show notification within .table-panel.
+ * @param {string} tableId
+ * @param {string} message
+ * @param {string} type - success | error
+ * @param {number} fadeAfter
+ */
+function notify(tableId, message, type, fadeAfter) {
+  const notifyWrapper = document.createElement('div');
+  notifyWrapper.classList.add('notify-wrapper');
+
+  const notify = document.createElement('div');
+  notify.classList.add('notify', type);
+
+  const text = document.createElement('span');
+  text.textContent = message;
+
+  const btnCross = document.createElement('span');
+  btnCross.textContent = 'x';
+  btnCross.classList.add('btn-cross');
+
+  notify.append(text);
+  notify.append(btnCross);
+  notifyWrapper.append(notify);
+  pickElem(tableId).parentElement.append(notifyWrapper);
+
+  setTimeout(() => {
+    notify.style.backgroundColor = 'transparent';
+    notify.style.borderColor = 'transparent';
+    text.style.color = 'transparent';
+    btnCross.style.backgroundColor = 'transparent';
+    btnCross.style.color = 'transparent';
+
+    setTimeout(() => {
+      notifyWrapper.remove();
+    }, 1000);
+
+  }, fadeAfter);
+}
