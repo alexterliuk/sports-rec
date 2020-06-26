@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const User = require('../models/user');
 const Table = require('../models/table');
+const validateTypesInTable = require('../utils/validate-types-in-table');
 
 // Create table
 router.post('/table', async (req, res) => {
@@ -9,6 +10,12 @@ router.post('/table', async (req, res) => {
 
   if (user) {
     req.body.owner = req.session.userId;
+
+    if (!validateTypesInTable(req.body)) {
+      return res.status(400)
+                .send({ error: 'Some type in the table is different from what specified in table schema.'});
+    }
+
     const table = new Table(req.body);
 
     try {
