@@ -3,7 +3,7 @@ signUpForm.addEventListener('submit', async event => {
 
   const name = signUpUsername.value;
   const password = signUpPassword.value;
-  const errElem = querySel('#signUpPanel .err-msg');
+  const errElem = querySel('#signUpPanel .header-error');
 
   if (!errElem.classList.value.includes('active-error')) {
     if (!name || !password) {
