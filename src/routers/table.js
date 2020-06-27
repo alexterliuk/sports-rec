@@ -29,7 +29,7 @@ router.post('/table', auth, async (req, res) => {
     res.send({ id: table._id });
 
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error.message });
   }
 });
 

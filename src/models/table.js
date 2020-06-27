@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validateIdEndingsInTable = require('../utils/validate-id-endings-in-table');
 
 const stringTypeReq = { type: String, required: true };
 const arrayTypeReq = { type: Array, required: true };
@@ -36,6 +37,15 @@ const tableSchema = new mongoose.Schema({
   },
 }, {
   timeStamps: true,
+});
+
+// All hyphenId endings in table must be equal, non unique id is forbidden
+tableSchema.pre('save', function(next) {
+  if (!validateIdEndingsInTable(this)) {
+    throw new Error('Non unique id in table detected.');
+  }
+
+  next();
 });
 
 const Table = mongoose.model('Table', tableSchema);
