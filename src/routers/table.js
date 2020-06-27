@@ -33,4 +33,16 @@ router.post('/table', auth, async (req, res) => {
   }
 });
 
+// Collect hyphenIds from all saved tables of current user
+router.get('/table/hyphen-ids', auth, async (req, res) => {
+  try {
+    const tables = await Table.find({ owner: req.session.userId });
+    const hyphenIds = tables.map(table => table.hyphenId);
+    res.send(hyphenIds);
+
+  } catch(error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
