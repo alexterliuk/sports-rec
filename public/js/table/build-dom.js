@@ -201,11 +201,13 @@ function getBuildDOMLibrary(id, options) {
       sessionStorage.setItem('initColumnsData', columnsDataJSON);
     },
 
-    createHyphenId() {
+    createHyphenId(storedHyphenIds) {
       const alphabet = (alph => alph + alph + alph + alph)('abcdefghijklmnopqrstuvwxyz');
-      const hyphenIds = [];
+
+      let hyphenIds = [];
       for (const table of querySelAll('* table')) {
-        hyphenIds.push(table.dataset.hyphenId);
+        hyphenIds = hyphenIds.concat(table.dataset.hyphenId || [])
+                             .concat(storedHyphenIds || []);
       }
 
       const getRandomIndex = () => +`${('' + Math.random()).slice(-2)}`;

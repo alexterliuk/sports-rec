@@ -28,4 +28,11 @@ async function saveTable(btn, tableData) {
     setWaitingState(false, tableData.tableId);
     notify(tableData.tableId, 'Table not saved. Please authorize.', 'error', 3000);
   }
+
+  if (response.status === 409) {
+    let hyphenIds = await (await fetch('http:/table/hyphen-ids', { method: 'GET' })).json();
+    tableData.hyphenId = getBuildDOMLibrary().createHyphenId(hyphenIds);
+
+    saveTable(btn, tableData);
+  }
 }
