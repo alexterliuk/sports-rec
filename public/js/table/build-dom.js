@@ -201,7 +201,7 @@ function getBuildDOMLibrary(id, options) {
       sessionStorage.setItem('initColumnsData', columnsDataJSON);
     },
 
-    addDataHyphenId(elem) {
+    createHyphenId() {
       const alphabet = (alph => alph + alph + alph + alph)('abcdefghijklmnopqrstuvwxyz');
       const hyphenIds = [];
       for (const table of querySelAll('* table')) {
@@ -224,7 +224,7 @@ function getBuildDOMLibrary(id, options) {
         if (++stop === 1000) break;
       }
 
-      elem.dataset.hyphenId = newHyphenId;
+      return newHyphenId;
     },
   };
 
@@ -244,7 +244,7 @@ function getBuildDOMLibrary(id, options) {
 
     if (element.tagName === 'TABLE') {
       element.classList.add('pristine');
-      lib.addDataHyphenId(element);
+      element.dataset.hyphenId = lib.createHyphenId();
       lib.root.hyphenId = element.dataset.hyphenId;
       lib.root.tableTitle = querySel(`#${elementId.slice(0, -5)} .table-title`).textContent;
       tables.add(lib.root.hyphenId, lib);
