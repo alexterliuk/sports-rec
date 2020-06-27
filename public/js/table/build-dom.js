@@ -150,7 +150,7 @@ function getBuildDOMLibrary(id, options) {
       elem.addEventListener('mouseover', call);
     },
 
-    hangOnElem: (elem, param) => {
+    hangOnElem(elem, param) {
       const keys = ['class', 'text', 'link', 'style', 'dataset', 'onHover'];
       if (elem.tagName !== 'TH') keys.push('onClick');
 
