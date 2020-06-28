@@ -17,6 +17,8 @@ const signUpPassword = pickElem('signUpPassword');
 const logInPanel = pickElem('logInPanel');
 const welcomeMessage = pickElem('welcomeMessage');
 
+const mainTableBlock = pickElem('mainTableBlock');
+
 const parsedCssVars = (() => {
   const oneRem = parseInt(window.getComputedStyle(querySel('html')).fontSize, 10);
   const parsedVars = [];

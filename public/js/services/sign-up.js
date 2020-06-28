@@ -26,6 +26,7 @@ signUpForm.addEventListener('submit', async event => {
 
       if (response.status === 201) {
         $emit(response, signUpForm, 'sign-up');
+        mainTableBlock.dataset.username = name;
       }
     }
   }

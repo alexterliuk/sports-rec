@@ -48,6 +48,7 @@ function $emit(response, emitter, emitType) {
   if (response.status === 200) {
     const { name } = await response.json();
     welcomeMessage.textContent = `Welcome, ${name}.`;
+    mainTableBlock.dataset.username = name;
 
     setTimeout(() => {
       $emit(undefined, undefined, '_showLogInPanel');

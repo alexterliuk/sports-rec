@@ -26,6 +26,7 @@ signInForm.addEventListener('submit', async event => {
 
       if (response.status === 200) {
         $emit(response, signInForm, 'sign-in');
+        mainTableBlock.dataset.username = name;
       }
     }
   }

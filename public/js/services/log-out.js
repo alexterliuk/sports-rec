@@ -10,5 +10,6 @@ pickElem('logOut').addEventListener('click', async event => {
 
   if (response.status === 200) {
     $emit(response, logInPanel, 'log-out');
+    mainTableBlock.dataset.username = '';
   }
 });
