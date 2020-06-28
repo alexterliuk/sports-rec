@@ -42,15 +42,17 @@ router.get('/tables/hyphen-ids', auth, async (req, res) => {
 // Collect hyphenIds from all saved tables of current user
 router.get('/tables/:username/hyphen-ids', auth, async (req, res) => {
   const user = await User.findOne({ name: req.params.username });
-  const tables = await Table.find({ owner: user._id.toString() });
+  const owner = await user._id.toString();
+  const tables = await Table.find({ owner });
 
   try {
-    const tables = await Table.find({ owner: req.session.userId });
+    if (owner !== req.session.userId) throw new Error('You cannot get hyphenIds from tables of another user.');
+
     const hyphenIds = tables.map(table => table.hyphenId);
     res.send(hyphenIds);
 
   } catch(error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
