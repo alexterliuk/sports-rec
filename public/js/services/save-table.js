@@ -30,7 +30,7 @@ async function saveTable(btn, tableData) {
   }
 
   if (response.status === 409) {
-    let hyphenIds = await (await fetch('http:/table/hyphen-ids', { method: 'GET' })).json();
+    const hyphenIds = await (await fetch('http:/table/hyphen-ids', { method: 'GET' })).json();
     tableData.hyphenId = getBuildDOMLibrary().createHyphenId(hyphenIds);
 
     saveTable(btn, tableData);
