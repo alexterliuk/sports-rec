@@ -27,8 +27,23 @@ router.post('/tables', auth, async (req, res) => {
   }
 });
 
+// Collect hyphenIds from all stored tables in database
+router.get('/tables/hyphen-ids', auth, async (req, res) => {
+  try {
+    const tables = await Table.find({});
+    const hyphenIds = tables.map(table => table.hyphenId);
+    res.send(hyphenIds);
+
+  } catch(error) {
+    res.status(500).send(error);
+  }
+});
+
 // Collect hyphenIds from all saved tables of current user
-router.get('/table/hyphen-ids', auth, async (req, res) => {
+router.get('/tables/:username/hyphen-ids', auth, async (req, res) => {
+  const user = await User.findOne({ name: req.params.username });
+  const tables = await Table.find({ owner: user._id.toString() });
+
   try {
     const tables = await Table.find({ owner: req.session.userId });
     const hyphenIds = tables.map(table => table.hyphenId);

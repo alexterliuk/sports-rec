@@ -30,9 +30,16 @@ async function saveTable(btn, tableData) {
   }
 
   if (response.status === 409) {
-    const hyphenIds = await (await fetch('http:/table/hyphen-ids', { method: 'GET' })).json();
-    tableData.hyphenId = getBuildDOMLibrary().createHyphenId(hyphenIds);
+    const username = mainTableBlock.dataset.username;
 
-    saveTable(btn, tableData);
+    if (username) {
+      const hyphenIds = await getUserTablesHyphenIds(username);
+      tableData.hyphenId = getBuildDOMLibrary().createHyphenId(hyphenIds);
+      saveTable(btn, tableData);
+
+    } else {
+      setWaitingState(false, tableData.tableId);
+      notify(tableData.tableId, 'Table cannot be saved - its hyphenId already taken by another table in database.', 'error', 6000);
+    }
   }
 }
