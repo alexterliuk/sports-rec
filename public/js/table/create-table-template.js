@@ -1,5 +1,5 @@
 /**
- * Create table within table-container.
+ * Create table in .table-panel section.
  * @param {string} parentSelector
  * @param {string} contId
  * @param {number} colsQty

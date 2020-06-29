@@ -1,5 +1,5 @@
 /**
- * Create page section where a table will reside.
+ * Create page section with .table-title, .buttons-block and .table-block where a table will reside.
  */
 function createTableContainer() {
   const containerId = (() => {
