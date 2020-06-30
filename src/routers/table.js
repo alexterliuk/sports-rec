@@ -6,7 +6,7 @@ const Table = require('../models/table');
 const validateAndCreateTable = require('../utils/validate-and-create-table');
 
 // Create table
-router.post('/tables', auth, async (req, res) => {
+router.post('/tables/new', auth, async (req, res) => { // TODO: change to /tables/new
   req.body.owner = req.session.userId;
 
   const tablesWithSameHyphenId = await Table.find({ hyphenId: req.body.hyphenId });
