@@ -56,4 +56,17 @@ router.get('/tables/:username/hyphen-ids', auth, async (req, res) => {
   }
 });
 
+// Get tables
+router.get('/tables', auth, async (req, res) => {
+  const user = await User.findOne({ _id: req.session.userId });
+
+  try {
+    const tables = await Table.find({ owner: user._id });
+    res.send(tables);
+
+  } catch(error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 module.exports = router;

@@ -7,6 +7,7 @@ const funcLib = {
   highlightColumn,
   changeColumnsWidth,
   collectTableDataAndSave,
+  getAllTables,
 };
 
 /**
