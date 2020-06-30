@@ -82,7 +82,7 @@ router.get('/tables/:id', auth, async (req, res) => {
     }
 
   } catch(error) {
-    //  Cast to ObjectId failed because of wrong string (must be 12 bytes | 24 hex)
+    // Cast to ObjectId failed because of wrong string (must be 12 bytes | 24 hex)
     res.status(400).send({ error: 'Invalid table id.' });
   }
 });
