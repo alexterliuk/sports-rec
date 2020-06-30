@@ -232,14 +232,14 @@ function getBuildDOMLibrary(id, options) {
 
   const init = id && id.slice(0, 5) === ':root';
   if (init) {
-    const { parentId, parentSelector, tagName } = options;
+    const { parentId, parentSelector, tagName, firstChild } = options;
 
     const elementId = id.slice(5);
     const element = document.createElement(typeof tagName === 'string' && tagName || 'div');
     const parent = pickElem(parentId) || querySel(parentSelector) || querySel('body');
 
     element.setAttribute('id', elementId);
-    parent.appendChild(element);
+    firstChild ? parent.prepend(element) : parent.append(element);
     lib.hangOnElem(element, options);
 
     lib.root = { elementId, element, parent };
