@@ -1,0 +1,65 @@
+#dashboardBlock {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: var(--mtb-pad-vert);
+}
+
+#dashboardBlock button {
+  background: #676767;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+#dashboardBlock .dbo-btn-build-table {
+  padding: 2px 6px;
+}
+
+#dashboardInfo {
+  border: 1px solid #dfe3e6;
+}
+
+.dbo-panel {
+  position: relative;
+  flex: 0 1 48rem;
+}
+
+.dbo-head, .dbo-item {
+  display: flex;
+}
+
+.dbo-item:hover {
+  background: #f5f5f5;
+}
+
+.dbo-head {
+  font-weight: 600;
+}
+
+.dbo-head .dbo-cell {
+  background: lightgrey;
+  color: #444444;
+}
+
+.dbo-cell {
+  padding: .125rem .5rem;
+  border: 2px solid #fff;
+}
+
+.dbo-cell-title {
+  flex: auto;
+}
+
+.dbo-cell-btn-cont {
+  padding-top: 1px;
+  margin-left: auto;
+}
+
+.dbo-head .dbo-cell-btn-cont {
+  width: 74px;
+  text-align: center;
+  margin-left: initial;
+}
