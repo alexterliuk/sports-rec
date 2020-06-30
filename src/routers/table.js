@@ -69,4 +69,22 @@ router.get('/tables', auth, async (req, res) => {
   }
 });
 
+// Get table
+router.get('/tables/:id', auth, async (req, res) => {
+  try {
+    const table = await Table.findOne({ _id: req.params.id });
+
+    if (!table || table.owner.toString() !== req.session.userId) {
+      res.status(404).send();
+
+    } else {
+      res.send(table);
+    }
+
+  } catch(error) {
+    //  Cast to ObjectId failed because of wrong string (must be 12 bytes | 24 hex)
+    res.status(400).send({ error: 'Invalid table id.' });
+  }
+});
+
 module.exports = router;
