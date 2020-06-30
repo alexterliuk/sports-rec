@@ -39,12 +39,12 @@ main {
   border: 1px solid #8eadc5;
 }
 
-.table-block {
+.panels-block {
   display: flex;
   margin-bottom: 20px;
 }
 
-.table-block td, .table-block td *, .table-block th, .table-block th * {
+.panels-block td, .panels-block td *, .panels-block th, .panels-block th * {
   transition: none;
 }
 

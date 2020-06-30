@@ -8,9 +8,9 @@ function setWaitingState(type, tableId) {
   const pageSegmentId = tableId.slice(0, -5);
   const tableTitle = querySel(`#${pageSegmentId} .table-title`);
   const buttonsBlock = querySel(`#${pageSegmentId} .buttons-block`);
-  const tableBlock = querySel(`#${pageSegmentId} .table-block`);
+  const panelsBlock = querySel(`#${pageSegmentId} .panels-block`);
 
-  for (const elem of [tableTitle, { processChildren: buttonsBlock, spinner: buttonsBlock }, tableBlock]) {
+  for (const elem of [tableTitle, { processChildren: buttonsBlock, spinner: buttonsBlock }, panelsBlock]) {
     if (!elem.processChildren) elem.classList[method]('semitransparent');
 
     if (elem.processChildren) {

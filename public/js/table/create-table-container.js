@@ -1,5 +1,5 @@
 /**
- * Create page section with .table-title, .buttons-block and .table-block where a table will reside.
+ * Create page section with .table-title, .buttons-block and .panels-block where a table will reside.
  */
 function createTableContainer() {
   const containerId = (() => {
@@ -39,10 +39,10 @@ function createTableContainer() {
       text: 'Save table',
       class: ['btn-save'],
     },
-    { parentId: params.contId, tagName: 'div', class: ['table-block'], $name: 'table-block' },
-    { $parentName: 'table-block', tagName: 'section', class: ['side-panel', 'left-panel'] },
-    { $parentName: 'table-block', tagName: 'section', class: ['table-panel'] },
-    { $parentName: 'table-block', tagName: 'section', class: ['side-panel', 'right-panel'] },
+    { parentId: params.contId, tagName: 'div', class: ['panels-block'], $name: 'panels-block' },
+    { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'left-panel'] },
+    { $parentName: 'panels-block', tagName: 'section', class: ['table-panel'] },
+    { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'right-panel'] },
   ];
 
   buildDOM(params);
