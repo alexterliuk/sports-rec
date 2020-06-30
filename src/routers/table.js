@@ -6,7 +6,7 @@ const Table = require('../models/table');
 const validateAndCreateTable = require('../utils/validate-and-create-table');
 
 // Create table
-router.post('/tables/new', auth, async (req, res) => { // TODO: change to /tables/new
+router.post('/tables/new', auth, async (req, res) => {
   req.body.owner = req.session.userId;
 
   const tablesWithSameHyphenId = await Table.find({ hyphenId: req.body.hyphenId });
@@ -43,11 +43,11 @@ router.get('/tables/hyphen-ids', auth, async (req, res) => {
 router.get('/tables/:username/hyphen-ids', auth, async (req, res) => {
   const user = await User.findOne({ name: req.params.username });
   const owner = await user._id.toString();
-  const tables = await Table.find({ owner });
 
   try {
     if (owner !== req.session.userId) throw new Error('You cannot get hyphenIds from tables of another user.');
 
+    const tables = await Table.find({ owner });
     const hyphenIds = tables.map(table => table.hyphenId);
     res.send(hyphenIds);
 
