@@ -232,7 +232,7 @@ function getBuildDOMLibrary(id, options) {
     },
   };
 
-  const init = id && id.slice(0, 5) === ':root';
+  const init = id && id.slice(0, 5) === ':root' && id.slice(5);
   if (init) {
     const { parentId, parentSelector, tagName, firstChild } = options;
 
@@ -274,7 +274,7 @@ function getBuildDOMLibrary(id, options) {
  */
 function buildDOM(data) {
   const dom = getBuildDOMLibrary(`:root${data.contId || ''}`, data);
-  const hyphenId = dom.root.hyphenId;
+  const hyphenId = (dom.root || {}).hyphenId;
 
   data.elems.forEach(spec => {
     if (spec.builder) {
