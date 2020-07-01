@@ -273,7 +273,7 @@ function getBuildDOMLibrary(id, options) {
  * Hyphen-id endings are added to all children of table which have id. This allows to have many tables on page.
  */
 function buildDOM(data) {
-  const dom = getBuildDOMLibrary(`:root${data.contId}`, data);
+  const dom = getBuildDOMLibrary(`:root${data.contId || ''}`, data);
   const hyphenId = dom.root.hyphenId;
 
   data.elems.forEach(spec => {
