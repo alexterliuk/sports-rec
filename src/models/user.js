@@ -34,6 +34,13 @@ const userSchema = new mongoose.Schema({
   timeStamps: true,
 });
 
+// Make possible creation of virtual tables array associated with user
+userSchema.virtual('tables', {
+  ref: 'Table',
+  localField: '_id',
+  foreignField: 'owner',
+});
+
 // Create token for authentication
 userSchema.methods.generateAuthToken = async function() {
   const user = this;

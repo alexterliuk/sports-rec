@@ -57,14 +57,22 @@ router.get('/tables/:username/hyphen-ids', auth, async (req, res) => {
 });
 
 // Get tables
+// pagination - /tasks?limit=10&skip=10
 router.get('/tables', auth, async (req, res) => {
   const user = await User.findOne({ _id: req.session.userId });
 
   try {
-    const tables = await Table.find({ owner: user._id });
-    res.send(tables);
+    await user.populate({
+      path: 'tables',
+      options: {
+        limit: parseInt(req.query.limit),
+        skip: parseInt(req.query.skip),
+      }
+    }).execPopulate();
 
-  } catch(error) {
+    res.send(user.tables);
+
+  } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
