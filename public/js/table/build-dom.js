@@ -253,9 +253,9 @@ function getBuildDOMLibrary(id, options) {
       lib.root.tableTitle = querySel(`#${elementId.slice(0, -5)} .table-title`).textContent;
       tables.add(lib.root.hyphenId, lib);
     }
-
-    lib.elementsBy$name = {};
   }
+
+  lib.elementsBy$name = {};
 
   return lib;
 }
