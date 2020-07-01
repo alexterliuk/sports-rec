@@ -36,7 +36,7 @@ const tableSchema = new mongoose.Schema({
     ref: 'User',
   },
 }, {
-  timeStamps: true,
+  timestamps: true,
 });
 
 // All hyphenId endings in table must be equal, non unique id is forbidden

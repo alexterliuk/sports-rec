@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     },
   }],
 }, {
-  timeStamps: true,
+  timestamps: true,
 });
 
 // Make possible creation of virtual tables array associated with user
