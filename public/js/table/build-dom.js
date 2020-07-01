@@ -276,7 +276,7 @@ function buildDOM(data) {
   const dom = getBuildDOMLibrary(`:root${data.contId || ''}`, data);
   const hyphenId = (dom.root || {}).hyphenId;
 
-  data.elems.forEach(spec => {
+  (data.elems || []).forEach(spec => {
     if (spec.builder) {
       const func = typeof funcLib[spec.builder.funcName] === 'function' && funcLib[spec.builder.funcName];
       const args = Array.isArray(spec.builder.funcArgs) && spec.builder.funcArgs[0];
