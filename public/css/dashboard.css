@@ -5,6 +5,10 @@
   padding: var(--mtb-pad-vert);
 }
 
+#dashboardBlock * {
+  transition: none;
+}
+
 #dashboardBlock button {
   background: #676767;
   color: white;
@@ -18,8 +22,14 @@
   padding: 2px 6px;
 }
 
+#dashboardBlock .dbo-btn-build-table:hover {
+  background: #4282af;
+  transform: scale(1.1);
+}
+
 #dashboardInfo {
   border: 1px solid #dfe3e6;
+  padding: 4px;
 }
 
 .dbo-panel {
@@ -29,10 +39,7 @@
 
 .dbo-head, .dbo-item {
   display: flex;
-}
-
-.dbo-item:hover {
-  background: #f5f5f5;
+  border: 1px solid transparent;
 }
 
 .dbo-head {
@@ -44,9 +51,32 @@
   color: #444444;
 }
 
+.dbo-head .dbo-cell-btn-cont {
+  width: 74px;
+  text-align: center;
+}
+
+.dbo-item:nth-child(even) .dbo-cell {
+  background: #f5f5f5;
+}
+
+.dbo-item:hover {
+  border-color: lightgrey;
+}
+
 .dbo-cell {
-  padding: .125rem .5rem;
-  border: 2px solid #fff;
+  padding: 2px 8px;
+  margin: 0 2px;
+}
+
+.dbo-cell:first-child {
+  flex: 0 0 40px;
+  text-align: center;
+  margin-left: 0;
+}
+
+.dbo-cell:last-child {
+  margin-right: 0;
 }
 
 .dbo-cell-title {
@@ -54,12 +84,6 @@
 }
 
 .dbo-cell-btn-cont {
-  padding-top: 1px;
-  margin-left: auto;
-}
-
-.dbo-head .dbo-cell-btn-cont {
-  width: 74px;
+  flex: 0 0 82px;
   text-align: center;
-  margin-left: initial;
 }
