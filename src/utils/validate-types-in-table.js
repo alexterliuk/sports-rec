@@ -8,7 +8,6 @@ function validateTypesInTable(reqBody) {
 
   // types are the same as in tableSchema
   const spec = {
-    tableId: 'string',
     hyphenId: 'string',
     tableTitle: 'string',
     classNames: 'array',
@@ -21,7 +20,7 @@ function validateTypesInTable(reqBody) {
     cells: 'array',
   };
 
-  const rootKeys = ['classNames', 'hyphenId', 'tableId', 'tableTitle', 'tbodyRows', 'theadRow'];
+  const rootKeys = ['classNames', 'hyphenId', 'tableTitle', 'tbodyRows', 'theadRow'];
   const cellKeys = ['classNames', 'id', 'styles', 'textareaStyles', 'textareaValue'];
   const tbodyRowsKeys = ['id', 'cells'];
 

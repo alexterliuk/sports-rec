@@ -10,7 +10,6 @@ const tableSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  tableId: stringTypeReq,
   hyphenId: stringTypeReq,
   classNames: arrayTypeReq,
   theadRow: [{

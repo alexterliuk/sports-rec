@@ -4,6 +4,15 @@
  * @param {object} tableData
  */
 async function saveTable(btn, tableData) {
+  // exclude tableId and convert data to JSON
+  const tableDataJSON = (() => {
+    const tData = {};
+    Object.keys(tableData).forEach(key => {
+      if (key !== 'tableId') tData[key] = tableData[key];
+    });
+    return JSON.stringify(tData);
+  })();
+
   setWaitingState(true, tableData);
 
   const response = await fetch('http:/tables/new', {
@@ -11,7 +20,7 @@ async function saveTable(btn, tableData) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(tableData),
+    body: tableDataJSON,
   });
 
   if (response.status === 200) {
