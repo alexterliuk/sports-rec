@@ -14,11 +14,11 @@ async function getUserTables(btn, options) {
 
   if (response.status === 200 || response.status === 304) {
     setWaitingState(false, { id: 'dashboardBlock' });
-    const _response = await response.json();
-    buildTables(_response);
+    return response.json();
 
   } else {
     setWaitingState(false, { id: 'dashboardBlock' });
     notify('dashboardInfo', 'Something went wrong.', 'error', 3000);
+    return [];
   }
 }
