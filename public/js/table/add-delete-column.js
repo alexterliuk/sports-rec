@@ -17,7 +17,7 @@ function addColumn(btn, spec, dom) {
   const th = document.createElement('th');
 
   const currentColIndex = theadRow.children.length;
-  const idBeginning = (Array.isArray(spec.columnsIds) && spec.columnsIds[currentColIndex]) || `col${currentColIndex}`;
+  const idBeginning = (Array.isArray(spec.columnsIds) && spec.columnsIds[currentColIndex]) || `col${currentColIndex + 1}`;
   const colId = `${idBeginning}${hyphenId}`;
   th.setAttribute('id', colId);
 
