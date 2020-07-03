@@ -39,7 +39,7 @@ async function createDashboard({ tablesQty, skip } = {}) {
       parentSelector,
       elems: [{
         parentSelector, tagName: 'button', text: 'Build All Shown Tables',
-        onClick: { funcName: 'buildTables', funcArgs: [ { tables } ]},
+        onClick: { funcName: 'buildTables', funcArgs: [{ tables }] },
       }],
     };
 
