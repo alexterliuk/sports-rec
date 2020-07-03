@@ -3,10 +3,12 @@ function $listenToServerResponses(response, emitter, emitType) {
     'sign-up'() {
       welcomeMessage.textContent = `Welcome, ${signUpUsername.value}.`;
       this._showLogInPanel();
+      createDashboard({ tablesQty: 10 });
     },
     'sign-in'() {
       welcomeMessage.textContent = `Welcome, ${signInUsername.value}.`;
       this._showLogInPanel();
+      createDashboard({ tablesQty: 10 });
     },
     'log-out'() {
       signInUsername.value = '';
@@ -14,6 +16,7 @@ function $listenToServerResponses(response, emitter, emitType) {
       signUpUsername.value = '';
       signUpPassword.value = '';
       this._showSignInPanel();
+      pickElem('dashboardBlock').remove();
     },
     _showLogInPanel() {
       signInPanel.style.display = 'none';
@@ -49,6 +52,10 @@ function $emit(response, emitter, emitType) {
     const { name } = await response.json();
     welcomeMessage.textContent = `Welcome, ${name}.`;
     mainTableBlock.dataset.username = name;
+
+    setTimeout(() => {
+      createDashboard({ tablesQty: 10 });
+    }, 50);
 
     setTimeout(() => {
       $emit(undefined, undefined, '_showLogInPanel');
