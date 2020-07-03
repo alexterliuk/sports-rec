@@ -68,7 +68,7 @@ const tables = (function() {
  */
 function getBuildDOMLibrary(id, options) {
   const lib = {
-    addAndGet(newId, { parentId, tagName, $name, $parentName }) {
+    addAndGet(newId, { parentId, parentSelector, tagName, $name, $parentName }) {
       const newElem = document.createElement(tagName);
 
       if (tagName === 'table') newElem.classList.add('pristine');
@@ -76,11 +76,13 @@ function getBuildDOMLibrary(id, options) {
       if ($name) this.elementsBy$name[$name] = newElem;
 
       if (parentId) {
-        pickElem(parentId).appendChild(newElem);
+        pickElem(parentId).append(newElem);
+      } else if (parentSelector) {
+        querySel(parentSelector).append(newElem);
       } else if ($parentName) {
-        this.elementsBy$name[$parentName].appendChild(newElem);
+        this.elementsBy$name[$parentName].append(newElem);
       } else {
-        throw new Error('No parentId or $parentName is provided. Created element nowhere to append.');
+        throw new Error('No parentId, parentSelector or $parentName is provided. Created element nowhere to append.');
       }
 
       return newElem;
