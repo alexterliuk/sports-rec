@@ -246,6 +246,10 @@ function collectTableDataAndSave(btn, { tableId }) {
   const theadRow = collectRowsData(tableElem.children[0]);
   const tbodyRows = collectRowsData(tableElem.children[1]);
 
+  // table comprises data used for creating <table> and its contents
+  const table = tables.get(hyphenId);
+
+  // _table have actual representation of data before saving
   const _table = { tableTitle, hyphenId, tableId, classNames, theadRow, tbodyRows };
 
   tables.addToTable(hyphenId, { _table }, true);
@@ -254,9 +258,12 @@ function collectTableDataAndSave(btn, { tableId }) {
     removeEmptyColumns(_table);
     saveTable(btn, _table);
 
-  // if text was changed by code (without click on textarea), pristine class remains, so we need check for changes
+  } else if (table.tableTitle !== tableTitle) {
+    removeEmptyColumns(_table);
+    saveTable(btn, _table);
+
+  // if text was changed by code (without click on textarea), .pristine class remains, so we need check for changes
   } else {
-    const table = tables.get(hyphenId);
     const columnsNamesNotChanged = detectChanges(table.theadRow, theadRow, ['textareaValue']);
     const cellsTextNotChanged = detectChanges(table.tbodyRows, tbodyRows, ['textareaValue'], 'cells');
 

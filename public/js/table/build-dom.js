@@ -14,6 +14,7 @@ const funcLib = {
 
 /**
  * Collector of tables.
+ * Each table represents data used to create table and its contents.
  * Each table is accessible by hyphenId (id ending which is unique for each table).
  */
 const tables = (function() {
