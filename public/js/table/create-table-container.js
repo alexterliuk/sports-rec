@@ -16,8 +16,15 @@ function createTableContainer() {
   const tableId = `${params.contId}Table`;
 
   params.elems = [
-    { parentId: params.contId, tagName: 'h2', class: ['table-title'], text: `Table ${containerId}` },
+    { parentId: params.contId, tagName: 'div', class: ['table-title-container'], $name: 'table-title-container' },
+    { $parentName: 'table-title-container', tagName: 'h2', class: ['table-title'], text: `Table ${containerId}` },
+    { $parentName: 'table-title-container', tagName: 'input' },
+    { $parentName: 'table-title-container', tagName: 'span', class: ['btn-ok'], role: 'button' },
     { parentId: params.contId, tagName: 'div', class: ['buttons-block'], $name: 'buttons-block' },
+    { $parentName: 'buttons-block', tagName: 'button',
+      onClick: { funcName: 'editTableTitle', funcArgs: [{ id: params.contId }] },
+      text: 'Edit title',
+    },
     { $parentName: 'buttons-block', tagName: 'button',
       onClick: { funcName: 'addRow', funcArgs: [{ tableId }] },
       text: 'Add row',
