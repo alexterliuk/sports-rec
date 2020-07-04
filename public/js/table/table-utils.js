@@ -222,6 +222,7 @@ function collectTableDataAndSave(btn, { tableId }) {
   tables.addToTable(hyphenId, { _table }, true);
 
   if (!_table.classNames.find(name => name === 'pristine')) {
+    removeEmptyColumns(_table);
     saveTable(btn, _table);
 
   // if text was changed by code (without click on textarea), pristine class remains, so we need check for changes
@@ -232,6 +233,7 @@ function collectTableDataAndSave(btn, { tableId }) {
 
     if (columnsNamesNotChanged && cellsTextNotChanged) return;
 
+    removeEmptyColumns(_table);
     saveTable(btn, _table);
   }
 }
@@ -278,6 +280,34 @@ function collectCellsData(row) {
   }
 
   return data;
+}
+
+/**
+ * Search and remove columns with no text.
+ * @param {object} table
+ */
+function removeEmptyColumns(table) {
+  const columnsWithoutText = [];
+  table.theadRow.forEach((column, idx) => {
+    if (!column.textareaValue) {
+      const columnCellsTexts = table.tbodyRows.map(row => row.cells[idx].textareaValue);
+      if (columnCellsTexts.every(val => !val)) {
+        columnsWithoutText.push({ colIndex: idx });
+      }
+    }
+  });
+
+  for (const emptyColumn of columnsWithoutText) {
+    table.theadRow[emptyColumn.colIndex] = false;
+    table.tbodyRows.forEach(row => {
+      row.cells[emptyColumn.colIndex] = false;
+    });
+  }
+
+  table.theadRow = table.theadRow.filter(column => column);
+  table.tbodyRows.forEach(row => {
+    row.cells = row.cells.filter(cell => cell);
+  });
 }
 
 /**
