@@ -87,19 +87,6 @@ header {
   width: 169px;
 }
 
-span[role=button] {
-  font: .8rem "Arial";
-  font-weight: 600;
-  cursor: pointer;
-}
-
-span[role=button].button-look {
-  background: #676767;
-  color: white;
-  padding: 2px 4px;
-  border-radius: 2px;
-}
-
 .login-button {
   width: 64px;
   margin: .25rem 0 0 11.95rem;

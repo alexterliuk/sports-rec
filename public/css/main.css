@@ -2,6 +2,19 @@ main {
   overflow: hidden;
 }
 
+span[role=button] {
+  font: .8rem "Arial";
+  font-weight: 600;
+  cursor: pointer;
+}
+
+span[role=button].button-look {
+  background: #676767;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
 #mainTableBlock {
   display: flex;
   justify-content: space-between;
