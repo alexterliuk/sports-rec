@@ -130,6 +130,10 @@ function getBuildDOMLibrary(id, options) {
       styleData.forEach(entry => { elem.style[entry[0]] = entry[1]; });
     },
 
+    addRole(elem, roleName) {
+      elem.setAttribute('role', roleName);
+    },
+
     addDataset(elem) {
       elem.dataset[this.columnsIds[`col${elem.id.slice(elem.id.search(/[0-9]+$/))}`]] = '';
     },
@@ -155,7 +159,7 @@ function getBuildDOMLibrary(id, options) {
     },
 
     hangOnElem(elem, param) {
-      const keys = ['class', 'text', 'link', 'style', 'dataset', 'onHover'];
+      const keys = ['class', 'text', 'link', 'style', 'role', 'dataset', 'onHover'];
       if (elem.tagName !== 'TH') keys.push('onClick');
 
       keys.forEach(key => {
