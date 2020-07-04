@@ -1,4 +1,33 @@
 /**
+ * Edit table title.
+ * @param {HTMLButtonElement} btn
+ * @param {string} id
+ */
+function editTableTitle(btn, { id }) {
+  const title = querySel(`#${id} .table-title-container .table-title`);
+  const input = querySel(`#${id} .table-title-container input`);
+  const ok = querySel(`#${id} .table-title-container .btn-ok`);
+
+  input.value = title.textContent;
+  setDisplayTo('none', title);
+  setDisplayTo('block', input, ok);
+
+  ok.addEventListener('click', changeTitle);
+
+  function setDisplayTo(type, ...elems) {
+    for (const el of elems) el.style.display = type;
+  }
+
+  function changeTitle() {
+    title.textContent = input.value;
+    setDisplayTo('none', input, ok);
+    setDisplayTo('block', title);
+
+    ok.removeEventListener('click', changeTitle);
+  }
+}
+
+/**
  * Switch on/off scrolling mode for .table-panel elements.
  * @param {object} nodeOrHTMLCollection
  */

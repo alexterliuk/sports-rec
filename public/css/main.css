@@ -22,6 +22,41 @@ span[role=button].button-look {
   padding: var(--mtb-pad-vert);
 }
 
+.table-title-container {
+  display: flex;
+}
+
+.table-title-container h2,
+.table-title-container input {
+  margin: 20px 0;
+}
+
+.table-title-container input {
+  display: none;
+  padding: 1px 2px;
+  border: 1px solid lightslategrey;
+  border-radius: 2px;
+  height: 24px;
+  font-size: 1rem;
+}
+
+.table-title-container input,
+.table-title-container span {
+  align-self: center;
+}
+
+.table-title-container .btn-ok {
+  display: none;
+}
+
+.table-title-container .btn-ok::after {
+  content: '\2714';
+  width: 14px;
+  margin-left: .25rem;
+  font-size: 1rem;
+  color: lightseagreen;
+}
+
 .buttons-block {
   display: flex;
   position: relative;

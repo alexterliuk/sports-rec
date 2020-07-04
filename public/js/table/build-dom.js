@@ -1,4 +1,5 @@
 const funcLib = {
+  editTableTitle,
   addRow,
   deleteRow,
   addColumn,
