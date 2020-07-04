@@ -224,6 +224,7 @@ function collectTableDataAndSave(btn, { tableId }) {
   if (!_table.classNames.find(name => name === 'pristine')) {
     saveTable(btn, _table);
 
+  // if text was changed by code (without click on textarea), pristine class remains, so we need check for changes
   } else {
     const table = tables.get(hyphenId);
     const columnsNamesNotChanged = detectChanges(table.theadRow, theadRow, ['textareaValue']);
