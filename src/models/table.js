@@ -17,7 +17,7 @@ const tableSchema = new mongoose.Schema({
     classNames: arrayTypeReq,
     styles: arrayTypeReq,
     textareaStyles: arrayTypeReq,
-    textareaValue: stringTypeReq,
+    textareaValue: String,
   }],
   tbodyRows: [{
     id: stringTypeReq,
