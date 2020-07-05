@@ -54,15 +54,16 @@ function createTableContainer() {
 
   buildDOM(params);
 
-  const colsQty = tables.getConfigItem('colsQty') || 3;
-  const rowsQty = tables.getConfigItem('rowsQty') || 3;
+  const configColsQty = tables.getConfigItem('colsQty') || (tables.addToConfig({ colsQty: 3 }), 3);
+
+  // rowsQty config spec is used in addColumn in the beginning of new table building
+  if (!tables.getConfigItem('rowsQty')) tables.addToConfig({ rowsQty: 3 });
 
   const tableInitParams = {
     parentSelector: `#${params.contId} .table-panel`,
     contId: tableId,
-    colsQty,
+    colsQty: configColsQty,
   };
 
-  tables.addToConfig({ colsQty }, { rowsQty });
   createTableTemplate(tableInitParams);
 }
