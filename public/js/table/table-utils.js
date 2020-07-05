@@ -249,7 +249,7 @@ function collectTableDataAndSave(btn, { tableId }) {
   // table comprises data used for creating <table> and its contents
   const table = tables.get(hyphenId);
 
-  // _table have actual representation of data before saving
+  // _table has actual representation of table data before saving
   const _table = { tableTitle, hyphenId, tableId, classNames, theadRow, tbodyRows };
 
   tables.addToTable(hyphenId, { _table }, true);
