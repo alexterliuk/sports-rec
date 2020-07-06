@@ -34,7 +34,7 @@ function createTableTemplate({ parentSelector, contId, colsQty }) {
             ],
           },
         ],
-        callsQty: colsQty || tables.getConfigItem('colsQty'),
+        callsQty: colsQty,
       },
     },
   ];
