@@ -59,8 +59,8 @@ function addColumn(btn, spec, dom) {
       addRow(null, spec, getBuildDOMLibrary());
     }
 
-  } else {
-    const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues;
+  } else { // [null].concat... - because at 0 index (row.rowIndex) is thead tr (see also addRow)
+    const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues && [null].concat(spec.cellsTextValues);
 
     for (const row of tbody.children) {
       const cellId = `r${row.rowIndex}c${row.children.length}${hyphenId}`;
