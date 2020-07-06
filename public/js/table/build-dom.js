@@ -10,6 +10,7 @@ const funcLib = {
   collectTableDataAndSave,
   getUserTables,
   getTable,
+  buildTables,
 };
 
 /**
