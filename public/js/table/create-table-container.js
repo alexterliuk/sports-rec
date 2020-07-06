@@ -1,7 +1,11 @@
 /**
  * Create page section with .table-title, .buttons-block and .panels-block where a table will reside.
+ * @param {object} tableData
  */
-function createTableContainer() {
+function createTableContainer(tableData) {
+  // Do not create a table which already exists on page.
+  if (tableData && tables.get(tableData.hyphenId)) return;
+
   const containerId = (() => {
     let mtbNum = 1;
     while (pickElem(`mtb${mtbNum}`)) mtbNum++;
