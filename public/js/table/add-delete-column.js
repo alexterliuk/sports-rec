@@ -17,8 +17,10 @@ function addColumn(btn, spec, dom) {
   const th = document.createElement('th');
 
   const currentColIndex = theadRow.children.length;
-  const idBeginning = (Array.isArray(spec.columnsIds) && spec.columnsIds[currentColIndex]) || `col${currentColIndex + 1}`;
-  const colId = `${idBeginning}${hyphenId}`;
+  const colIdSpec = Array.isArray(spec.columnsIds) && spec.columnsIds[currentColIndex];
+  const colIdSpecWithHyphenIdEnding = typeof colIdSpec === 'string' && colIdSpec.slice(-4) === hyphenId && colIdSpec;
+  const colId = colIdSpecWithHyphenIdEnding || `${colIdSpec || 'col' + (currentColIndex + 1)}${hyphenId}`;
+
   th.setAttribute('id', colId);
 
   addTextareaAndHider(th);
