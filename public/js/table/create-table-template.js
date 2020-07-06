@@ -32,7 +32,7 @@ function createTableTemplate({ parentSelector, contId, colsQty }) {
               ['cell 1', 'cell 2', 'cell 3'],
               ['cell 1', 'cell 2', 'cell 3'],
               ['cell 1', 'cell 2', 'cell 3'],
-            ]
+            ],
           },
         ],
         callsQty: colsQty || tables.getConfigItem('colsQty'),
