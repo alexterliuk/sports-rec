@@ -52,7 +52,10 @@ function addColumn(btn, spec, dom) {
   }
 
   if (theadRow.children.length === 1) {
-    for (let i = 0, { rowsQty } = tables.getAllConfig(); i < rowsQty; ++i) {
+    const rowsQtySpec = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues;
+    const rowsQty = rowsQtySpec && rowsQtySpec.length || tables.getConfigItem('rowsQty');
+
+    for (let i = 0; i < rowsQty; ++i) {
       addRow(null, spec, getBuildDOMLibrary());
     }
 
