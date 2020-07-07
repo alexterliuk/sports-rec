@@ -260,6 +260,7 @@ function collectTableDataAndSave(btn, { tableId }) {
 
   } else if (table.tableTitle !== tableTitle) {
     removeEmptyColumns(_table);
+    _table.classNames = _table.classNames.filter(name => name !== 'pristine');
     saveTable(btn, _table);
 
   // if text was changed by code (without click on textarea), .pristine class remains, so we need check for changes
@@ -270,6 +271,7 @@ function collectTableDataAndSave(btn, { tableId }) {
     if (columnsNamesNotChanged && cellsTextNotChanged) return;
 
     removeEmptyColumns(_table);
+    _table.classNames = _table.classNames.filter(name => name !== 'pristine');
     saveTable(btn, _table);
   }
 }
