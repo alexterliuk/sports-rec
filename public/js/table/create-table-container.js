@@ -21,7 +21,9 @@ function createTableContainer(tableData) {
 
   params.elems = [
     { parentId: params.contId, tagName: 'div', class: ['table-title-container'], $name: 'table-title-container' },
-    { $parentName: 'table-title-container', tagName: 'h2', class: ['table-title'], text: `Table ${containerId}` },
+    { $parentName: 'table-title-container', tagName: 'h2', class: ['table-title'],
+      text: tableData && tableData.tableTitle || `Table ${containerId}`,
+    },
     { $parentName: 'table-title-container', tagName: 'input' },
     { $parentName: 'table-title-container', tagName: 'span', class: ['btn-ok'], role: 'button' },
     { parentId: params.contId, tagName: 'div', class: ['buttons-block'], $name: 'buttons-block' },
