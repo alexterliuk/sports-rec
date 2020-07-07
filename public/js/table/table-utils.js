@@ -332,7 +332,7 @@ function collectCellsData(row) {
     const classNames = (cell.classList.value && cell.classList.value.split(' ')) || [];
     const textarea = querySel(`#${cell.id} textarea`);
     const textareaValue = textarea.value;
-    const textareaStyles = parseStyleAttr(textarea.outerHTML).filter(st => st.name === 'height');
+    const textareaStyles = parseStyleAttr(textarea.outerHTML).filter(st => st.name !== 'margin' && st.name !== 'width');
     const styles = parseStyleAttr(cell.outerHTML);
 
     data.push({ id, classNames, styles, textareaValue, textareaStyles });
