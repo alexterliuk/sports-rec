@@ -398,15 +398,13 @@ function parseStyleAttr(htmlStr) {
   const styles = [];
   const stylesOnlyStr = stylesRawStr.slice(stylesRawStr.search(/\w/), stylesRawStr.search('"')).trim();
 
-  let stylesNotParsed = stylesOnlyStr.split(';');
+  const stylesNotParsed = stylesOnlyStr.split(';');
 
   for (const style of stylesNotParsed) {
-    if (style) {
-      const _st = style.trim();
-      const split = _st.split(':');
-
+    if (style && !/\/\*\w|\/\* /g.test(style)) { // not commented style
+      const split = style.split(':');
       const parsedStyle = {
-        name: split[0].trim(),
+        name: (n => n.slice(n.search(/\w/)))(split[0].trim()),
         value: (split[1] || '').trim(),
       };
 
