@@ -389,7 +389,8 @@ function removeEmptyColumns(table) {
  * @returns {array}
  */
 function parseStyleAttr(htmlStr) {
-  const firstTagOnlyStr = htmlStr.slice(0, htmlStr.search('>'));
+  const _htmlStr = typeof htmlStr === 'string' && htmlStr || '';
+  const firstTagOnlyStr = _htmlStr.slice(0, _htmlStr.search('>'));
 
   const stylesRawStr = firstTagOnlyStr.split('style="')[1];
   if (!stylesRawStr) return [];
