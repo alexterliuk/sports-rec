@@ -17,13 +17,13 @@ function addRow(btn, spec, dom) {
   const hyphenId = pickElem(tableId).dataset.hyphenId;
   const tbody = querySel(`#${tableId} tbody`);
   const row = tbody.insertRow();
-  row.setAttribute('id', `row${tbody.children.length}${hyphenId}`);
+  row.setAttribute('id', Array.isArray(spec.rowsIds) && spec.rowsIds[tbody.children.length - 1] || `row${tbody.children.length}${hyphenId}`);
 
   // [null].concat... - because at 0 index (row.rowIndex) is thead tr (see also addColumn)
   const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues && [null].concat(spec.cellsTextValues);
 
   for (let i = 0; i < (row.previousElementSibling || theadRow).children.length; i++) {
-    const cellId = `r${row.rowIndex}c${i}${hyphenId}`;
+    const cellId = getStoredCellIdOrMakeDefault(spec.cellsIds, row, i, hyphenId);
     const text = (textValues[row.rowIndex] || [])[row.children.length];
 
     const cell = createCell(row, cellId, text);

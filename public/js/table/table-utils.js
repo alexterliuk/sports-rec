@@ -321,6 +321,20 @@ function collectCellsData(row) {
 }
 
 /**
+ * Return id from stored collection, or make default one and return.
+ * @param {array} storedCellsIds
+ * @param {HTMLTableRowElement} row
+ * @param {number} index
+ * @param {string} hyphenId
+ */
+function getStoredCellIdOrMakeDefault(storedCellsIds, row, index, hyphenId) {
+  const cellsIds = Array.isArray(storedCellsIds) && storedCellsIds;
+  const cellsIdsInRow = cellsIds && Array.isArray(cellsIds[row.rowIndex - 1]) && cellsIds[row.rowIndex - 1] || [];
+
+  return cellsIdsInRow[index] || `r${row.rowIndex}c${index}${hyphenId}`;
+}
+
+/**
  * Search and remove columns with no text.
  * @param {object} table
  */
