@@ -6,6 +6,7 @@
 function editTableTitle(btn, { id }) {
   const title = querySel(`#${id} .table-title-container .table-title`);
   const input = querySel(`#${id} .table-title-container input`);
+  const inputValueOrig = title.textContent || 'Table';
   const ok = querySel(`#${id} .table-title-container .btn-ok`);
 
   input.value = title.textContent;
@@ -19,7 +20,7 @@ function editTableTitle(btn, { id }) {
   }
 
   function changeTitle() {
-    title.textContent = input.value;
+    title.textContent = !isEmptyString(input.value) && input.value || inputValueOrig;
     setDisplayTo('none', input, ok);
     setDisplayTo('block', title);
 
@@ -246,6 +247,7 @@ function collectTableDataAndSave(btn, { tableId }) {
 
   let theadRow, tbodyRows;
   try {
+    if (isEmptyString(tableTitle)) throw new Error('Table title is required.');
     theadRow = collectRowsData(tableElem.children[0]);
     tbodyRows = collectRowsData(tableElem.children[1]);
 
