@@ -32,6 +32,9 @@ function addRow(btn, spec, dom) {
 
     if (spec.cellsClassNames) _dom.addClass(cell, spec.cellsClassNames[cell.id] || []);
 
+    if (spec.cellsStyles) _dom.addStyle(cell, spec.cellsStyles[cell.id] || []);
+    if (spec.cellsTextareaStyles) _dom.addStyle(querySel(`#${cell.id} textarea`), spec.cellsTextareaStyles[cell.id] || []);
+
     if (i === 0) {
       cell.append(createDelStick('Delete row', deleteRow));
     }
