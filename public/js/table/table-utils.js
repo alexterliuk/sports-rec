@@ -243,8 +243,16 @@ function collectTableDataAndSave(btn, { tableId }) {
   const tableTitle = querySel(`#${tableId.slice(0, -5)} .table-title`).textContent;
   const hyphenId = tableElem.dataset.hyphenId;
   const classNames = (tableElem.classList.value && tableElem.classList.value.split(' ')) || [];
-  const theadRow = collectRowsData(tableElem.children[0]);
-  const tbodyRows = collectRowsData(tableElem.children[1]);
+
+  let theadRow, tbodyRows;
+  try {
+    theadRow = collectRowsData(tableElem.children[0]);
+    tbodyRows = collectRowsData(tableElem.children[1]);
+
+  } catch (error) {
+    notify(tableId, error.message, 'error', 3000);
+    return;
+  }
 
   // table comprises data used for creating <table> and its contents
   const table = tables.get(hyphenId);
@@ -283,18 +291,23 @@ function collectTableDataAndSave(btn, { tableId }) {
 function collectRowsData(tableChild) {
   const tbodyRows = [];
 
-  for (const row of tableChild.children) {
-    if (tableChild.tagName === 'THEAD') return collectCellsData(row);
+  try {
+    for (const row of tableChild.children) {
+      if (tableChild.tagName === 'THEAD') return collectCellsData(row);
 
-    if (tableChild.tagName === 'TBODY') {
-      tbodyRows.push({
-        id: row.id,
-        cells: collectCellsData(row),
-      });
+      if (tableChild.tagName === 'TBODY') {
+        tbodyRows.push({
+          id: row.id,
+          cells: collectCellsData(row),
+        });
+      }
     }
-  }
 
-  return tbodyRows;
+    return tbodyRows;
+
+  } catch (error) {
+    throw error;
+  }
 }
 
 /**
@@ -306,8 +319,16 @@ function collectCellsData(row) {
   const data = [];
   if (!row.children.length) return [];
 
+  const tablePart = row.rowIndex ? 'tbody' : 'thead';
+
   for (const cell of row.children) {
     const { id } = cell;
+
+    if (!id) {
+      const info = `No id in cell ${cell.cellIndex} of ${tablePart} row${tablePart === 'thead' ? '' : ' ' + row.rowIndex}.`;
+      throw new Error(info);
+    }
+
     const classNames = (cell.classList.value && cell.classList.value.split(' ')) || [];
     const textarea = querySel(`#${cell.id} textarea`);
     const textareaValue = textarea.value;
