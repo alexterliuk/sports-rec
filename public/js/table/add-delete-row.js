@@ -11,6 +11,8 @@ function addRow(btn, spec, dom) {
     return;
   }
 
+  const _dom = dom || getBuildDOMLibrary();
+
   const theadRow = querySel(`#${tableId} thead tr`);
   if (!theadRow.children.length) return;
 
@@ -27,6 +29,8 @@ function addRow(btn, spec, dom) {
     const text = (textValues[row.rowIndex] || [])[row.children.length];
 
     const cell = createCell(row, cellId, text);
+
+    if (spec.cellsClassNames) _dom.addClass(cell, spec.cellsClassNames[cell.id] || []);
 
     if (i === 0) {
       cell.append(createDelStick('Delete row', deleteRow));

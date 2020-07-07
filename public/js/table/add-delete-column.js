@@ -10,6 +10,8 @@ function addColumn(btn, spec, dom) {
     return;
   }
 
+  const _dom = dom || getBuildDOMLibrary();
+
   const tablePanel = pickElem(spec.tableId).parentElement;
   const hyphenId = pickElem(spec.tableId).dataset.hyphenId;
   const theadRow = querySel(`#${spec.tableId} thead tr`);
@@ -44,7 +46,7 @@ function addColumn(btn, spec, dom) {
     th.append(createSortingButton('Sort column', sortColumn));
   }
 
-  (dom || getBuildDOMLibrary()).hangOnElem(th, currentTable);
+  _dom.hangOnElem(th, currentTable);
   theadRow.append(th);
 
   if (spec.columnsNames && Array.isArray(spec.columnsNames)) {
@@ -56,7 +58,7 @@ function addColumn(btn, spec, dom) {
     const rowsQty = rowsQtySpec && rowsQtySpec.length || tables.getConfigItem('rowsQty');
 
     for (let i = 0; i < rowsQty; ++i) {
-      addRow(null, spec, getBuildDOMLibrary());
+      addRow(null, spec, _dom);
     }
 
   } else { // [null].concat... - because at 0 index (row.rowIndex) is thead tr (see also addRow)
@@ -66,7 +68,9 @@ function addColumn(btn, spec, dom) {
       const cellId = getStoredCellIdOrMakeDefault(spec.cellsIds, row, row.children.length, hyphenId);
       const text = (textValues[row.rowIndex] || [])[row.children.length];
 
-      createCell(row, cellId, text);
+      const cell = createCell(row, cellId, text);
+
+      if (spec.cellsClassNames) _dom.addClass(cell, spec.cellsClassNames[cell.id] || []);
     }
   }
 
