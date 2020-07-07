@@ -130,7 +130,14 @@ function getBuildDOMLibrary(id, options) {
     },
 
     addStyle(elem, styleData) {
-      styleData.forEach(entry => { elem.style[entry[0]] = entry[1]; });
+      for (const st of styleData) {
+        if (Array.isArray(st)) {
+          elem.style[st[0]] = st[1];
+
+        } else if (typeof st === 'object' && st.name && st.value) {
+          elem.style[st.name] = st.value;
+        }
+      }
     },
 
     addRole(elem, roleName) {
