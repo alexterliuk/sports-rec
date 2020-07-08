@@ -510,7 +510,8 @@ function notify(tableId, message, type, fadeAfter) {
   _.n.notify.append(_.n.text, _.n.btnCross);
   _.n.notifyWrapper.append(_.n.notify);
 
-  pickElem(tableId).parentElement.append(_.n.notifyWrapper);
+  // .panels-block
+  pickElem(tableId).parentElement.parentElement.append(_.n.notifyWrapper);
 
   setTimeout(() => {
     if (_.n) {
