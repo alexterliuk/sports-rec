@@ -487,37 +487,43 @@ function areObjectsEqualByKeys(keys, ...objs) {
  * @param {number} fadeAfter
  */
 function notify(tableId, message, type, fadeAfter) {
-  const notifyWrapper = document.createElement('div');
-  notifyWrapper.classList.add('notify-wrapper');
+  const _getElem = tagName => document.createElement(tagName);
+  const _ = { n: {} };
 
-  const notify = document.createElement('div');
-  notify.classList.add('notify', type);
+  _.n.notifyWrapper = _getElem('div');
+  _.n.notifyWrapper.classList.add('notify-wrapper');
 
-  const text = document.createElement('span');
-  text.textContent = message;
+  _.n.notify = _getElem('div');
+  _.n.notify.classList.add('notify', type);
 
-  const btnCross = document.createElement('span');
-  btnCross.textContent = 'x';
-  btnCross.classList.add('btn-cross');
-  btnCross.addEventListener('click', event => {
-    event.target.parentElement.style.display = 'none';
+  _.n.text = _getElem('span');
+  _.n.text.textContent = message;
+
+  _.n.btnCross = _getElem('span');
+  _.n.btnCross.textContent = 'x';
+  _.n.btnCross.classList.add('btn-cross');
+  _.n.btnCross.addEventListener('click', () => {
+    _.n.notifyWrapper.remove();
+    delete _.n;
   });
 
-  notify.append(text);
-  notify.append(btnCross);
-  notifyWrapper.append(notify);
-  pickElem(tableId).parentElement.append(notifyWrapper);
+  _.n.notify.append(_.n.text, _.n.btnCross);
+  _.n.notifyWrapper.append(_.n.notify);
+
+  pickElem(tableId).parentElement.append(_.n.notifyWrapper);
 
   setTimeout(() => {
-    notify.style.backgroundColor = 'transparent';
-    notify.style.borderColor = 'transparent';
-    text.style.color = 'transparent';
-    btnCross.style.backgroundColor = 'transparent';
-    btnCross.style.color = 'transparent';
+    if (_.n) {
+      _.n.notify.style.backgroundColor = 'transparent';
+      _.n.notify.style.borderColor = 'transparent';
+      _.n.text.style.color = 'transparent';
+      _.n.btnCross.style.backgroundColor = 'transparent';
+      _.n.btnCross.style.color = 'transparent';
 
-    setTimeout(() => {
-      notifyWrapper.remove();
-    }, 1000);
-
+      setTimeout(() => {
+        _.n.notifyWrapper.remove();
+        delete _.n;
+      }, 1000);
+    }
   }, fadeAfter);
 }
