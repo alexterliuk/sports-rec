@@ -28,14 +28,21 @@ function addColumn(btn, spec, dom) {
   addTextareaAndHider(th);
 
   const currentTable = tables.get(hyphenId);
-  currentTable.columnsIds = (currentTable.columnsIds || []).concat(colId);
 
   Object.keys(spec).forEach(key => {
-    if (!currentTable.hasOwnProperty(key)) {
-      if (key !== 'columnsIds') {
-        currentTable[key] = spec[key];
-      }
+    const specItem = {};
+
+    // when creating first column collect table building specification
+    if (key !== 'columnsIds' && key !== 'eventType' && !currentTable[key]) {
+      specItem[key] = spec[key];
     }
+
+    // when adding each new column add new colId
+    if (key === 'columnsIds') {
+      specItem[key] = (currentTable.columnsIds || []).concat(colId);
+    }
+
+    if (specItem[key]) tables.addToTable(hyphenId, specItem, true);
   });
 
   th.append(createEditMask());
