@@ -257,12 +257,10 @@ function collectTableDataAndSave(btn, { tableId }) {
   }
 
   // table comprises data used for creating <table> and its contents
-  const table = tables.get(hyphenId);
+  const table = shownTables.get(hyphenId);
 
   // _table has actual representation of table data before saving
   const _table = { tableTitle, hyphenId, tableId, classNames, theadRow, tbodyRows };
-
-  tables.addToTable(hyphenId, { _table }, true);
 
   if (!_table.classNames.find(name => name === 'pristine')) {
     removeEmptyColumns(_table);

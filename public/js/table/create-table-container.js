@@ -4,7 +4,7 @@
  */
 function createTableContainer(tableData) {
   // Do not create a table which already exists on page.
-  if (tableData && tables.get(tableData.hyphenId)) return;
+  if (tableData && shownTables.get(tableData.hyphenId)) return;
 
   const containerId = (() => {
     let mtbNum = 1;

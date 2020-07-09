@@ -14,11 +14,11 @@ const funcLib = {
 };
 
 /**
- * Collector of tables of current user.
+ * Collector of current user tables shown on page.
  * Each table represents data used to create table and its contents.
  * Each table is accessible by hyphenId (id ending which is unique for each table).
  */
-const tables = (function() {
+const shownTables = (function() {
   const _tables = {};
 
   /**
@@ -327,7 +327,7 @@ function getBuildDOMLibrary(id, options) {
       element.dataset.hyphenId = options.hyphenId || lib.createHyphenId();
       lib.root.hyphenId = element.dataset.hyphenId;
       lib.root.tableTitle = querySel(`#${elementId.slice(0, -5)} .table-title`).textContent;
-      tables.add(lib.root.hyphenId, lib);
+      shownTables.add(lib.root.hyphenId, lib);
     }
   }
 

@@ -27,7 +27,7 @@ function addColumn(btn, spec, dom) {
 
   addTextareaAndHider(th);
 
-  const currentTable = tables.get(hyphenId);
+  const currentTable = shownTables.get(hyphenId);
 
   Object.keys(spec).forEach(key => {
     const specItem = {};
@@ -42,7 +42,7 @@ function addColumn(btn, spec, dom) {
       specItem[key] = (currentTable.columnsIds || []).concat(colId);
     }
 
-    if (specItem[key]) tables.addToTable(hyphenId, specItem, true);
+    if (specItem[key]) shownTables.addToTable(hyphenId, specItem, true);
   });
 
   th.append(createEditMask());
