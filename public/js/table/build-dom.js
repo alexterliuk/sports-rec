@@ -377,7 +377,6 @@ function buildDOM(data) {
 
       if (data.tagName === 'table') {
         const table = dom.root.element;
-        tables.addToTable(hyphenId, { tableOuterHTML: table.outerHTML }, true);
         watch('pristine', table);
 
         dom.root.theadRow = collectRowsData(table.children[0]);
