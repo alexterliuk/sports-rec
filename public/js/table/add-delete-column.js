@@ -62,7 +62,7 @@ function addColumn(btn, spec, dom) {
 
   if (theadRow.children.length === 1) {
     const rowsQtySpec = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues;
-    const rowsQty = rowsQtySpec && rowsQtySpec.length || tables.getConfigItem('rowsQty');
+    const rowsQty = rowsQtySpec && rowsQtySpec.length || tablesConfig.getConfigItem('rowsQty');
 
     for (let i = 0; i < rowsQty; ++i) {
       addRow(null, spec, _dom);

@@ -23,7 +23,7 @@ function createTable({ parentSelector, contId, colsQty }, tableData) {
       builder: {
         funcName: 'addColumn',
         funcArgs: [ makeTableSpecs() ],
-        callsQty: colsQty || tables.getConfigItem('colsQty'),
+        callsQty: colsQty || tablesConfig.getConfigItem('colsQty'),
       },
     },
   ];

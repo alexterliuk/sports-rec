@@ -61,8 +61,8 @@ function createTableContainer(tableData) {
   buildDOM(params);
 
   // rowsQty config spec is used in addColumn in the beginning of new table building
-  if (!tables.getConfigItem('rowsQty')) tables.addToConfig({ rowsQty: 3 });
-  if (!tables.getConfigItem('colsQty')) tables.addToConfig({ colsQty: 3 });
+  if (!tablesConfig.getConfigItem('rowsQty')) tablesConfig.addToConfig({ rowsQty: 3 });
+  if (!tablesConfig.getConfigItem('colsQty')) tablesConfig.addToConfig({ colsQty: 3 });
 
   const tableInitParams = {
     parentSelector: `#${params.contId} .table-panel`,
@@ -74,7 +74,7 @@ function createTableContainer(tableData) {
     createTable(tableInitParams, tableData);
 
   } else {
-    tableInitParams.colsQty = tables.getConfigItem('colsQty');
+    tableInitParams.colsQty = tablesConfig.getConfigItem('colsQty');
     createTableTemplate(tableInitParams);
   }
 }
