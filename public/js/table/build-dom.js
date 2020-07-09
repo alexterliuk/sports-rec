@@ -14,50 +14,116 @@ const funcLib = {
 };
 
 /**
- * Collector of tables.
+ * Collector of tables of current user.
  * Each table represents data used to create table and its contents.
  * Each table is accessible by hyphenId (id ending which is unique for each table).
  */
 const tables = (function() {
+  // ======= Collector of building tables configuration
   const _config = {};
+
   const addToConfig = (...items) => {
     items.forEach(item => {
       const name = Object.keys(item)[0];
       _config[name] = item[name];
     });
   };
+
   const getConfigItem = name => _config[name];
+
   const getAllConfig = () => _config;
 
+
+
+  // ======= Collector of tables
   const _tables = {};
+
+  /**
+   * Add new table
+   */
   const add = (hyphenId, buildingDOMLibraryAndTable) => {
     if (!_tables.hasOwnProperty(hyphenId) && typeof (buildingDOMLibraryAndTable || {}).root === 'object') {
       _tables[hyphenId] = buildingDOMLibraryAndTable.root;
     }
   };
+
+  /**
+   * Add (or update) specification to table
+   */
   const addToTable = (hyphenId, spec, override) => {
-    const table = get(hyphenId);
+    const table = _tables[hyphenId];
     const specName = Object.keys(spec)[0];
 
-    if (table) {
+    if (table && specName) {
       if (override) {
         table[specName] = spec[specName];
       } else if (!table.hasOwnProperty(specName)) {
         table[specName] = spec[specName];
       }
     }
+
+    _tables[hyphenId] = createNewObject(_tables[hyphenId]);
   };
-  const get = hyphenId => _tables[hyphenId];
-  const getAll = () => _tables;
+
+  /**
+   * Get specifications of a table
+   */
+  const get = hyphenId => createNewObject(_tables[hyphenId]);
+
+  /**
+   * Get specifications of all tables
+   */
+  const getAll = () => {
+    const copiedTables = {};
+
+    Object.keys(_tables).forEach(hyphenId => {
+      copiedTables[hyphenId] = createNewObject(_tables[hyphenId]);
+    });
+
+    return copiedTables;
+  };
+
+  /**
+   * Remove table from page
+   */
   const remove = hyphenId => {
-    const table = get(hyphenId);
+    const table = _tables[hyphenId];
     if (table) {
       pickElem(`${table.elementId.slice(0, -5)}`).remove();
       delete _tables[hyphenId];
     }
   };
 
-  return { add, addToTable, get, getAll, remove, addToConfig, getConfigItem, getAllConfig };
+  /**
+   * Copy object
+   */
+  function createNewObject(obj) {
+    if (obj) {
+      const newObj = {};
+
+      Object.keys(obj).forEach(key => {
+        if (key !== 'element' && key !== 'parent') {
+          newObj[key] = JSON.parse(JSON.stringify(obj[key]));
+
+        } else {
+          newObj[key] = obj[key];
+        }
+      });
+
+      return newObj;
+    }
+  }
+
+  return {
+    add,
+    addToTable,
+    get,
+    getAll,
+    remove,
+    addToConfig,
+    getConfigItem,
+    getAllConfig,
+  };
 })();
 
 /**
