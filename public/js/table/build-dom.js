@@ -361,6 +361,8 @@ function getBuildDOMLibrary(id, options) {
       element.dataset.hyphenId = options.hyphenId || lib.createHyphenId();
       lib.root.hyphenId = element.dataset.hyphenId;
       lib.root.tableTitle = querySel(`#${elementId.slice(0, -5)} .table-title`).textContent;
+      lib.root.classNames = options.class || [];
+
       shownTables.add(lib.root.hyphenId, lib);
     }
   }

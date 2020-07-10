@@ -11,6 +11,7 @@ function createTable({ parentSelector, contId, colsQty }, tableData) {
     contId,
     tagName: 'table',
     hyphenId: tableData.hyphenId,
+    class: tableData.classNames,
   };
 
   const tableId = params.contId;
