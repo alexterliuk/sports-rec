@@ -49,17 +49,11 @@ function $emit(response, emitter, emitType) {
 
 // Check whether current session is under logged in user
 (async () => {
-  const response = await fetch('http:/is-logged-in', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const user = await isLoggedIn();
 
-  if (response.status === 200) {
-    const { name } = await response.json();
-    welcomeMessage.textContent = `Welcome, ${name}.`;
-    mainTableBlock.dataset.username = name;
+  if ((user || {}).name) {
+    welcomeMessage.textContent = `Welcome, ${user.name}.`;
+    mainTableBlock.dataset.username = user.name;
 
     setTimeout(() => {
       createDashboard({ tablesQty: 10 });
