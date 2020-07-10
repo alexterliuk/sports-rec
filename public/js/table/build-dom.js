@@ -112,26 +112,6 @@ const shownTables = (function() {
 })();
 
 /**
- * Collector of building tables configuration
- */
-const tablesConfig = (function() {
-  const _config = {};
-
-  const addToConfig = (...items) => {
-    items.forEach(item => {
-      const name = Object.keys(item)[0];
-      _config[name] = item[name];
-    });
-  };
-
-  const getConfigItem = name => _config[name];
-
-  const getAllConfig = () => _config;
-
-  return { addToConfig, getConfigItem, getAllConfig };
-})();
-
-/**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
  * @param {object} options:
