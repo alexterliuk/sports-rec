@@ -81,6 +81,14 @@ const shownTables = (function() {
   };
 
   /**
+   * Remove all tables from page
+   */
+  const removeAll = () => {
+    const hyphenIds = Object.keys(_tables);
+    for (const id of hyphenIds) remove(id);
+  };
+
+  /**
    * Copy object
    */
   function createNewObject(obj) {
@@ -100,7 +108,7 @@ const shownTables = (function() {
     }
   }
 
-  return { add, addToTable, get, getAll, remove };
+  return { add, addToTable, get, getAll, remove, removeAll };
 })();
 
 /**
