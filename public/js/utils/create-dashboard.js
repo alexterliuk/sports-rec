@@ -33,15 +33,7 @@ async function createDashboard({ tablesQty, skip } = {}) {
 
   const tables = await getUserTables(null, { limit: tablesQty });
   if (tables.length) {
-    const user = {
-      name: mainTableBlock.dataset.username || (await isLoggedIn()).name,
-    };
-
-    // add hyphen ids of all saved tables of current user (to know later if saving table is new or existing)
-    if (user.name) {
-      const hyphenIds = await getUserTablesHyphenIds(user.name);
-      savedTablesHyphenIds.add(hyphenIds);
-    }
+    savedTablesHyphenIds.add();
 
     const parentSelector = '#dashboardBlock .buttons-block';
 

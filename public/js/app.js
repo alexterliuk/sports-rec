@@ -19,6 +19,7 @@ function $listenToServerResponses(response, emitter, emitType) {
       this._showSignInPanel();
       pickElem('dashboardBlock').remove();
       shownTables.removeAll();
+      savedTablesHyphenIds.remove();
 
       let stop = 0;
       while (mainTableBlock.children.length) {
