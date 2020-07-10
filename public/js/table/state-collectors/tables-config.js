@@ -1,5 +1,5 @@
 /**
- * Collector of building tables configuration
+ * Collector of building tables configuration.
  */
 const tablesConfig = (function() {
   const _config = {};
