@@ -11,12 +11,14 @@ function $listenToServerResponses(response, emitter, emitType) {
       createDashboard({ tablesQty: 10 });
     },
     'log-out'() {
+      mainTableBlock.dataset.username = '';
       signInUsername.value = '';
       signInPassword.value = '';
       signUpUsername.value = '';
       signUpPassword.value = '';
       this._showSignInPanel();
       pickElem('dashboardBlock').remove();
+      shownTables.removeAll();
 
       let stop = 0;
       while (mainTableBlock.children.length) {
