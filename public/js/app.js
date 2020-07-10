@@ -21,7 +21,6 @@ function $listenToServerResponses(response, emitter, emitType) {
       let stop = 0;
       while (mainTableBlock.children.length) {
         mainTableBlock.removeChild(mainTableBlock.children[0]);
-        stop++;
         if (++stop === 1000) break;
       }
     },
