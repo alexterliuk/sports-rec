@@ -239,7 +239,7 @@ function changeColumnsWidth(btn, { tableId, type }) {
  * @param {HTMLButtonElement} btn
  * @param {string} tableId
  */
-function collectTableDataAndSave(btn, { tableId }) {
+async function collectTableDataAndSave(btn, { tableId }) {
   const tableElem = pickElem(tableId);
   const tableTitle = querySel(`#${tableId.slice(0, -5)} .table-title`).textContent;
   const hyphenId = tableElem.dataset.hyphenId;
@@ -256,11 +256,18 @@ function collectTableDataAndSave(btn, { tableId }) {
     return;
   }
 
-  // table comprises data used for creating <table> and its contents
-  const table = shownTables.get(hyphenId);
-
   // _table has actual representation of table data before saving
   const _table = { tableTitle, hyphenId, tableId, classNames, theadRow, tbodyRows };
+
+  // table is new
+  if (!savedTablesHyphenIds.get().includes(hyphenId)) {
+    const saved = await saveNewTable(btn, _table);
+    if (saved) savedTablesHyphenIds.replace();
+    return;
+  }
+
+  // table comprises data used for creating <table> and its contents
+  const table = shownTables.get(hyphenId); console.log('table:', table);
 
   if (!_table.classNames.find(name => name === 'pristine')) {
     removeEmptyColumns(_table);

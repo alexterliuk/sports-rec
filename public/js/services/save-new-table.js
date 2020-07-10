@@ -26,6 +26,7 @@ async function saveNewTable(btn, tableData) {
   if (response.status === 200) {
     setWaitingState(false, tableData);
     notify(tableData.tableId, 'Table successfully saved.', 'success', 3000);
+    return true;
   }
 
   if (response.status === 400) {
