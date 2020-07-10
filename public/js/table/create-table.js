@@ -31,6 +31,10 @@ function createTable({ parentSelector, contId, colsQty }, tableData) {
 
   buildDOM(params);
 
+  const { hyphenId, theadRow, tbodyRows } = tableData;
+  shownTables.addToTable(hyphenId, { theadRow });
+  shownTables.addToTable(hyphenId, { tbodyRows });
+
   /**
    * Make funcArgs for addColumn
    */
