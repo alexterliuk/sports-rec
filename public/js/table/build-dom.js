@@ -132,6 +132,25 @@ const tablesConfig = (function() {
 })();
 
 /**
+ * Collector of hyphen ids from all saved tables of a user.
+ */
+const savedTablesHyphenIds = (function() {
+  let _savedTablesHyphenIds;
+
+  const add = hyphenIds => {
+    if (!_savedTablesHyphenIds) {
+      if (Array.isArray(hyphenIds) && hyphenIds.length && !hyphenIds.some(id => typeof id !== 'string')) {
+        _savedTablesHyphenIds = hyphenIds;
+      }
+    }
+  };
+
+  const get = () => _savedTablesHyphenIds && [..._savedTablesHyphenIds];
+
+  return { add, get };
+})();
+
+/**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
  * @param {object} options:
