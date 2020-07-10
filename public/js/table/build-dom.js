@@ -71,8 +71,11 @@ const shownTables = (function() {
    */
   const remove = hyphenId => {
     const table = _tables[hyphenId];
+
     if (table) {
-      pickElem(`${table.elementId.slice(0, -5)}`).remove();
+      const shownTable = pickElem(`${table.elementId.slice(0, -5)}`);
+      if (shownTable) shownTable.remove();
+
       delete _tables[hyphenId];
     }
   };
