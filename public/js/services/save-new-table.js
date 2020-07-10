@@ -1,9 +1,9 @@
 /**
- * Save table to server.
+ * Save new table to server.
  * @param {HTMLButtonElement} btn
  * @param {object} tableData
  */
-async function saveTable(btn, tableData) {
+async function saveNewTable(btn, tableData) {
   // exclude tableId and convert data to JSON
   const tableDataJSON = (() => {
     const tData = {};
@@ -44,7 +44,7 @@ async function saveTable(btn, tableData) {
     if (username) {
       const hyphenIds = await getUserTablesHyphenIds(username);
       tableData.hyphenId = getBuildDOMLibrary().createHyphenId(hyphenIds);
-      saveTable(btn, tableData);
+      saveNewTable(btn, tableData);
 
     } else {
       setWaitingState(false, tableData);
