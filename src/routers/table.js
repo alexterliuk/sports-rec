@@ -4,6 +4,7 @@ const User = require('../models/user');
 const auth = require('../middleware/auth');
 const Table = require('../models/table');
 const validateTableData = require('../utils/validate-table-data');
+const updateIfChanged = require('../utils/update-if-changed');
 
 // Create table
 router.post('/tables/new', auth, async (req, res) => {
@@ -94,6 +95,25 @@ router.get('/tables/:id', auth, async (req, res) => {
     // Cast to ObjectId failed because of wrong string (must be 12 bytes | 24 hex)
     res.status(400).send({ error: 'Invalid table id.' });
   }
+});
+
+// Update table
+router.patch('/tables', auth, async (req, res) => {
+  const tablesWithSameHyphenId = await Table.find({ hyphenId: req.body.hyphenId });
+  const tableOfCurrentUser = tablesWithSameHyphenId.find(table => table.owner.toString() === req.session.userId);
+
+  if (!tableOfCurrentUser) return res.status(404).send();
+
+  try {
+    validateTableData(req.body);
+    updateIfChanged(tableOfCurrentUser, req.body);
+    await tableOfCurrentUser.save();
+    res.send();
+
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+
 });
 
 module.exports = router;
