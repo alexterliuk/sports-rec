@@ -3,7 +3,7 @@ const router = new express.Router();
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const Table = require('../models/table');
-const validateAndCreateTable = require('../utils/validate-and-create-table');
+const validateTableData = require('../utils/validate-table-data');
 
 // Create table
 router.post('/tables/new', auth, async (req, res) => {
@@ -18,7 +18,8 @@ router.post('/tables/new', auth, async (req, res) => {
   }
 
   try {
-    const table = validateAndCreateTable(req.body);
+    validateTableData(req.body);
+    const table = new Table(req.body);
     await table.save();
     res.send({ id: table._id });
 
