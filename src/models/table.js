@@ -2,8 +2,25 @@ const mongoose = require('mongoose');
 const validateIdEndingsInTable = require('../utils/validate-id-endings-in-table');
 const { validateHyphenId } = require('../utils/check-string');
 
-const stringTypeReq = { type: String, required: true };
-const arrayTypeReq = { type: Array, required: true };
+const stringTypeReq = {
+  type: String,
+  required: true,
+};
+
+const styleType = [{
+  name: String,
+  value: String,
+  _id: false,
+}];
+
+const cellType = [{
+  id: stringTypeReq,
+  _id: false,
+  classNames: [ String ],
+  styles: styleType,
+  textareaStyles: styleType,
+  textareaValue: String,
+}];
 
 const tableSchema = new mongoose.Schema({
   tableTitle: {
@@ -12,23 +29,12 @@ const tableSchema = new mongoose.Schema({
     trim: true,
   },
   hyphenId: stringTypeReq,
-  classNames: arrayTypeReq,
-  theadRow: [{
-    id: stringTypeReq,
-    classNames: arrayTypeReq,
-    styles: arrayTypeReq,
-    textareaStyles: arrayTypeReq,
-    textareaValue: String,
-  }],
+  classNames: [ String ],
+  theadRow: cellType,
   tbodyRows: [{
     id: stringTypeReq,
-    cells: [{
-      id: stringTypeReq,
-      classNames: arrayTypeReq,
-      styles: arrayTypeReq,
-      textareaStyles: arrayTypeReq,
-      textareaValue: String,
-    }],
+    _id: false,
+    cells: cellType,
   }],
   owner: {
     type: mongoose.Schema.Types.ObjectId,
