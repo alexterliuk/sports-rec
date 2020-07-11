@@ -235,7 +235,7 @@ function changeColumnsWidth(btn, { tableId, type }) {
 }
 
 /**
- * Collect table data and invoke saveTable function.
+ * Collect table data and invoke saveNewTable or updateTable function.
  * @param {HTMLButtonElement} btn
  * @param {string} tableId
  */
@@ -256,7 +256,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
     return;
   }
 
-  // _table has actual representation of table data before saving
+  // _table comprises data collected from <table> just now before saving
   const _table = { tableTitle, hyphenId, tableId, classNames, theadRow, tbodyRows };
 
   // table is new

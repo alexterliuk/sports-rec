@@ -1,5 +1,5 @@
 /**
- * Collector of current user tables shown on page.
+ * Collector of current user tables shown on page (both saved and new not yet saved).
  * Each table represents data used to create table and its contents.
  * Each table is accessible by hyphenId (id ending which is unique for each table).
  */
