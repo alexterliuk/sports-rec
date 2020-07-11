@@ -261,13 +261,16 @@ async function collectTableDataAndSave(btn, { tableId }) {
 
   // table is new
   if (!savedTablesHyphenIds.get().includes(hyphenId)) {
+    shownTables.addToTable(hyphenId, { theadRow });
+    shownTables.addToTable(hyphenId, { tbodyRows });
+
     const saved = await saveNewTable(btn, _table);
     if (saved) savedTablesHyphenIds.replace();
     return;
   }
 
   // table comprises data used for creating <table> and its contents
-  const table = shownTables.get(hyphenId); console.log('table:', table);
+  const table = shownTables.get(hyphenId);
 
   if (!_table.classNames.find(name => name === 'pristine')) {
     removeEmptyColumns(_table);
