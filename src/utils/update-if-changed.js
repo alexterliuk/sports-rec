@@ -31,7 +31,9 @@ function updateIfChanged(existingTable, reqBody) {
   function _modifyArr(a, b, arrKey) {
     // iterate over array of new table (b), because it might contain more values, than array of existing table (a)
     b[arrKey].forEach((val, idx) => {
-      _modify(a[arrKey], b[arrKey], idx);
+      if (!a[arrKey].includes(b[arrKey][idx])) {
+        a[arrKey].push(b[arrKey][idx]);
+      }
     });
   }
 
