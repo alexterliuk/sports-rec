@@ -406,9 +406,9 @@ function parseStyleAttr(htmlStr) {
   if (!stylesRawStr) return [];
 
   const styles = [];
-  const stylesOnlyStr = stylesRawStr.slice(stylesRawStr.search(/\w/), stylesRawStr.search('"')).trim();
+  const stylesOnlyStr = stylesRawStr.slice(stylesRawStr.search(/\/\*|\w/), stylesRawStr.search('"')).trim();
 
-  const stylesNotParsed = stylesOnlyStr.split(';');
+  const stylesNotParsed = stylesOnlyStr.split(/;\*\/|; \*\/|;/);
 
   for (const style of stylesNotParsed) {
     if (style && !/\/\*\w|\/\* /g.test(style)) { // not commented style
