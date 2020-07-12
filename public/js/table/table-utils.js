@@ -432,7 +432,7 @@ function parseStyleAttr(htmlStr) {
 }
 
 /**
- * Check if objects' values are same by calling areObjectsEqualByKeys.
+ * Check if objects' values are same by calling areObjectsEqualByKeysValues.
  * @param {object} oldData
  * @param {object} currData
  * @param {array} keys - strings
@@ -459,7 +459,7 @@ function detectChanges(oldData, currData, keys, arrKey) {
       let idx = 0;
 
       for (const item of oldD) {
-        const _equal = areObjectsEqualByKeys(keys, item, currD[idx]);
+        const _equal = areObjectsEqualByKeysValues(keys, item, currD[idx]);
         if (!_equal) return false;
         idx++;
       }
@@ -474,7 +474,7 @@ function detectChanges(oldData, currData, keys, arrKey) {
  * @param {array} keys - what values to look at for comparing
  * @param {objects} objs
  */
-function areObjectsEqualByKeys(keys, ...objs) {
+function areObjectsEqualByKeysValues(keys, ...objs) {
   for (const key of keys) {
     if (typeof key !== 'string') return;
 
