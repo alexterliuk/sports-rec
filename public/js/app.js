@@ -58,7 +58,7 @@ function $emit(response, emitter, emitType) {
 
     setTimeout(() => {
       createDashboard({ tablesQty: 10 });
-    }, 50);
+    }, 150);
 
     setTimeout(() => {
       $emit(undefined, undefined, '_showLogInPanel');
