@@ -272,25 +272,45 @@ async function collectTableDataAndSave(btn, { tableId }) {
   // table comprises data used for creating <table> and its contents
   const table = shownTables.get(hyphenId);
 
-  if (!_table.classNames.find(name => name === 'pristine')) {
-    removeEmptyColumns(_table);
-    saveTable(btn, _table);
+  // update shownTables if table has been updated
+  // (only parts needed for future comparing of saved - not saved data in new updating cycle)
+  const tableUpdated = await updateTableIfChanged();
+  if (tableUpdated) {
+    shownTables.addToTable(hyphenId, { tableTitle }, true);
+    shownTables.addToTable(hyphenId, { theadRow }, true);
+    shownTables.addToTable(hyphenId, { tbodyRows }, true);
+  }
 
-  } else if (table.tableTitle !== tableTitle) {
-    removeEmptyColumns(_table);
-    _table.classNames = _table.classNames.filter(name => name !== 'pristine');
-    saveTable(btn, _table);
+  /**
+   * Invoke updateTable, if table or its title has been changed.
+   */
+  async function updateTableIfChanged() {
+    let saved;
 
-  // if text was changed by code (without click on textarea), .pristine class remains, so we need check for changes
-  } else {
-    const columnsNamesNotChanged = detectChanges(table.theadRow, theadRow, ['textareaValue']);
-    const cellsTextNotChanged = detectChanges(table.tbodyRows, tbodyRows, ['textareaValue'], 'cells');
+    if (!_table.classNames.find(name => name === 'pristine')) {
+      removeEmptyColumns(_table);
+      saved = await updateTable(btn, _table);
+      if (saved) tableElem.classList.add('pristine');
 
-    if (columnsNamesNotChanged && cellsTextNotChanged) return;
+    } else if (table.tableTitle !== tableTitle) {
+      removeEmptyColumns(_table);
+      _table.classNames = _table.classNames.filter(name => name !== 'pristine');
+      saved = await updateTable(btn, _table);
 
-    removeEmptyColumns(_table);
-    _table.classNames = _table.classNames.filter(name => name !== 'pristine');
-    saveTable(btn, _table);
+      // if text was changed by code (without click on textarea), .pristine class remains, so we need check for changes
+    } else {
+      const columnsNamesNotChanged = detectChanges(table.theadRow, theadRow, ['textareaValue']);
+      const cellsTextNotChanged = detectChanges(table.tbodyRows, tbodyRows, ['textareaValue'], 'cells');
+
+      if (columnsNamesNotChanged && cellsTextNotChanged) return;
+
+      removeEmptyColumns(_table);
+      _table.classNames = _table.classNames.filter(name => name !== 'pristine');
+
+      saved = await updateTable(btn, _table);
+    }
+
+    if (saved) return true;
   }
 }
 
