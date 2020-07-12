@@ -263,6 +263,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
   if (!savedTablesHyphenIds.get().includes(hyphenId)) {
     shownTables.addToTable(hyphenId, { theadRow });
     shownTables.addToTable(hyphenId, { tbodyRows });
+    _table.classNames = _table.classNames.filter(name => name !== 'pristine');
 
     const saved = await saveNewTable(btn, _table);
     if (saved) savedTablesHyphenIds.replace();
