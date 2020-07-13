@@ -21,7 +21,7 @@ function addColumn(btn, spec, dom) {
   const currentColIndex = theadRow.children.length;
   const colIdSpec = Array.isArray(spec.columnsIds) && spec.columnsIds[currentColIndex];
   const colIdSpecWithHyphenIdEnding = typeof colIdSpec === 'string' && colIdSpec.slice(-4) === hyphenId && colIdSpec;
-  const colId = colIdSpecWithHyphenIdEnding || `${colIdSpec || 'col' + (currentColIndex + 1)}${hyphenId}`;
+  const colId = colIdSpecWithHyphenIdEnding || 'th' + createArbitraryString(6) + hyphenId;
 
   th.setAttribute('id', colId);
 

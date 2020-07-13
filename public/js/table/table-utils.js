@@ -383,7 +383,7 @@ function getStoredCellIdOrMakeDefault(storedCellsIds, row, index, hyphenId) {
   const cellsIds = Array.isArray(storedCellsIds) && storedCellsIds;
   const cellsIdsInRow = cellsIds && Array.isArray(cellsIds[row.rowIndex - 1]) && cellsIds[row.rowIndex - 1] || [];
 
-  return cellsIdsInRow[index] || `r${row.rowIndex}c${index}${hyphenId}`;
+  return cellsIdsInRow[index] || 'td' + createArbitraryString(6) + hyphenId;
 }
 
 /**

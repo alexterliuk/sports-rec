@@ -19,7 +19,7 @@ function addRow(btn, spec, dom) {
   const hyphenId = pickElem(tableId).dataset.hyphenId;
   const tbody = querySel(`#${tableId} tbody`);
   const row = tbody.insertRow();
-  row.setAttribute('id', Array.isArray(spec.rowsIds) && spec.rowsIds[tbody.children.length - 1] || `row${tbody.children.length}${hyphenId}`);
+  row.id = Array.isArray(spec.rowsIds) && spec.rowsIds[tbody.children.length - 1] || 'tr' + createArbitraryString(6) + hyphenId;
 
   // [null].concat... - because at 0 index (row.rowIndex) is thead tr (see also addColumn)
   const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues && [null].concat(spec.cellsTextValues);
