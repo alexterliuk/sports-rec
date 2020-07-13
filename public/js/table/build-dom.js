@@ -173,22 +173,13 @@ function getBuildDOMLibrary(id, options) {
     },
 
     createHyphenId(storedHyphenIds) {
-      const alphabet = (alph => alph + alph + alph + alph)('abcdefghijklmnopqrstuvwxyz');
-
       let hyphenIds = [];
       for (const table of querySelAll('* table')) {
         hyphenIds = hyphenIds.concat(table.dataset.hyphenId || [])
                              .concat(storedHyphenIds || []);
       }
 
-      const getRandomIndex = () => +`${('' + Math.random()).slice(-2)}`;
-      const makeHyphenId = () => {
-        let hyphenId = '-';
-        for (let i = 0; i < 3; i++) {
-          hyphenId += alphabet[getRandomIndex()];
-        }
-        return hyphenId;
-      };
+      const makeHyphenId = () => '-' + createArbitraryString(3).toLowerCase();
 
       let newHyphenId = makeHyphenId();
       let stop = 0;
