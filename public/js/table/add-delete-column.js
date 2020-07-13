@@ -72,7 +72,7 @@ function addColumn(btn, spec, dom) {
     const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues && [null].concat(spec.cellsTextValues);
 
     for (const row of tbody.children) {
-      const cellId = getStoredCellIdOrMakeDefault(spec.cellsIds, row, row.children.length, hyphenId);
+      const cellId = getStoredCellIdOrMakeNew(spec.cellsIds, row, row.children.length, hyphenId);
       const text = (textValues[row.rowIndex] || [])[row.children.length];
 
       const cell = createCell(row, cellId, text);

@@ -25,7 +25,7 @@ function addRow(btn, spec, dom) {
   const textValues = Array.isArray(spec.cellsTextValues) && spec.cellsTextValues && [null].concat(spec.cellsTextValues);
 
   for (let i = 0; i < (row.previousElementSibling || theadRow).children.length; i++) {
-    const cellId = getStoredCellIdOrMakeDefault(spec.cellsIds, row, i, hyphenId);
+    const cellId = getStoredCellIdOrMakeNew(spec.cellsIds, row, i, hyphenId);
     const text = (textValues[row.rowIndex] || [])[row.children.length];
 
     const cell = createCell(row, cellId, text);

@@ -379,7 +379,7 @@ function collectCellsData(row) {
  * @param {number} index
  * @param {string} hyphenId
  */
-function getStoredCellIdOrMakeDefault(storedCellsIds, row, index, hyphenId) {
+function getStoredCellIdOrMakeNew(storedCellsIds, row, index, hyphenId) {
   const cellsIds = Array.isArray(storedCellsIds) && storedCellsIds;
   const cellsIdsInRow = cellsIds && Array.isArray(cellsIds[row.rowIndex - 1]) && cellsIds[row.rowIndex - 1] || [];
 
