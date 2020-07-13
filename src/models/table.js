@@ -47,8 +47,15 @@ const tableSchema = new mongoose.Schema({
 
 // All hyphenId endings in table must be equal, non unique id is forbidden, table.dataset.hyphenId must be correct
 tableSchema.pre('save', function(next) {
-  if (!validateIdEndingsInTable(this)) {
-    throw new Error('Non unique id in table detected.');
+  const idsValidity = validateIdEndingsInTable(this);
+  if (!idsValidity.uniqueId) {
+    const rec = idsValidity;
+
+    const recCol = rec.columnId && `Non unique column id ${rec.columnId} at column ${rec.columnIndex} in table detected.`;
+    const recRow = rec.rowId && `Non unique row id ${rec.rowId} at row ${rec.rowIndex} in table detected.`;
+    const recCell = rec.cellId && `Non unique cell id ${rec.cellId} at cell ${rec.cellIndex} of row ${rec.rowIndex} in table detected.`;
+
+    throw new Error(recCol || recRow || recCell);
   }
 
   if (!validateHyphenId(this.hyphenId)) {

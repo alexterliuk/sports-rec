@@ -8,18 +8,41 @@ function validateIdEndingsInTable(preSavedTable) {
   const collectedIds = [];
 
   for (const col of preSavedTable.theadRow) {
-    if (!isUniqueId(col)) return false;
-  }
-
-  for (const row of preSavedTable.tbodyRows) {
-    if (!isUniqueId(row)) return false;
-
-    for (const cell of row.cells) {
-      if (!isUniqueId(cell)) return false;
+    if (!isUniqueId(col)) {
+      return {
+        columnId: col.id,
+        columnIndex: preSavedTable.theadRow.findIndex(el => el === col) + 1,
+        uniqueId: false,
+      };
     }
   }
 
-  return true;
+  for (const row of preSavedTable.tbodyRows) {
+    const rowIndex = preSavedTable.tbodyRows.findIndex(el => el === row) + 1;
+
+    if (!isUniqueId(row)) {
+      return {
+        rowId: row.id,
+        rowIndex,
+        uniqueId: false,
+      }
+    }
+
+    for (const cell of row.cells) {
+      if (!isUniqueId(cell)) {
+        return {
+          rowIndex,
+          cellId: cell.id,
+          cellIndex: row.cells.findIndex(el => el === cell) + 1,
+          uniqueId: false,
+        };
+      }
+    }
+  }
+
+  return {
+    uniqueId: true,
+  };
 
   // Validate id uniqueness, make sure id has proper hyphenId ending
   function isUniqueId(item) {
