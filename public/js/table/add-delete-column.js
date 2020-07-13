@@ -49,7 +49,7 @@ function addColumn(btn, spec, dom) {
   th.append(createEditButton());
   th.append(createDelStick('Delete column', deleteColumn));
 
-  if ((spec.onClick || {}).funcName === 'sortColumn') {
+  if ((spec.onClick || currentTable.onClick || {}).funcName === 'sortColumn') {
     th.append(createSortingButton('Sort column', sortColumn));
   }
 
