@@ -280,6 +280,8 @@ async function collectTableDataAndSave(btn, { tableId }) {
     shownTables.addToTable(hyphenId, { tableTitle }, true);
     shownTables.addToTable(hyphenId, { theadRow }, true);
     shownTables.addToTable(hyphenId, { tbodyRows }, true);
+    tableElem.classList.add('pristine');
+    watch('pristine', tableElem);
   }
 
   /**
@@ -291,7 +293,6 @@ async function collectTableDataAndSave(btn, { tableId }) {
     if (!_table.classNames.find(name => name === 'pristine')) {
       removeEmptyColumns(_table);
       saved = await updateTable(btn, _table);
-      if (saved) tableElem.classList.add('pristine');
 
     } else if (table.tableTitle !== tableTitle) {
       removeEmptyColumns(_table);
