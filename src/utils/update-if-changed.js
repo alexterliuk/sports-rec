@@ -11,23 +11,59 @@ function updateIfChanged(existingTable, reqBody) {
   modifyArr(existingTable, reqBody, 'classNames');
   compareRows(existingTable, reqBody, 'theadRow');
 
-  reqBody.tbodyRows.forEach((newRow, idx) => {
-    const existingRow = existingTable.tbodyRows[idx];
+  let idx = 0;
+  for (const existingRow of existingTable.tbodyRows) {
+    const newRow = reqBody.tbodyRows[idx];
+    if (!newRow) break;
 
     modify(existingRow, newRow, 'id');
     compareRows(existingRow, newRow, 'cells');
-  });
+    idx++;
+  }
 
-  // for each cell in rows invoke modify and modifyArr
+  // add or delete rows in tbody
+  addDeleteIfDifferentSize(existingTable, reqBody, 'tbodyRows');
+
+  // for each cell in rows invoke modify, modifyArr and addDeleteIfDifferentSize
   function compareRows(oldData, newData, arrKey) {
-    newData[arrKey].forEach((newCell, idx) => {
-      const existingCell = oldData[arrKey][idx];
+    let idx = 0;
+    for (const existingCell of oldData[arrKey]) {
+      const newCell = newData[arrKey][idx];
+      if (!newCell) break;
 
       cellKeys.forEach(key => { modify(existingCell, newCell, key); });
       cellKeysArr.forEach(key => { modifyArr(existingCell, newCell, key); });
-    });
+
+      idx++;
+    }
+
+    // add or delete cells in theadRow or tbodyRows' row
+    addDeleteIfDifferentSize(oldData, newData, arrKey);
   }
 
+  // modify array stored in db to the state of new array
+  function addDeleteIfDifferentSize(oldData, newData, arrKey) {
+    // add new rows or cells
+    if (newData[arrKey].length > oldData[arrKey].length) {
+      let idx = oldData[arrKey].length;
+      let stop = 0;
+      while (newData[arrKey][idx]) {
+        oldData[arrKey].push(newData[arrKey][idx]);
+        idx++;
+        if (++stop === 1000) break;
+      }
+
+      // delete rows or cells
+    } else if (newData[arrKey].length < oldData[arrKey].length) {
+      let stop = 1000;
+      while (oldData[arrKey].length !== newData[arrKey].length) {
+        oldData[arrKey].pop();
+        if (!--stop) break;
+      }
+    }
+  }
+
+  // compare a (data stored in db) and b, modify a to the state of b
   function modifyArr(a, b, arrKey) {
     const newValues = []; // classNames, styles or textareaStyles
 
