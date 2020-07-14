@@ -428,7 +428,7 @@ function removeEmptyColumns(table) {
   table.theadRow.forEach((column, idx) => {
     if (!column.textareaValue) {
       const columnCellsTexts = table.tbodyRows.map(row => row.cells[idx].textareaValue);
-      if (columnCellsTexts.every(val => !val)) {
+      if (columnCellsTexts.every(val => !val.length || /\s/.test(val))) {
         columnsWithoutText.push({ colIndex: idx });
       }
     }
