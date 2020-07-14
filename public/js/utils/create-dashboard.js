@@ -1,8 +1,8 @@
 /**
  * Create page section which serves as user dashboard.
- * Fetch 10 tables, show their titles and buttons 'Build table'.
+ * Fetch tables, show their titles and buttons 'Build table'.
  * On top of dashboard put button 'Build All Shown Tables'.
- * @param {number} tablesQty
+ * @param {number} tablesQty - how many tables to fetch
  * @param {number} skip
  */
 async function createDashboard({ tablesQty, skip } = {}) {
