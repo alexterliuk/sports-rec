@@ -111,7 +111,7 @@ router.patch('/tables', auth, async (req, res) => {
     if (!req.body.theadRow.length && !req.body.tbodyRows.length) {
       try {
         const table = await Table.findOneAndDelete({ _id: tableOfCurrentUser._id });
-        !table ? res.status(404).send({}) : res.send({ deleted: true });
+        return !table ? res.status(404).send({}) : res.send({ deleted: true });
 
       } catch(error) {
         return res.status(500).send({ error: 'Failed to delete empty table.' });
