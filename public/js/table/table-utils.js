@@ -285,6 +285,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
   const tableUpdated = await updateTableIfChanged();
   if (tableUpdated) {
     if (tableUpdated.deleted) {
+      btn.classList.add('no-click'); // avoid secondary click on Save table before table container is removed
       const dashboardInfo = pickElem('dashboardInfo');
 
       let idx = dashboardInfo.children.length;

@@ -95,6 +95,10 @@ span[role=button].button-look {
   border: 1px solid #8eadc5;
 }
 
+.no-click {
+  pointer-events: none;
+}
+
 /**
    ===== Panels styles =====
  */
