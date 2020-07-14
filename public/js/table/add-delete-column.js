@@ -10,6 +10,11 @@ function addColumn(btn, spec, dom) {
     return;
   }
 
+  // do not create table with no text
+  if (!(spec.columnsNames || []).length && !(spec.cellsTextValues || []).length) {
+    return;
+  }
+
   const _dom = dom || getBuildDOMLibrary();
 
   const tablePanel = pickElem(spec.tableId).parentElement;
