@@ -14,6 +14,11 @@ function editTableTitle(btn, { id }) {
   setDisplayTo('block', input, ok);
 
   ok.addEventListener('click', changeTitle);
+  input.addEventListener('keydown', event => {
+    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+      changeTitle();
+    }
+  });
 
   function setDisplayTo(type, ...elems) {
     for (const el of elems) el.style.display = type;
@@ -25,6 +30,7 @@ function editTableTitle(btn, { id }) {
     setDisplayTo('block', title);
 
     ok.removeEventListener('click', changeTitle);
+    input.removeEventListener('keydown', changeTitle);
   }
 }
 
