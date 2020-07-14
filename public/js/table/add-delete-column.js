@@ -11,7 +11,8 @@ function addColumn(btn, spec, dom) {
   }
 
   // do not create table with no text
-  if (!(spec.columnsNames || []).length && !(spec.cellsTextValues || []).length) {
+  // (spec.eventType exists when you click Add column button, but not when table is initially being build)
+  if (!spec.eventType && !(spec.columnsNames || []).length && !(spec.cellsTextValues || []).length) {
     return;
   }
 
