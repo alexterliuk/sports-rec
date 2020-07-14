@@ -104,7 +104,6 @@ function getBuildDOMLibrary(id, options) {
         if (!item.key) return;
         elem.dataset[item.key] = item.value;
       })
-      //elem.dataset[this.columnsIds[`col${elem.id.slice(elem.id.search(/[0-9]+$/))}`]] = '';
     },
 
     addOnClick(elem, onClickData) {
