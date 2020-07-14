@@ -103,6 +103,7 @@ span[role=button].button-look {
   display: flex;
   margin-bottom: 20px;
   position: relative;
+  min-height: 110px;
 }
 
 .panels-block td, .panels-block td *, .panels-block th, .panels-block th * {
