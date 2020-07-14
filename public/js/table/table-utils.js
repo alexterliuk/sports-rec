@@ -275,13 +275,38 @@ async function collectTableDataAndSave(btn, { tableId }) {
 
   // update shownTables if table has been updated
   // (only parts needed for future comparing of saved - not saved data in new updating cycle)
+  // if table has been deleted (on attempt to save table with no text), remove it from shownTables
   const tableUpdated = await updateTableIfChanged();
   if (tableUpdated) {
-    shownTables.addToTable(hyphenId, { tableTitle }, true);
-    shownTables.addToTable(hyphenId, { theadRow }, true);
-    shownTables.addToTable(hyphenId, { tbodyRows }, true);
-    tableElem.classList.add('pristine');
-    watch('pristine', tableElem);
+    if (tableUpdated.deleted) {
+      const dashboardInfo = pickElem('dashboardInfo');
+
+      let idx = dashboardInfo.children.length;
+      while (idx) {
+        const elem = dashboardInfo.children[--idx];
+
+        if (elem.dataset.hyphenId === hyphenId) {
+          setTimeout(() => {
+            dashboardInfo.classList.add('spinner');
+          }, 3000);
+
+          setTimeout(() => {
+            elem.remove();
+            shownTables.remove(hyphenId);
+            dashboardInfo.classList.remove('spinner');
+          }, 3500); // time to show/hide notify
+
+          break;
+        }
+      }
+
+    } else { // updated
+      shownTables.addToTable(hyphenId, { tableTitle }, true);
+      shownTables.addToTable(hyphenId, { theadRow }, true);
+      shownTables.addToTable(hyphenId, { tbodyRows }, true);
+      tableElem.classList.add('pristine');
+      watch('pristine', tableElem);
+    }
   }
 
   /**
@@ -312,7 +337,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
       saved = await updateTable(btn, _table);
     }
 
-    if (saved) return true;
+    return saved;
   }
 }
 

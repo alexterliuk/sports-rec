@@ -30,7 +30,7 @@ async function updateTable(btn, tableData) {
 
   if (response.status === 200) {
     _notify(result.updated ? 'Table successfully updated.' : 'Empty table deleted.', 'success');
-    return true;
+    return result;
   }
 
   if (response.status === 400) _notify('One or more fields of table are not valid.');

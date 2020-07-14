@@ -76,9 +76,10 @@ function createDashboardItems(tables) {
     const $parentName = $name;
     const tagName = 'div';
     const btnContName = `dbo-cell-btn-cont${pos}`;
+    const datasetHyphenId = { key: 'hyphenId', value: table.hyphenId };
 
     return [
-      { parentId: 'dashboardInfo', tagName, class: ['dbo-item'], $name },
+      { parentId: 'dashboardInfo', tagName, class: ['dbo-item'], dataset: [datasetHyphenId], $name },
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-num'], text: pos },
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-title'], text: table.tableTitle },
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-btn-cont'], $name: btnContName },
