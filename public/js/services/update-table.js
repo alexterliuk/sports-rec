@@ -24,8 +24,9 @@ async function updateTable(btn, tableData) {
   });
 
   if (response.status === 200) {
+    const result = await response.json();
     setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Table successfully updated.', 'success', 3000);
+    notify(tableData.tableId, result.updated ? 'Table successfully updated.' : 'Empty table deleted.', 'success', 3000);
     return true;
   }
 
@@ -42,5 +43,11 @@ async function updateTable(btn, tableData) {
   if (response.status === 404) {
     setWaitingState(false, tableData);
     notify(tableData.tableId, 'Table not found.', 'error', 3000);
+  }
+
+  if (response.status === 500) {
+    const result = await response.json();
+    setWaitingState(false, tableData);
+    notify(tableData.tableId, result.error, 'error', 3000);
   }
 }

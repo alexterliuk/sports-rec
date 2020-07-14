@@ -106,14 +106,25 @@ router.patch('/tables', auth, async (req, res) => {
 
   try {
     validateTableData(req.body);
+
+    // delete empty table
+    if (!req.body.theadRow.length && !req.body.tbodyRows.length) {
+      try {
+        const table = await Table.findOneAndDelete({ _id: tableOfCurrentUser._id });
+        !table ? res.status(404).send() : res.send({ deleted: true });
+
+      } catch(error) {
+        return res.status(500).send({ error: 'Failed to delete empty table.' });
+      }
+    }
+
     updateIfChanged(tableOfCurrentUser, req.body);
     await tableOfCurrentUser.save();
-    res.send();
+    res.send({ updated: true });
 
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
-
 });
 
 module.exports = router;
