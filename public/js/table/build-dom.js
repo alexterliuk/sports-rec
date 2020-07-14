@@ -97,8 +97,14 @@ function getBuildDOMLibrary(id, options) {
       elem.setAttribute('role', roleName);
     },
 
-    addDataset(elem) {
-      elem.dataset[this.columnsIds[`col${elem.id.slice(elem.id.search(/[0-9]+$/))}`]] = '';
+    addDataset(elem, datasetItems) {
+      if (!Array.isArray(datasetItems)) return;
+
+      datasetItems.forEach(item => {
+        if (!item.key) return;
+        elem.dataset[item.key] = item.value;
+      })
+      //elem.dataset[this.columnsIds[`col${elem.id.slice(elem.id.search(/[0-9]+$/))}`]] = '';
     },
 
     addOnClick(elem, onClickData) {
