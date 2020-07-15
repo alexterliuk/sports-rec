@@ -127,4 +127,20 @@ router.patch('/tables', auth, async (req, res) => {
   }
 });
 
+// Delete table
+router.delete('/tables/:hyphenId', auth, async (req, res) => {
+  const tablesWithSameHyphenId = await Table.find({ hyphenId: req.params.hyphenId });
+  const tableOfCurrentUser = tablesWithSameHyphenId.find(table => table.owner.toString() === req.session.userId);
+
+  if (!tableOfCurrentUser) return res.status(404).send({});
+
+  try {
+    const table = await Table.findOneAndDelete({ _id: tableOfCurrentUser._id });
+    return !table ? res.status(404).send({}) : res.send({ deleted: true });
+
+  } catch(error) {
+    res.status(500).send({ error: 'Failed to delete table.' });
+  }
+});
+
 module.exports = router;
