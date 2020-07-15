@@ -7,6 +7,7 @@ const funcLib = {
   sortColumn,
   highlightColumn,
   changeColumnsWidth,
+  resetStyles,
   collectTableDataAndSave,
   getUserTables,
   getTable,
