@@ -279,6 +279,9 @@ async function collectTableDataAndSave(btn, { tableId }) {
   // table comprises data used for creating <table> and its contents
   const table = shownTables.get(hyphenId);
 
+  removeEmptyColumns(_table);
+  removeLastEmptyRows(_table);
+
   // update shownTables if table has been updated
   // (only parts needed for future comparing of saved - not saved data in new updating cycle)
   // if table has been deleted (on attempt to save table with no text), remove it from shownTables
@@ -323,13 +326,9 @@ async function collectTableDataAndSave(btn, { tableId }) {
     let saved;
 
     if (!_table.classNames.find(name => name === 'pristine')) {
-      removeEmptyColumns(_table);
-      removeLastEmptyRows((_table));
       saved = await updateTable(btn, _table);
 
     } else if (table.tableTitle !== tableTitle) {
-      removeEmptyColumns(_table);
-      removeLastEmptyRows((_table));
       _table.classNames = _table.classNames.filter(name => name !== 'pristine');
       saved = await updateTable(btn, _table);
 
@@ -340,10 +339,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
 
       if (columnsNamesNotChanged && cellsTextNotChanged) return;
 
-      removeEmptyColumns(_table);
-      removeLastEmptyRows((_table));
       _table.classNames = _table.classNames.filter(name => name !== 'pristine');
-
       saved = await updateTable(btn, _table);
     }
 
@@ -429,11 +425,11 @@ function getStoredCellIdOrMakeNew(storedCellsIds, row, index, hyphenId) {
 function removeEmptyColumns(table) {
   const columnsWithoutText = [];
   table.theadRow.forEach((column, idx) => {
-    if (!column.textareaValue) {
+    if (!column.textareaValue.trim().length) {
       const columnCellsTexts = table.tbodyRows.map(row => row.cells[idx].textareaValue);
-      if (columnCellsTexts.every(val => !val.length || /\s/.test(val))) {
-        columnsWithoutText.push({ colIndex: idx });
-      }
+      const noTextInColumn = columnCellsTexts.every(text => !text.trim().length);
+
+      if (noTextInColumn) columnsWithoutText.push({ colIndex: idx });
     }
   });
 
@@ -455,14 +451,8 @@ function removeEmptyColumns(table) {
  * @param {object} table
  */
 function removeLastEmptyRows(table) {
-  const isEmptyRow = row => {
-    if (!row) return;
-
-    return row.cells.every(cell => {
-      const val = cell.textareaValue.trim();
-      return !val.length || /^\s/.test(val);
-    });
-  };
+  const isEmptyRow = row =>
+    !row ? false : row.cells.every(cell => !cell.textareaValue.trim().length);
 
   while (isEmptyRow(table.tbodyRows[table.tbodyRows.length - 1])) {
     table.tbodyRows.pop();
