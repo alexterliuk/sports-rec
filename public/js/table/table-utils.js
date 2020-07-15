@@ -241,6 +241,40 @@ function changeColumnsWidth(btn, { tableId, type }) {
 }
 
 /**
+ * Wait a while, then remove table from mainTableBlock and dashboardInfo.
+ * @param {string} hyphenId
+ * @param {number} duration
+ */
+function removeTableFromPage(hyphenId, duration) {
+  const dashboardInfo = pickElem('dashboardInfo');
+
+  const dashboardItem = (() => {
+    let idx = dashboardInfo.children.length;
+    while (idx) {
+      const elem = dashboardInfo.children[--idx];
+      if (elem.dataset.hyphenId === hyphenId) return elem;
+    }
+  })();
+
+  visualizeThenRemove();
+
+  // show/hide spinner, then remove elements
+  function visualizeThenRemove() {
+    const time = typeof duration === 'number' && duration || 3000;
+
+    setTimeout(() => {
+      dashboardInfo.classList.add('spinner');
+    }, time);
+
+    setTimeout(() => {
+      if (dashboardItem) dashboardItem.remove();
+      shownTables.remove(hyphenId);
+      dashboardInfo.classList.remove('spinner');
+    }, time + 500); // time to show/hide notify
+  }
+}
+
+/**
  * Collect table data and invoke saveNewTable or updateTable function.
  * @param {HTMLButtonElement} btn
  * @param {string} tableId
@@ -288,27 +322,8 @@ async function collectTableDataAndSave(btn, { tableId }) {
   const tableUpdated = await updateTableIfChanged();
   if (tableUpdated) {
     if (tableUpdated.deleted) {
-      btn.classList.add('no-click'); // avoid secondary click on Save table before table container is removed
-      const dashboardInfo = pickElem('dashboardInfo');
-
-      let idx = dashboardInfo.children.length;
-      while (idx) {
-        const elem = dashboardInfo.children[--idx];
-
-        if (elem.dataset.hyphenId === hyphenId) {
-          setTimeout(() => {
-            dashboardInfo.classList.add('spinner');
-          }, 3000);
-
-          setTimeout(() => {
-            elem.remove();
-            shownTables.remove(hyphenId);
-            dashboardInfo.classList.remove('spinner');
-          }, 3500); // time to show/hide notify
-
-          break;
-        }
-      }
+      btn.classList.add('no-click'); // avoid secondary click on Save before table container is removed
+      removeTableFromPage(hyphenId);
 
     } else { // updated
       shownTables.addToTable(hyphenId, { tableTitle }, true);
