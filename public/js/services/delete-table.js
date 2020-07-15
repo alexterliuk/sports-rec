@@ -21,9 +21,8 @@ async function deleteTable(btn, tableData) {
     setWaitingState(false, tableData);
     notify(tableData.tableId, 'Table not found.', 'error', 3000);
     return { deleted: false };
-  }
 
-  else {
+  } else {
     setWaitingState(false, tableData);
     notify(tableData.tableId, 'Failed to delete. Something went wrong.', 'error', 3000);
     return { deleted: false };
