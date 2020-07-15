@@ -19,6 +19,15 @@ function createTableContainer(tableData) {
 
   const tableId = `${params.contId}Table`;
 
+  const addButtonSpec = (funcName, funcArgs, text, classArr) => {
+    return {
+      $parentName: 'buttons-block', tagName: 'button',
+      onClick: { funcName, funcArgs: [funcArgs] },
+      text,
+      class: classArr || [],
+    };
+  };
+
   params.elems = [
     { parentId: params.contId, tagName: 'div', class: ['table-title-container'], $name: 'table-title-container' },
     { $parentName: 'table-title-container', tagName: 'h2', class: ['table-title'],
@@ -27,35 +36,16 @@ function createTableContainer(tableData) {
     { $parentName: 'table-title-container', tagName: 'input' },
     { $parentName: 'table-title-container', tagName: 'span', class: ['btn-ok'], role: 'button' },
     { parentId: params.contId, tagName: 'div', class: ['buttons-block'], $name: 'buttons-block' },
-    { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'editTableTitle', funcArgs: [{ id: params.contId }] },
-      text: 'Edit title',
-    },
-    { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'addRow', funcArgs: [{ tableId }] },
-      text: 'Add row',
-    },
-    { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'addColumn', funcArgs: [{ tableId }] },
-      text: 'Add column',
-    },
-    { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'changeColumnsWidth', funcArgs: [{ tableId, type: 'increase' }] },
-      text: 'Increase',
-    },
-    { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'changeColumnsWidth', funcArgs: [{ tableId, type: 'decrease' }] },
-      text: 'Decrease',
-    },
-    { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'resetStyles', funcArgs: [{ tableId }] },
-      text: 'Reset styles',
-    },
-    { $parentName: 'buttons-block', tagName: 'button',
-      onClick: { funcName: 'collectTableDataAndSave', funcArgs: [{ tableId }] },
-      text: 'Save table',
-      class: ['btn-save'],
-    },
+
+    addButtonSpec('editTableTitle', { id: params.contId }, 'Edit title'),
+    addButtonSpec('addRow', { tableId }, 'Add row'),
+    addButtonSpec('addColumn', { tableId }, 'Add column'),
+    addButtonSpec('changeColumnsWidth', { tableId, type: 'increase' }, 'Increase'),
+    addButtonSpec('changeColumnsWidth', { tableId, type: 'decrease' }, 'Decrease'),
+    addButtonSpec('resetStyles', { tableId }, 'Reset styles'),
+    addButtonSpec('collectTableDataAndSave', { tableId }, 'Save', ['btn-save']),
+    addButtonSpec('deleteTable', { tableId }, 'Delete', ['btn-delete']),
+
     { parentId: params.contId, tagName: 'div', class: ['panels-block'], $name: 'panels-block' },
     { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'left-panel'] },
     { $parentName: 'panels-block', tagName: 'section', class: ['table-panel'] },
