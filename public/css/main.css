@@ -74,13 +74,13 @@ span[role=button].button-look {
 
 .buttons-block button {
   margin-right: .25rem;
+  height: 21px;
 }
 
 .btn-save {
   margin-left: auto;
   background-color: #e9f0f9;
   border: 1px solid #8ea5c5;
-  height: 21px;
   border-radius: 2px;
   transition: none;
 }
@@ -93,6 +93,23 @@ span[role=button].button-look {
   background-color: #bdd0e2;
   outline: none;
   border: 1px solid #8eadc5;
+}
+
+.btn-delete {
+  background-color: #ffeae6;
+  border: 1px solid #f1b6b1;
+  border-radius: 2px;
+  transition: none;
+}
+
+.btn-delete:hover {
+  background-color: #f9dfdb;
+}
+
+.btn-delete:focus {
+  background-color: #f3c7c3;
+  outline: none;
+  border: 1px solid #e4a6a1;
 }
 
 .no-click {
