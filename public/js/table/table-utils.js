@@ -324,10 +324,12 @@ async function collectTableDataAndSave(btn, { tableId }) {
 
     if (!_table.classNames.find(name => name === 'pristine')) {
       removeEmptyColumns(_table);
+      removeLastEmptyRows((_table));
       saved = await updateTable(btn, _table);
 
     } else if (table.tableTitle !== tableTitle) {
       removeEmptyColumns(_table);
+      removeLastEmptyRows((_table));
       _table.classNames = _table.classNames.filter(name => name !== 'pristine');
       saved = await updateTable(btn, _table);
 
@@ -339,6 +341,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
       if (columnsNamesNotChanged && cellsTextNotChanged) return;
 
       removeEmptyColumns(_table);
+      removeLastEmptyRows((_table));
       _table.classNames = _table.classNames.filter(name => name !== 'pristine');
 
       saved = await updateTable(btn, _table);
@@ -445,6 +448,25 @@ function removeEmptyColumns(table) {
   table.tbodyRows.forEach(row => {
     row.cells = row.cells.filter(cell => cell);
   });
+}
+
+/**
+ * Remove empty rows if they are last in table.
+ * @param {object} table
+ */
+function removeLastEmptyRows(table) {
+  const isEmptyRow = row => {
+    if (!row) return;
+
+    return row.cells.every(cell => {
+      const val = cell.textareaValue.trim();
+      return !val.length || /^\s/.test(val);
+    });
+  };
+
+  while (isEmptyRow(table.tbodyRows[table.tbodyRows.length - 1])) {
+    table.tbodyRows.pop();
+  }
 }
 
 /**
