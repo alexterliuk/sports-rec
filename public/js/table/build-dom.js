@@ -12,6 +12,7 @@ const funcLib = {
   getUserTables,
   getTable,
   buildTables,
+  confirmDeletingTable,
 };
 
 /**

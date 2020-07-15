@@ -44,7 +44,7 @@ function createTableContainer(tableData) {
     addButtonSpec('changeColumnsWidth', { tableId, type: 'decrease' }, 'Decrease'),
     addButtonSpec('resetStyles', { tableId }, 'Reset styles'),
     addButtonSpec('collectTableDataAndSave', { tableId }, 'Save', ['btn-save']),
-    addButtonSpec('deleteTable', { tableId }, 'Delete', ['btn-delete']),
+    addButtonSpec('confirmDeletingTable', { tableId }, 'Delete', ['btn-delete']),
 
     { parentId: params.contId, tagName: 'div', class: ['panels-block'], $name: 'panels-block' },
     { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'left-panel'] },
