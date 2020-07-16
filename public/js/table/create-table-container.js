@@ -48,8 +48,11 @@ function createTableContainer(tableData) {
 
     { parentId: params.contId, tagName: 'div', class: ['panels-block'], $name: 'panels-block' },
     { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'left-panel'] },
-    { $parentName: 'panels-block', tagName: 'section', class: ['table-panel'] },
+    { $parentName: 'panels-block', tagName: 'section', class: ['table-panel'], $name: 'table-panel' },
     { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'right-panel'] },
+    { $parentName: 'table-panel', tagName: 'span', class: ['btn-close'],
+      role: 'button', title: 'Close table', onClick: { funcName: 'closeTable', funcArgs: [{ tableId }] },
+    },
   ];
 
   buildDOM(params);

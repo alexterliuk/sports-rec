@@ -11,6 +11,7 @@ const funcLib = {
   collectTableDataAndSave,
   getUserTables,
   getTable,
+  closeTable,
   buildTables,
   confirmDeletingTable,
 };

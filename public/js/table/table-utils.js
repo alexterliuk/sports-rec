@@ -241,9 +241,22 @@ function changeColumnsWidth(btn, { tableId, type }) {
 }
 
 /**
+ * Close whole table container including title and buttons-block.
+ * @param {HTMLButtonElement} btn
+ * @param {string} tableId
+ */
+function closeTable(btn, { tableId }) {
+  const table = pickElem(tableId);
+
+  if (table) {
+    shownTables.remove(table.dataset.hyphenId);
+  }
+}
+
+/**
  * Wait a while, then remove table from mainTableBlock and dashboardInfo.
  * @param {string} hyphenId
- * @param {number} duration
+ * @param {number} duration, ms
  */
 function removeTableFromPage(hyphenId, duration) {
   const dashboardInfo = pickElem('dashboardInfo');
