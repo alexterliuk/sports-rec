@@ -347,7 +347,12 @@ async function collectTableDataAndSave(btn, { tableId }) {
     _table.classNames = _table.classNames.filter(name => name !== 'pristine');
 
     const saved = await saveNewTable(btn, _table);
-    if (saved) savedTablesHyphenIds.replace();
+    if (saved) {
+      savedTablesHyphenIds.replace();
+      createDashboardItems([_table]);
+      shownTablesInDashboard.update(_table);
+      updateDashboardIndexes();
+    }
     return;
   }
 

@@ -23,10 +23,16 @@ const shownTablesInDashboard = (function() {
 
   /**
    * Update _tables to reflect current state of dashboardInfo
+   * If table, add table to _tables, otherwise search what tables deleted and update _tables appropriately
    */
-  const update = () => {
+  const update = table => {
     const dashboardInfo = pickElem('dashboardInfo');
     if (!dashboardInfo) return;
+
+    if (table && table.hyphenId) {
+      _tables.push(table);
+      return;
+    }
 
     if (dashboardInfo.children.length === 1 /* dashboard header */) {
       _tables = [];
