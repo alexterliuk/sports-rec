@@ -30,13 +30,13 @@ const shownTables = (function() {
       }
     }
 
-    _tables[hyphenId] = createNewObject(_tables[hyphenId]);
+    _tables[hyphenId] = createNewTableDataObject(_tables[hyphenId]);
   };
 
   /**
    * Get specifications of a table
    */
-  const get = hyphenId => createNewObject(_tables[hyphenId]);
+  const get = hyphenId => createNewTableDataObject(_tables[hyphenId]);
 
   /**
    * Get specifications of all tables
@@ -45,7 +45,7 @@ const shownTables = (function() {
     const copiedTables = {};
 
     Object.keys(_tables).forEach(hyphenId => {
-      copiedTables[hyphenId] = createNewObject(_tables[hyphenId]);
+      copiedTables[hyphenId] = createNewTableDataObject(_tables[hyphenId]);
     });
 
     return copiedTables;
@@ -72,26 +72,6 @@ const shownTables = (function() {
     const hyphenIds = Object.keys(_tables);
     for (const id of hyphenIds) remove(id);
   };
-
-  /**
-   * Copy object
-   */
-  function createNewObject(obj) {
-    if (obj) {
-      const newObj = {};
-
-      Object.keys(obj).forEach(key => {
-        if (key !== 'element' && key !== 'parent') {
-          newObj[key] = JSON.parse(JSON.stringify(obj[key]));
-
-        } else {
-          newObj[key] = obj[key];
-        }
-      });
-
-      return newObj;
-    }
-  }
 
   return { add, addToTable, get, getAll, remove, removeAll };
 })();
