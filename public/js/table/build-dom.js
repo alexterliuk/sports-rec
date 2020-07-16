@@ -99,6 +99,10 @@ function getBuildDOMLibrary(id, options) {
       elem.setAttribute('role', roleName);
     },
 
+    addTitle(elem, title) {
+      elem.setAttribute('title', title);
+    },
+
     addDataset(elem, datasetItems) {
       if (!Array.isArray(datasetItems)) return;
 
@@ -129,7 +133,7 @@ function getBuildDOMLibrary(id, options) {
     },
 
     hangOnElem(elem, param) {
-      const keys = ['class', 'text', 'link', 'style', 'role', 'dataset', 'onHover'];
+      const keys = ['class', 'text', 'link', 'style', 'role', 'dataset', 'onHover', 'title'];
       if (elem.tagName !== 'TH') keys.push('onClick');
 
       keys.forEach(key => {
