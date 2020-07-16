@@ -153,6 +153,28 @@ span[role=button].delete-stick:hover {
 }
 
 /**
+   ===== Styles for .btn-close =====
+ */
+.table-panel .btn-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 15px;
+  height: 15px;
+  z-index: 2;
+  background: #8a2323;
+  font-family: monospace;
+}
+
+.table-panel .btn-close::after {
+  content: 'x';
+  margin-left: 3px;
+  line-height: .7;
+  font-size: 1.1rem;
+  color: white;
+}
+
+/**
    ===== Styles for editing column's name =====
  */
 
