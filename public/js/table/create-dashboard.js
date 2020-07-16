@@ -33,6 +33,7 @@ async function createDashboard({ tablesQty, skip } = {}) {
 
   const tables = await getUserTables(null, { limit: tablesQty });
   if (tables.length) {
+    shownTablesInDashboard.add(tables);
     savedTablesHyphenIds.add();
 
     const parentSelector = '#dashboardBlock .buttons-block';
@@ -40,8 +41,8 @@ async function createDashboard({ tablesQty, skip } = {}) {
     const params = {
       parentSelector,
       elems: [{
-        parentSelector, tagName: 'button', text: 'Build All Shown Tables',
-        onClick: { funcName: 'buildTables', funcArgs: [{ tables }] },
+        parentSelector, tagName: 'button', text: 'Build All These Tables', newId: 'buildAllTheseTables',
+        onClick: { funcName: 'buildTables', funcArgs: [{ getShownTablesInDashboard: shownTablesInDashboard.get }] },
       }],
     };
 

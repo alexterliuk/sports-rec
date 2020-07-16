@@ -272,6 +272,7 @@ function removeTableFromPage(hyphenId, duration) {
       shownTables.remove(hyphenId);
       dashboardInfo.classList.remove('spinner');
       updateDashboardIndexes();
+      shownTablesInDashboard.update();
     }, time + 500); // time to show/hide notify
   }
 }
