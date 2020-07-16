@@ -270,7 +270,16 @@ function removeTableFromPage(hyphenId, duration) {
       if (dashboardItem) dashboardItem.remove();
       shownTables.remove(hyphenId);
       dashboardInfo.classList.remove('spinner');
+      updateDashboardIndexes();
     }, time + 500); // time to show/hide notify
+  }
+
+  // make correct positions for .dbo-items
+  function updateDashboardIndexes() {
+    let pos = dashboardInfo.children.length;
+    while (--pos) {
+      dashboardInfo.children[pos].children[0].textContent = pos;
+    }
   }
 }
 
