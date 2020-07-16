@@ -247,6 +247,7 @@ function changeColumnsWidth(btn, { tableId, type }) {
  */
 function removeTableFromPage(hyphenId, duration) {
   const dashboardInfo = pickElem('dashboardInfo');
+  if (!dashboardInfo) return;
 
   const dashboardItem = (() => {
     let idx = dashboardInfo.children.length;
@@ -273,13 +274,18 @@ function removeTableFromPage(hyphenId, duration) {
       updateDashboardIndexes();
     }, time + 500); // time to show/hide notify
   }
+}
 
-  // make correct positions for .dbo-items
-  function updateDashboardIndexes() {
-    let pos = dashboardInfo.children.length;
-    while (--pos) {
-      dashboardInfo.children[pos].children[0].textContent = pos;
-    }
+/**
+ * Make correct positions for .dbo-items.
+ */
+function updateDashboardIndexes() {
+  const dashboardInfo = pickElem('dashboardInfo');
+  if (!dashboardInfo) return;
+
+  let pos = dashboardInfo.children.length;
+  while (--pos) {
+    dashboardInfo.children[pos].children[0].textContent = pos;
   }
 }
 
