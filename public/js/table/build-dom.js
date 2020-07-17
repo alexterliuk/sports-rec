@@ -28,6 +28,7 @@ const funcLib = {
 function getBuildDOMLibrary(id, options) {
   const lib = {
     addAndGet(newId, { parentId, parentSelector, tagName, $name, $parentName }) {
+      if (!tagName) return;
       const newElem = document.createElement(tagName);
 
       if (tagName === 'table') newElem.classList.add('pristine');
