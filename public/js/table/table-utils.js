@@ -291,19 +291,6 @@ function removeTableFromPage(hyphenId, duration) {
 }
 
 /**
- * Make correct positions for .dbo-items.
- */
-function updateDashboardIndexes() {
-  const dashboardInfo = pickElem('dashboardInfo');
-  if (!dashboardInfo) return;
-
-  let pos = dashboardInfo.children.length;
-  while (--pos) {
-    dashboardInfo.children[pos].children[0].textContent = pos;
-  }
-}
-
-/**
  * Delete table if user confirms.
  * @param {HTMLButtonElement} btn
  * @param {string} tableId
@@ -448,7 +435,7 @@ function collectRowsData(tableChild) {
 }
 
 /**
- * Collect data from th or td tag.
+ * Collect data from th or td tags.
  * @param {HTMLTableRowElement} row
  * @returns {array}
  */
