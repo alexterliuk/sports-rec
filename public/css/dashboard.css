@@ -29,13 +29,15 @@
 }
 
 #dashboardInfo {
-  border: 1px solid #dfe3e6;
-  padding: 4px;
+  box-shadow: 1px 1px 3px rgba(220, 220, 220, .37), -1px 1px 3px rgba(220, 220, 220, .37);
 }
 
 .dbo-panel {
   position: relative;
   flex: 0 1 48rem;
+  padding: 4px;
+  border: 1px solid #dfe3e6;
+  box-shadow: 1px 1px 3px rgba(220, 220, 220, .37), -1px 1px 3px rgba(220, 220, 220, .37);
 }
 
 .dbo-head, .dbo-item {
@@ -87,4 +89,54 @@
 .dbo-cell-btn-cont {
   flex: 0 0 82px;
   text-align: center;
+}
+
+/**
+   ===== style for dashboardPagination =====
+ */
+
+#dashboardPagination {
+  height: 0;
+  margin-top: 0;
+  display: flex;
+  justify-content: flex-end;
+  transition: height .3s, margin .3s;
+}
+
+#dashboardPagination span {
+  color: #4282af;
+  width: 20px;
+  margin-right: 5px;
+  text-align: center;
+  border-top: 1px solid transparent;
+}
+
+#dashboardPagination span:nth-child(6) {
+  margin-right: 3px;
+}
+
+#dashboardPagination span:hover {
+  font-weight: 600;
+  cursor: pointer;
+  border-top-color: #4282af;
+  background: ghostwhite;
+}
+
+#dashboardPagination .next-page,
+#dashboardPagination .prev-page {
+  border: none;
+  line-height: 0.8;
+  font-size: 1.6rem;
+  font-weight: 600;
+  align-self: center;
+}
+
+#dashboardPagination .next-page {
+  margin-right: 0;
+}
+
+#dashboardPagination .next-page:hover,
+#dashboardPagination .prev-page:hover {
+  border: none;
+  background: none;
 }
