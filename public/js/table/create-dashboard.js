@@ -1,7 +1,7 @@
 /**
  * Create page section which serves as user dashboard.
  * Fetch tables, show their titles and buttons 'Build table'.
- * On top of dashboard put button 'Build All Shown Tables'.
+ * On top of dashboard put button 'Build All These Tables'.
  * @param {number} tablesQty - how many tables to fetch
  * @param {number} skip
  */
@@ -52,7 +52,7 @@ async function createDashboard({ tablesQty, skip } = {}) {
 }
 
 /**
- * Create a row with position, table title and button 'Build table'.
+ * Create a row with position, table title and button 'Build table'. Add it to dashboardInfo.
  * @param {array} tables
  */
 function createDashboardItems(tables) {
