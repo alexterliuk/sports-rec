@@ -101,6 +101,10 @@ function getBuildDOMLibrary(id, options) {
       elem.setAttribute('role', roleName);
     },
 
+    addTabindex(elem, index) {
+      elem.setAttribute('tabindex', index);
+    },
+
     addTitle(elem, title) {
       elem.setAttribute('title', title);
     },
@@ -135,7 +139,7 @@ function getBuildDOMLibrary(id, options) {
     },
 
     hangOnElem(elem, param) {
-      const keys = ['class', 'text', 'link', 'style', 'role', 'dataset', 'onHover', 'title'];
+      const keys = ['class', 'text', 'link', 'style', 'role', 'tabindex', 'dataset', 'onHover', 'title'];
       if (elem.tagName !== 'TH') keys.push('onClick');
 
       keys.forEach(key => {
