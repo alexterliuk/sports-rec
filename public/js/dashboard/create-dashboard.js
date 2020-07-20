@@ -1,11 +1,10 @@
 /**
  * Create page section which serves as user dashboard.
- * Fetch tables, show their titles and buttons 'Build table'.
- * On top of dashboard put button 'Build All These Tables'.
- * @param {number} tablesQty - how many tables to fetch
- * @param {number} skip
+ * ?@param {number} tablesQty - how many tables to fetch
+ * ?@param {number} maxTablesOnPage
+ * ?@param {number} maxButtonsInRow
  */
-async function createDashboard({ tablesQty, skip } = {}) {
+async function createDashboard({ tablesQty, maxTablesOnPage, maxButtonsInRow } = {}) {
   const contId = 'dashboardBlock';
   if (pickElem(contId)) return;
 
@@ -30,23 +29,5 @@ async function createDashboard({ tablesQty, skip } = {}) {
   ];
 
   buildDOM(params);
-
-  const tables = await getUserTables(null, { limit: tablesQty });
-  if (tables.length) {
-    shownTablesInDashboard.add(tables);
-    savedTablesHyphenIds.add();
-
-    const parentSelector = '#dashboardBlock .buttons-block';
-
-    const params = {
-      parentSelector,
-      elems: [{
-        parentSelector, tagName: 'button', text: 'Build All These Tables', newId: 'buildAllTheseTables',
-        onClick: { funcName: 'buildTables', funcArgs: [{ getShownTablesInDashboard: shownTablesInDashboard.get }] },
-      }],
-    };
-
-    buildDOM(params);
-    createDashboardItems(tables);
-  }
+  makeDashboardPages({ tablesQty, maxTablesOnPage, maxButtonsInRow });
 }
