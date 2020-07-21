@@ -1,10 +1,12 @@
 /**
- * Create a row with position, table title and button 'Build table'. Add it to dashboardInfo.
+ * Create a row with position, table title and button 'Build table'.
  * @param {array} tables
  */
 function createDashboardItems(tables) {
+  const parentElement = document.createElement('div');
+
   const params = {
-    parentId: 'dashboardInfo',
+    parentElement,
     elems: [],
   };
 
@@ -14,6 +16,7 @@ function createDashboardItems(tables) {
 
   buildDOM(params);
 
+  return parentElement;
   /**
    * Create dashboard item's specification to be used for building elements in buildDOM.
    * @param {number} pos
@@ -27,7 +30,7 @@ function createDashboardItems(tables) {
     const datasetHyphenId = { key: 'hyphenId', value: table.hyphenId };
 
     return [
-      { parentId: 'dashboardInfo', tagName, class: ['dbo-item'], dataset: [datasetHyphenId], $name },
+      { parentElement, tagName, class: ['dbo-item'], dataset: [datasetHyphenId], $name },
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-num'], text: pos },
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-title'], text: table.tableTitle },
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-btn-cont'], $name: btnContName },
