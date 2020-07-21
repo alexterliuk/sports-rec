@@ -46,6 +46,22 @@ function watch(type, node, { ...options } = {}) {
     };
   };
 
+  // detect changes in dashboardInfo.children.length
+  _mobs.dashboardInfoLength = () => {
+    const m = new MutationObserver(rec => {
+      options.updateDashboard();
+    });
+
+    return {
+      observe: () => {
+        m.observe(node, { childList: true });
+      },
+      disconnect: () => {
+        m.disconnect();
+      },
+    };
+  };
+
   const initializedMobs = _mobs[type]();
   initializedMobs.observe();
 
