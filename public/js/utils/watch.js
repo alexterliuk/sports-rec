@@ -2,9 +2,10 @@
  * Initialize MutationObserver of desired type and listen changes on node.
  * @param {string} type
  * @param {Node} node
+ * @param {object} options
  * @returns {object} - wrapper for MutationObserver.disconnect
  */
-function watch(type, node) {
+function watch(type, node, { ...options } = {}) {
   const _mobs = {}; // wrapper for mutation observers
 
   // make all textareas within a row have equal height
