@@ -23,7 +23,7 @@ async function createDashboard({ tablesQty, maxTablesOnPage, maxButtonsInRow } =
     { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'right-panel'] },
     { $parentName: 'dbo-panel', tagName: 'div', newId: 'dashboardInfo' },
     { parentId: 'dashboardInfo', tagName: 'div', class: ['dbo-head'], $name: 'dbo-head' },
-    { $parentName: 'dbo-head', tagName: 'div', class: ['dbo-cell', 'dbo-cell-num'], text: '#' },
+    { $parentName: 'dbo-head', tagName: 'div', class: ['dbo-cell'], text: '#' },
     { $parentName: 'dbo-head', tagName: 'div', class: ['dbo-cell', 'dbo-cell-title'], text: 'Title' },
     { $parentName: 'dbo-head', tagName: 'div', class: ['dbo-cell', 'dbo-cell-btn-cont'], text: 'Action' },
   ];
