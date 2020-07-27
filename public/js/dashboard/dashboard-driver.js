@@ -130,6 +130,8 @@ const dashboardDriver = (function() {
         dashboardPages.prepend(_data.pages[i].pageButton);
         if (++stop2 === 1000) break;
       }
+
+      refreshNavPageButtons();
     }, /*delay || delay === 0 || */500);
   };
 
@@ -160,6 +162,19 @@ const dashboardDriver = (function() {
         if (++stop === 1000) break;
       }
     }
+  };
+
+  /**
+   * Refresh navigational buttons to prev, next pages.
+   */
+  const refreshNavPageButtons = () => {
+    if (!dashboardPages.children.length) return;
+
+    const lastPageNumInRow = +dashboardPages.children[dashboardPages.children.length - 1].dataset.pageNum;
+    nextPage.dataset.pageNum = lastPageNumInRow + 1;
+
+    const firstPageNumInRow = +dashboardPages.children[0].dataset.pageNum;
+    prevPage.dataset.pageNum = firstPageNumInRow - 1;
   };
 
   /**
