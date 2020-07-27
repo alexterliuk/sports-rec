@@ -3,7 +3,7 @@ function $listenToServerResponses(response, emitter, emitType) {
     'sign-up'() {
       welcomeMessage.textContent = `Welcome, ${signUpUsername.value}.`;
       this._showLogInPanel();
-      createDashboard(); // or call with options - createDashboard({ tablesQty: 50, maxTablesOnPage: 10, maxButtonsInRow: 5 });
+      createDashboard(); // or call with options - e.g. createDashboard({ tablesQty: 50, maxTablesInDashboardPage: 10, maxButtonsInRow: 5 });
     },
     'sign-in'() {
       welcomeMessage.textContent = `Welcome, ${signInUsername.value}.`;

@@ -1,10 +1,10 @@
 /**
  * Create page section which serves as user dashboard.
  * ?@param {number} tablesQty - how many tables to fetch
- * ?@param {number} maxTablesOnPage
+ * ?@param {number} maxTablesInDashboardPage
  * ?@param {number} maxButtonsInRow
  */
-async function createDashboard({ tablesQty, maxTablesOnPage, maxButtonsInRow } = {}) {
+async function createDashboard({ tablesQty, maxTablesInDashboardPage, maxButtonsInRow } = {}) {
   const contId = 'dashboardBlock';
   if (pickElem(contId)) return;
 
@@ -29,5 +29,5 @@ async function createDashboard({ tablesQty, maxTablesOnPage, maxButtonsInRow } =
   ];
 
   buildDOM(params);
-  makeDashboardPages({ tablesQty, maxTablesOnPage, maxButtonsInRow });
+  makeDashboardPages({ tablesQty, maxTablesInDashboardPage, maxButtonsInRow });
 }
