@@ -38,6 +38,23 @@ const dashboardDriver = (function() {
   };
 
   /**
+   * Make correct positions for .dbo-items.
+   */
+  function updateDashboardIndexes() {
+    const dashboardInfo = pickElem('dashboardInfo');
+    if (!dashboardInfo) return;
+
+    const dboCellNums = querySelAll('#dashboardInfo .dbo-cell-num');
+    const maxTables = _data.maxTablesInDashboardPage;
+    const currPage = _data.currentShownPage || 1;
+
+    let pos = 1;
+    for (const cellNum of dboCellNums) {
+      cellNum.textContent = (currPage * maxTables) - maxTables + pos++;
+    }
+  }
+
+  /**
    * Refresh dashboardPages due to adding/deleting of a page or navigating between page buttons.
    * @param {number} firstButtonNum
    * @param {object} newPage
