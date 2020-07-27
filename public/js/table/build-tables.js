@@ -1,11 +1,13 @@
 /**
  * Trigger process of building tables.
  * @param {HTMLButtonElement} btn
- * @param {object} table
  * @param {array} tables
  * @param {function} getShownTablesInDashboard
+ * @param {function} getTableFromDboItem
  */
-function buildTables(btn, { table, tables, getShownTablesInDashboard } = {}) {
+function buildTables(btn, { tables, getShownTablesInDashboard, getTableFromDboItem } = {}) {
+  const table = getTableFromDboItem(btn);
+
   const _tables = table && [table]
                || tables
                || typeof getShownTablesInDashboard === 'function' && getShownTablesInDashboard() // Build All These Tables

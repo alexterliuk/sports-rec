@@ -35,7 +35,7 @@ function createDashboardItems(tables) {
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-title'], text: table.tableTitle },
       { $parentName, tagName, class: ['dbo-cell', 'dbo-cell-btn-cont'], $name: btnContName },
       { $parentName: btnContName, tagName: 'button', class: ['dbo-btn-build-table'], text: 'Build table',
-        onClick: { funcName: 'buildTables', funcArgs: [{ table }] },
+        onClick: { funcName: 'buildTables', funcArgs: [{ getTableFromDboItem }] },
       },
     ];
   }
