@@ -34,13 +34,63 @@ const dashboardDriver = (function() {
     _data.maxTablesInDashboardPage = maxTablesInDashboardPage;
     _data.maxButtonsInRow = maxButtonsInRow;
 
+    if (_data.tablesTotal) {
+      setActivePage(null, 1);
+    }
+
     launched = true;
+  };
+
+  /**
+   * Show desired page.
+   * @param {Event} event
+   * @param {number} pageNum
+   * @param {boolean} refresh
+   */
+  const setActivePage = (event, pageNum, refresh) => {
+    if (event) pageNum = +event.target.dataset.pageNum;
+
+    if (_data.pages[pageNum] && refresh || _data.pages[pageNum] && !_data.pages[pageNum].shown) {
+      // remove current page
+      let stop = 0;
+      while (dashboardInfo.children.length !== 1) {
+        dashboardInfo.children[dashboardInfo.children.length - 1].remove();
+        if (++stop === 1000) break;
+      }
+
+      if (_data.pages[pageNum].dboItems.length === _data.maxTablesInDashboardPage) {
+        dashboardInfo.classList.add('maxTablesInDashboardPageHeight');
+      } else {
+        dashboardInfo.classList.remove('maxTablesInDashboardPageHeight');
+      }
+
+      // add new page
+      dashboardInfo.classList.add('spinner');
+      setTimeout(() => { dashboardInfo.classList.remove('spinner') }, 100);
+      _data.pages[pageNum].dboItems.forEach(item => {
+        // can be used for visual effects:
+        // let delay = 0;
+        // setTimeout(() => visualizeWhileAppending(dashboardInfo, item), delay += 10);
+        dashboardInfo.append(item);
+      });
+
+      if (_data.currentShownPage && _data.pages[_data.currentShownPage]) {
+        _data.pages[_data.currentShownPage].shown = false;
+        _data.pages[_data.currentShownPage].pageButton.classList.remove('active');
+      }
+
+      _data.pages[pageNum].shown = true;
+      _data.pages[pageNum].pageButton.classList.add('active');
+      _data.currentShownPage = pageNum;
+
+      updateDashboardIndexes();
+    }
   };
 
   /**
    * Make correct positions for .dbo-items.
    */
-  function updateDashboardIndexes() {
+  const updateDashboardIndexes = () => {
     const dashboardInfo = pickElem('dashboardInfo');
     if (!dashboardInfo) return;
 
@@ -52,7 +102,7 @@ const dashboardDriver = (function() {
     for (const cellNum of dboCellNums) {
       cellNum.textContent = (currPage * maxTables) - maxTables + pos++;
     }
-  }
+  };
 
   /**
    * Refresh dashboardPages due to adding/deleting of a page or navigating between page buttons.
@@ -113,5 +163,5 @@ const dashboardDriver = (function() {
     }
   };
 
-  return { launch, isLaunched };
+  return { launch, isLaunched, setActivePage };
 })();

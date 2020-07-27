@@ -61,6 +61,8 @@ function addDashboardPageButtonToPage(pageNum) {
   };
 
   buildDOM(params);
+  parentElement.children[0].addEventListener('click', dashboardDriver.setActivePage);
+
   return parentElement.children[0];
 }
 
