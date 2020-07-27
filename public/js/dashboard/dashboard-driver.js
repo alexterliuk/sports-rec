@@ -36,6 +36,7 @@ const dashboardDriver = (function() {
 
     if (_data.tablesTotal) {
       setActivePage(null, 1);
+      addPageButtons(1);
     }
 
     launched = true;
@@ -102,6 +103,34 @@ const dashboardDriver = (function() {
     for (const cellNum of dboCellNums) {
       cellNum.textContent = (currPage * maxTables) - maxTables + pos++;
     }
+  };
+
+  /**
+   * Add page buttons.
+   * @param {number} firstButtonNum
+   */
+  const addPageButtons = (firstButtonNum/*, delay*/) => {
+    if (!firstButtonNum || firstButtonNum < 0) firstButtonNum = 1;
+
+    setTimeout(() => {
+      dashboardPagination.classList.add('active');
+    }, 250);
+
+    setTimeout(() => {
+      let lastPage = _data.pages[firstButtonNum + _data.maxButtonsInRow - 1];
+      let stop = 0;
+      while (!lastPage) {
+        lastPage = _data.pages[--firstButtonNum + _data.maxButtonsInRow];
+        if (++stop === 1000) break;
+      }
+
+      let stop2 = 0;
+      const stopNum = lastPage.pageNum < _data.maxButtonsInRow ? 0 : lastPage.pageNum - _data.maxButtonsInRow;
+      for (let i = lastPage.pageNum; i !== stopNum; i--) {
+        dashboardPages.prepend(_data.pages[i].pageButton);
+        if (++stop2 === 1000) break;
+      }
+    }, /*delay || delay === 0 || */500);
   };
 
   /**
