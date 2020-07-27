@@ -42,6 +42,28 @@ const dashboardDriver = (function() {
     launched = true;
   };
 
+  /**
+   * Insert rule of dashboardInfo height equal to heights of maximum tables on dashboard page + dboHead.
+   * Style is used when dashboard page is full, so height does not twitch when del/add dboItem from another page.
+   */
+  const addMaxTablesInDashboardPageHeight = () => {
+    if (dashboardInfo.children.length > 1 && _data.maxTablesInDashboardPage && !_data.maxTablesInDashboardPageStyleAdded) {
+      const dboItemHeight = querySel('.dbo-item').getBoundingClientRect().height;
+      const dboHeadHeight = querySel('.dbo-head').getBoundingClientRect().height;
+
+      for (const styleSheet of document.styleSheets) {
+        if (styleSheet.href.includes('dashboard.css')) {
+          const height = dboHeadHeight + (dboItemHeight * _data.maxTablesInDashboardPage);
+
+          styleSheet.insertRule(`#dashboardInfo.maxTablesInDashboardPageHeight { height: ${height}px }`, styleSheet.rules.length);
+          _data.maxTablesInDashboardPageStyleAdded = true;
+
+          break;
+        }
+      }
+    }
+  };
+
   /** Collect hyphenIds from all tables in dashboardInfo and in _data.pages' page.
    * @param {object} currPage - page of _data.pages
    */
