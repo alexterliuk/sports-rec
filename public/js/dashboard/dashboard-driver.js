@@ -40,6 +40,14 @@ const dashboardDriver = (function() {
     }
 
     launched = true;
+    //watchDashboardChanges();
+  };
+
+  /**
+   * Trigger mutation observer watching changes in dashboardInfo.
+   */
+  const watchDashboardChanges = () => {
+    watch('dashboardInfoLength', dashboardInfo, { updateDashboardPages, maxTablesInDashboardPage: _data.maxTablesInDashboardPage });
   };
 
 
