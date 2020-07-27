@@ -43,6 +43,27 @@ const dashboardDriver = (function() {
   };
 
   /**
+   * Find a table in all tables in _data.pages, return its address in _data.pages.
+   * @param {string} hyphenId
+   */
+  const getAddressOfFetchedEarlierTable = hyphenId => {
+    let found;
+
+    for (let i = 1; i <= _data.pages.pagesQty; i++) {
+      _data.pages[i].dboItems.some((item, idx) => {
+
+        if (item.dataset.hyphenId === hyphenId) {
+          found = { pageNum: i, tableIndex: idx };
+
+          return true;
+        }
+      });
+
+      if (found) return found;
+    }
+  };
+
+  /**
    * Show desired page.
    * @param {Event} event
    * @param {number} pageNum
