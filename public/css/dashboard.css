@@ -125,12 +125,8 @@
   font: .9rem "Fira Sans", sans-serif;
   font-weight: 400;
   text-align: center;
-  /*border-top: 1px solid transparent;*/
+  line-height: 1.3;
 }
-
-/*#dashboardPages span:nth-child(6) { !*TODO: get rid of this style bec. maxButtonsInRow is editable*!*/
-/*  margin-right: 3px;*/
-/*}*/
 
 #dashboardPages span:hover {
   font-weight: 600;
@@ -141,12 +137,12 @@
 
 #dashboardPages span.active {
   font-weight: 600;
-  border-bottom: 2px solid #4282af;
+  color: white;
+  background: #4282af;
+  border-radius: 30%;
 }
 
 #dashboardPages span.active:hover {
-  background: none;
-  border-bottom: 2px solid #4282af;
   cursor: default;
 }
 
