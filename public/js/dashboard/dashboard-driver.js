@@ -123,6 +123,135 @@ const dashboardDriver = (function() {
     }
   };
 
+
+
+  /** ========== MAIN FUNCTION 2 ==========
+   * Update dashboardPages, store data fetched from server in _data.pages.
+   * _data is declared in the beginning of dashboardDriver and holds tables and info for dashboard.
+   * When table is modified and saved on server, updateDashboardPages is invoked via updateDashboardInfo.
+   * Then changes are saved in _data.
+   * @param {object}
+   */
+  const updateDashboardPages = ({ pageNum, added, deleted, updated } = {}) => {
+    if (dashboardInfo.children.length === 1 /*only .dbo-head*/) {
+      if (added) { // first table created, make page with table and dboItem for _data.pages
+        // it can be only 1st page and not empty another one, bec. pages with no data are deleted automatically
+        addDashboardPageToPages(_data.pages, 1, [added.table]);
+
+        if (!dashboardPages.children.length) {
+          _data.pages[1].pageButton.classList.add('active');
+          addPageButtons(1);
+        }
+
+        _data.tablesTotal = 1;
+        _data.currentShownPage = 1;
+        _data.pages.pagesQty = 1;
+      }
+
+      if (deleted) { // last table deleted, remove page from _data.pages
+        // make sure deleted table and left one in _data.pages' page match
+        if (_data.pages[_data.currentShownPage] && _data.pages[_data.currentShownPage].tables[0].hyphenId === deleted.table.hyphenId) {
+          if (_data.currentShownPage === 1) {
+            removePageButtons();
+            delete _data.pages[1];
+            delete _data.tablesTotal;
+            delete _data.currentShownPage;
+            delete _data.pages.pagesQty;
+
+          } else {
+            delete _data.pages[_data.currentShownPage];
+            _data.tablesTotal--;
+            _data.pages.pagesQty--;
+            refreshPageButtons();
+            setActivePage(null, --_data.currentShownPage);
+          }
+        }
+      }
+
+      if (updated) {
+
+      }
+
+    } else {
+
+      if (!_data.currentShownPage) return;
+
+      let currPage = _data.pages[_data.currentShownPage];
+      let lastPage = _data.pages[_data.pages.pagesQty];
+
+      const { hyphenIdsOnPage, hyphenIdsInData } = getHyphenIdsFromCurrentPage(currPage);
+
+      if (added) {
+        const addedTableIndex = hyphenIdsOnPage.findIndex(id => !hyphenIdsInData.includes(id));
+        const addedTableHyphenId = hyphenIdsOnPage[addedTableIndex];
+
+        const tableAddress = addedTableHyphenId && getAddressOfFetchedEarlierTable(addedTableHyphenId);
+        if (tableAddress) { // table from other page has been added to current shown page
+          const dboItem = _data.pages[tableAddress.pageNum].dboItems[tableAddress.tableIndex];
+
+          _data.pages[pageNum || 1].dboItems.splice(addedTableIndex, 0, dboItem);
+
+        } else { // it is new table has just been saved
+
+          if (currPage.dboItems.length < _data.maxTablesInDashboardPage) {
+            currPage.dboItems.splice(addedTableIndex, 0, added.node);
+            currPage.tables.splice(addedTableIndex, 0, added.table);
+
+          } else if (lastPage && lastPage.dboItems.length < _data.maxTablesInDashboardPage) { // current page is completely filled
+            lastPage.dboItems.push(added.node);
+            lastPage.tables.push(added.table);
+
+          } else { // no lastPage or its dboItems and tables are filled, create new page
+            addDashboardPageToPages(_data.pages, _data.pages.pagesQty + 1, [added.table]);
+            _data.pages.pagesQty++;
+          }
+
+          _data.tablesTotal++;
+          refreshPageButtons({ newPage: _data.pages[_data.pages.pagesQty] });
+        }
+      }
+
+      if (deleted) {
+        const removedDboItemIndex = hyphenIdsInData.findIndex(id => !hyphenIdsOnPage.includes(id));
+
+        if (~removedDboItemIndex) { // look for deleted table on current shown page
+          currPage.dboItems.splice(removedDboItemIndex, 1);
+          currPage.tables.splice(removedDboItemIndex, 1);
+
+          reflowTablesAndDboItems({ currPage, deleted: true });
+
+        } else { // if deleted table not found, search it over all fetched tables (in _data.pages)
+          const tableAddress = getAddressOfFetchedEarlierTable(deleted.table.hyphenId);
+          if (tableAddress) {
+            _data.pages[tableAddress.pageNum].dboItems.splice(tableAddress.tableIndex, 1);
+            _data.pages[tableAddress.pageNum].tables.splice(tableAddress.tableIndex, 1);
+
+            reflowTablesAndDboItems({ currPage: _data.pages[tableAddress.pageNum], deleted: true });
+          }
+        }
+
+        // remove empty page from _data.pages (it might form after reflowTablesAndDboItems job - table might have been flown to previous page)
+        if (!_data.pages[_data.pages.pagesQty].dboItems.length && !_data.pages[_data.pages.pagesQty].tables.length) {
+          delete _data.pages[_data.pages.pagesQty];
+          _data.pages.pagesQty--;
+
+          // if it is the page currently shown in dashboardInfo, redirect to previous one
+          if (_data.currentShownPage === _data.pages.pagesQty + 1) setActivePage(null, _data.pages.pagesQty);
+          refreshPageButtons();
+        }
+
+        // dboItem from shown page might have flown to another page to fill the gap there after deletion, refresh page
+        setActivePage(null, _data.currentShownPage, true);
+      }
+
+      if (updated) {
+
+      }
+    }
+  };
+
+
+
   /**
    * Insert rule of dashboardInfo height equal to heights of maximum tables on dashboard page + dboHead.
    * Style is used when dashboard page is full, so height does not twitch when del/add dboItem from another page.
