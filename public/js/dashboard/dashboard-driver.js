@@ -42,6 +42,27 @@ const dashboardDriver = (function() {
     launched = true;
   };
 
+  /** Collect hyphenIds from all tables in dashboardInfo and in _data.pages' page.
+   * @param {object} currPage - page of _data.pages
+   */
+  const getHyphenIdsFromCurrentPage = currPage => {
+    const hyphenIdsOnPage = [];
+    const hyphenIdsInData = [];
+
+    for (const entity of [[dashboardInfo.children, hyphenIdsOnPage], [currPage.dboItems, hyphenIdsInData]]) {
+      const data = entity[0];
+      const arr = entity[1];
+
+      for (const child of data) {
+        if (child.classList.value.includes('dbo-item')) {
+          arr.push(child.dataset.hyphenId);
+        }
+      }
+    }
+
+    return { hyphenIdsOnPage, hyphenIdsInData };
+  };
+
   /**
    * Find a table in all tables in _data.pages, return its address in _data.pages.
    * @param {string} hyphenId
