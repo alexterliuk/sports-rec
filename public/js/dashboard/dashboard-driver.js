@@ -136,6 +136,23 @@ const dashboardDriver = (function() {
   };
 
   /**
+   * Remove page buttons and close dashboardPagination.
+   */
+  const removePageButtons = () => {
+    if (dashboardPages.children[0]) {
+      let stop = 0;
+      while (dashboardPages.children.length) {
+        dashboardPages.children[dashboardPages.children.length - 1].remove();
+        if (++stop === 1000) break;
+      }
+
+      nextPage.dataset.pageNum = 0;
+      prevPage.dataset.pageNum = 0;
+      dashboardPagination.classList.remove('active');
+    }
+  };
+
+  /**
    * Refresh dashboardPages due to adding/deleting of a page or navigating between page buttons.
    * @param {number} firstButtonNum
    * @param {object} newPage
