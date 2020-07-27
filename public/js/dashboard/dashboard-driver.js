@@ -42,6 +42,87 @@ const dashboardDriver = (function() {
     launched = true;
   };
 
+
+
+  /** ========== MAIN FUNCTION 1 ==========
+   * Update dashboardInfo when saving, updating or deleting table.
+   * Invoked by collectTableDataAndSave or confirmDeletingTable.
+   * @param {object}
+   */
+  const updateDashboardInfo = ({ newTable, deletedTable, updatedTable }) => {
+    addMaxTablesInDashboardPageHeight();
+
+    if (newTable) {
+      // first table
+      if (!_data.tablesTotal) {
+        updateDashboardPages({ pageNum: 1, added: { table: newTable } });
+        visualizeWhileAppending(dashboardInfo, _data.pages[1].dboItems[0]);
+
+      // not fully filled page
+      } else if (_data.pages[_data.currentShownPage].dboItems.length < _data.maxTablesInDashboardPage) {
+
+        const newDboItem = (tempNode => tempNode.removeChild(tempNode.children[0]))(createDashboardItems([newTable]));
+        visualizeWhileAppending(dashboardInfo, newDboItem);
+
+        setTimeout(() => { // wait for visualizeWhileAppending finish
+          updateDashboardPages({
+            pageNum: _data.currentShownPage,
+            added: { table: newTable, node: newDboItem },
+          });
+        }, 300);
+
+      // dashboardInfo is filled, update only dashboardPages
+      } else {
+        dashboardInfo.classList.add('maxTablesInDashboardPageHeight');
+
+        const newDboItem = (tempNode => tempNode.removeChild(tempNode.children[0]))(createDashboardItems([newTable]));
+        updateDashboardPages({
+          added: { table: newTable, node: newDboItem },
+        });
+      }
+
+    } else if (deletedTable) {
+      // remove table from dashboardInfo
+      const dashboardItem = (() => {
+        let idx = dashboardInfo.children.length;
+        while (idx) {
+          const elem = dashboardInfo.children[--idx];
+          if (elem.dataset.hyphenId === deletedTable.hyphenId) return elem;
+        }
+      })();
+
+      // remove dboItem from dashboardInfo, and table from mainTableBlock
+      visualizeThenRemove(dashboardInfo, dashboardItem, deletedTable.hyphenId, 3000);
+
+      // if table of current page removed, then dashboardInfo lacks one dboItem to match maxTablesInDashboardPage criterion
+      // if so and there's next page, fill the gap by taking dboItem from that page of dashboardPages
+      setTimeout(() => {
+        updateDashboardPages({ // reflow dashboardPages to reflect current state of data and patch any gaps
+          deleted: { table: deletedTable },
+        });
+
+        if (dashboardInfo.children.length > 1 /*first child is .dbo-head*/) {
+          const currPage = _data.pages[_data.currentShownPage];
+
+          // take last dboItem added to currPage by updateDashboardPages and add it to dashboardInfo
+          visualizeWhileAppending(dashboardInfo, currPage.dboItems[dashboardInfo.children.length - 1]);
+
+          setTimeout(() => {
+            if (dashboardInfo.children.length !== _data.maxTablesInDashboardPage + 1 /*.dbo-head*/) {
+              dashboardInfo.classList.remove('maxTablesInDashboardPageHeight');
+            }
+          }, 100);
+        }
+      }, 3500);
+
+    } else if (updatedTable) {
+      const tableAddress = getAddressOfFetchedEarlierTable(updatedTable.hyphenId);
+
+      _data.pages[tableAddress.pageNum].tables[tableAddress.tableIndex] = updatedTable;
+      _data.pages[tableAddress.pageNum].dboItems[tableAddress.tableIndex].children[1].textContent = updatedTable.tableTitle;
+    }
+  };
+
   /**
    * Insert rule of dashboardInfo height equal to heights of maximum tables on dashboard page + dboHead.
    * Style is used when dashboard page is full, so height does not twitch when del/add dboItem from another page.
@@ -345,5 +426,5 @@ const dashboardDriver = (function() {
     }
   };
 
-  return { launch, isLaunched, setActivePage, getTableFromDashboardPage };
+  return { launch, isLaunched, setActivePage, getTableFromDashboardPage, updateDashboardInfo };
 })();

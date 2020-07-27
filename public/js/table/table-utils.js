@@ -254,43 +254,6 @@ function closeTable(btn, { tableId }) {
 }
 
 /**
- * Wait a while, then remove table from mainTableBlock and dashboardInfo.
- * @param {string} hyphenId
- * @param {number} duration, ms
- */
-function removeTableFromPage(hyphenId, duration) {
-  const dashboardInfo = pickElem('dashboardInfo');
-  if (!dashboardInfo) return;
-
-  const dashboardItem = (() => {
-    let idx = dashboardInfo.children.length;
-    while (idx) {
-      const elem = dashboardInfo.children[--idx];
-      if (elem.dataset.hyphenId === hyphenId) return elem;
-    }
-  })();
-
-  visualizeThenRemove();
-
-  // show/hide spinner, then remove elements
-  function visualizeThenRemove() {
-    const time = typeof duration === 'number' && duration || 3000;
-
-    setTimeout(() => {
-      dashboardInfo.classList.add('spinner');
-    }, time);
-
-    setTimeout(() => {
-      if (dashboardItem) dashboardItem.remove();
-      shownTables.remove(hyphenId);
-      dashboardInfo.classList.remove('spinner');
-      updateDashboardIndexes();
-      shownTablesInDashboard.update();
-    }, time + 500); // time to show/hide notify
-  }
-}
-
-/**
  * Delete table if user confirms.
  * @param {HTMLButtonElement} btn
  * @param {string} tableId
@@ -307,7 +270,7 @@ async function confirmDeletingTable(btn, { tableId }) {
 
     const tableDeleted = await deleteTable(btn, { tableId, hyphenId });
     if (tableDeleted.deleted) {
-      removeTableFromPage(hyphenId, 3000);
+      dashboardDriver.updateDashboardInfo({ deletedTable: shownTables.get(hyphenId) });
 
     } else {
       btn.classList.remove('no-click');
@@ -349,10 +312,9 @@ async function collectTableDataAndSave(btn, { tableId }) {
     const saved = await saveNewTable(btn, _table);
     if (saved) {
       savedTablesHyphenIds.replace();
-      createDashboardItems([_table]);
-      shownTablesInDashboard.update(_table);
-      updateDashboardIndexes();
+      dashboardDriver.updateDashboardInfo({ newTable: _table });
     }
+
     return;
   }
 
@@ -369,12 +331,15 @@ async function collectTableDataAndSave(btn, { tableId }) {
   if (tableUpdated) {
     if (tableUpdated.deleted) {
       btn.classList.add('no-click'); // avoid secondary click on Save before table container is removed
-      removeTableFromPage(hyphenId);
+      dashboardDriver.updateDashboardInfo({ deletedTable: _table });
 
     } else { // updated
       shownTables.addToTable(hyphenId, { tableTitle }, true);
       shownTables.addToTable(hyphenId, { theadRow }, true);
       shownTables.addToTable(hyphenId, { tbodyRows }, true);
+
+      dashboardDriver.updateDashboardInfo({ updatedTable: _table });
+
       tableElem.classList.add('pristine');
       watch('pristine', tableElem);
     }
