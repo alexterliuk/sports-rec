@@ -21,5 +21,4 @@ function createDashboardPagination() {
   };
 
   buildDOM(params);
-  addClickListeners(updateNavPageButtons('prevPage', 'nextPage'));
 }

@@ -49,28 +49,3 @@ function updateNavPageButtons(...ids) {
     }
   });
 }
-
-/**
- * Add click event listeners to nodes.
- * @param {array} elems - nodes
- */
-function addClickListeners(elems) {
-  if (!Array.isArray(elems)) return elems;
-
-  const _types = {
-    prevPage: { functionName: prevFunc },
-    nextPage: { functionName: nextFunc },
-  };
-
-  return elems.map(elem => {
-    if (typeof elem === 'object' && Object.getPrototypeOf(elem).constructor.name === 'HTMLSpanElement') {
-      if (_types[elem.id]) {
-        elem.addEventListener('click', _types[elem.id].functionName);
-
-        return elem;
-      }
-    }
-
-    return elem;
-  });
-}
