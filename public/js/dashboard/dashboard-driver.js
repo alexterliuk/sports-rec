@@ -195,6 +195,20 @@ const dashboardDriver = (function() {
   };
 
   /**
+   * Get table from _data.pages.
+   * @param {string} hyphenId
+   */
+  function getTableFromDashboardPage(hyphenId) {
+    if (typeof hyphenId === 'string') {
+      const tableAddress = getAddressOfFetchedEarlierTable(hyphenId);
+
+      if (tableAddress) {
+        return _data.pages[tableAddress.pageNum].tables[tableAddress.tableIndex];
+      }
+    }
+  }
+
+  /**
    * Add click event listener to prevPage, nextPage.
    * @param {HTMLElement} elems
    */
@@ -224,5 +238,5 @@ const dashboardDriver = (function() {
     }
   };
 
-  return { launch, isLaunched, setActivePage };
+  return { launch, isLaunched, setActivePage, getTableFromDashboardPage };
 })();

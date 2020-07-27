@@ -95,6 +95,7 @@ function addBuildAllTheseTablesButtonToPage({ tables, pageNum }) {
 function getTableFromDboItem(btn) {
   if (typeof btn === 'object' && btn instanceof HTMLButtonElement) {
     const dboItem = btn.parentElement && btn.parentElement.parentElement;
+
     if (dboItem && dboItem.dataset.hyphenId) {
       return dashboardDriver.getTableFromDashboardPage(dboItem.dataset.hyphenId);
     }
