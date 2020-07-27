@@ -64,6 +64,49 @@ const dashboardDriver = (function() {
     }
   };
 
+  /**
+   * Look if dashboard page has less tables than maxTablesInDashboardPage, if needed add missing table and dboItem taking it from next page.
+   * Do the same for all pages starting from currPage except last.
+   * @param {object} currPage
+   * @param {boolean} deleted
+   * @param {boolean} added
+   */
+  const reflowTablesAndDboItems = ({ currPage, deleted, added } = {}) => {
+    if (!currPage) return;
+
+    let nextPageNum = currPage.pageNum + 1;
+    let nextPage = _data.pages[nextPageNum];
+
+    let stop = 0;
+    while (nextPage) {
+      if (deleted && currPage.dboItems.length < _data.maxTablesInDashboardPage) {
+
+        const nextPageFirstDboItem = nextPage.dboItems.shift();
+        const nextPageFirstTable = nextPage.tables.shift();
+
+        if (nextPageFirstDboItem && nextPageFirstTable) {
+          currPage.dboItems.push(nextPageFirstDboItem);
+          currPage.tables.push(nextPageFirstTable);
+        }
+      }
+
+      // if (added) {
+      //   const currPageLastDboItem = currPage.dboItems.pop();
+      //   const currPageLastTable = currPage.tables.pop();
+      //
+      //   if (currPageLastDboItem) {
+      //     nextPage.dboItems.unshift(currPageLastDboItem);
+      //     nextPage.tables.unshift(currPageLastTable);
+      //   }
+      // }
+
+      currPage = nextPage;
+      nextPage = _data.pages[++nextPageNum];
+
+      if (++stop === 1000) break;
+    }
+  };
+
   /** Collect hyphenIds from all tables in dashboardInfo and in _data.pages' page.
    * @param {object} currPage - page of _data.pages
    */
