@@ -43,10 +43,13 @@ function addEmptyDashboardPageToPages(pages) {
 function addDashboardItemsToPage(tables) {
   return (collection => {
     const items = [];
-    for (const elem of collection) items.push(elem);
+
+    while (collection.children.length) {
+      items.push(collection.removeChild(collection.children[0]));
+    }
 
     return items;
-  })(createDashboardItems(tables).children);
+  })(createDashboardItems(tables));
 }
 
 /**
