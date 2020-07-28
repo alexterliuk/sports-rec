@@ -556,6 +556,40 @@ const dashboardDriver = (function() {
               }
 
               refreshPageButtons({ firstButtonNum: +prevPage.dataset.pageNum + 1});
+
+            } else { // fetch new tables from server
+              (async () => {
+                const lastPageTablesQty = _data.pages[_data.pages.pagesQty].tables.length;
+
+                const newTables = await getUserTables(null, {
+                  tablesQty: 50,
+                  skip: ((_data.pages.pagesQty - 1) * _data.maxTablesInDashboardPage + lastPageTablesQty) || 0,
+                });
+
+                if (newTables.length) {
+                  const tablesForLastPage = newTables.slice(0, _data.maxTablesInDashboardPage - lastPageTablesQty);
+                  const dboItemsForLastPage = addDashboardItemsToPage(tablesForLastPage);
+
+                  const lastPage = _data.pages[_data.pages.pagesQty];
+                  lastPage.tables = lastPage.tables.concat(tablesForLastPage);
+                  lastPage.dboItems = lastPage.dboItems.concat(dboItemsForLastPage);
+                  _data.tablesTotal += tablesForLastPage.length;
+
+                  // refresh current page if it got new data
+                  if (_data.currentShownPage === lastPage.pageNum) {
+                    setActivePage(null, _data.currentShownPage, true);
+                  }
+
+                  let tablesForOtherPages = newTables.slice(tablesForLastPage.length);
+                  while (tablesForOtherPages.length) {
+                    const currPageTables = tablesForOtherPages.slice(0, _data.maxTablesInDashboardPage);
+                    addDashboardPageToPages(_data.pages, ++_data.pages.pagesQty, currPageTables);
+
+                    _data.tablesTotal += _data.pages[_data.pages.pagesQty].tables.length;
+                    tablesForOtherPages.splice(0, _data.maxTablesInDashboardPage);
+                  }
+                }
+              })();
             }
           });
         }
