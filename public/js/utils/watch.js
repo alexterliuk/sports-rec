@@ -2,9 +2,10 @@
  * Initialize MutationObserver of desired type and listen changes on node.
  * @param {string} type
  * @param {Node} node
+ * @param {object} options
  * @returns {object} - wrapper for MutationObserver.disconnect
  */
-function watch(type, node) {
+function watch(type, node, { ...options } = {}) {
   const _mobs = {}; // wrapper for mutation observers
 
   // make all textareas within a row have equal height
@@ -38,6 +39,22 @@ function watch(type, node) {
     return {
       observe: () => {
         m.observe(node, { attributes: true, subtree: true, childList: true /*detects addition/removal of row | column*/ });
+      },
+      disconnect: () => {
+        m.disconnect();
+      },
+    };
+  };
+
+  // detect changes in dashboardInfo.children.length
+  _mobs.dashboardInfoLength = () => {
+    const m = new MutationObserver(rec => {
+      options.updateDashboard();
+    });
+
+    return {
+      observe: () => {
+        m.observe(node, { childList: true });
       },
       disconnect: () => {
         m.disconnect();

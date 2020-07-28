@@ -27,7 +27,7 @@ const funcLib = {
  */
 function getBuildDOMLibrary(id, options) {
   const lib = {
-    addAndGet(newId, { parentId, parentSelector, tagName, $name, $parentName }) {
+    addAndGet(newId, { parentId, parentSelector, tagName, $name, $parentName, parentElement }) {
       if (!tagName) return;
       const newElem = document.createElement(tagName);
 
@@ -41,6 +41,8 @@ function getBuildDOMLibrary(id, options) {
         querySel(parentSelector).append(newElem);
       } else if ($parentName) {
         this.elementsBy$name[$parentName].append(newElem);
+      } else if (parentElement instanceof HTMLElement) {
+        parentElement.append(newElem);
       } else {
         throw new Error('No parentId, parentSelector or $parentName is provided. Created element nowhere to append.');
       }
@@ -101,6 +103,10 @@ function getBuildDOMLibrary(id, options) {
       elem.setAttribute('role', roleName);
     },
 
+    addTabindex(elem, index) {
+      elem.setAttribute('tabindex', index);
+    },
+
     addTitle(elem, title) {
       elem.setAttribute('title', title);
     },
@@ -135,7 +141,7 @@ function getBuildDOMLibrary(id, options) {
     },
 
     hangOnElem(elem, param) {
-      const keys = ['class', 'text', 'link', 'style', 'role', 'dataset', 'onHover', 'title'];
+      const keys = ['class', 'text', 'link', 'style', 'role', 'tabindex', 'dataset', 'onHover', 'title'];
       if (elem.tagName !== 'TH') keys.push('onClick');
 
       keys.forEach(key => {
