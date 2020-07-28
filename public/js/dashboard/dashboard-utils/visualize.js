@@ -13,7 +13,7 @@ function visualizeWhileAppending(parentNode, childNode, duration) {
 
   setTimeout(() => {
     if (childNode) parentNode.append(childNode);
-    shownTables.add(hyphenId);
+    // shownTables.add(hyphenId);
     parentNode.classList.remove('spinner');
   }, time + 100);
 }
