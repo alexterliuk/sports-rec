@@ -17,6 +17,10 @@ async function createDashboard({ tablesQty, maxTablesInDashboardPage, maxButtons
 
   params.elems = [
     { parentId: params.contId, tagName: 'div', class: ['buttons-block'], $name: 'buttons-block' },
+    { $parentName: 'buttons-block', tagName: 'button', newId: 'buildAllTheseTables', text: 'Build All These Tables',
+      dataset: [{ key: 'pageNum', value: 0 }],
+      onClick: { funcName: 'buildTables', funcArgs: [{ getTablesFromCurrentPage: dashboardDriver.getAllTablesFromDashboardPage }] },
+    },
     { parentId: params.contId, tagName: 'div', class: ['panels-block'], $name: 'panels-block' },
     { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'left-panel'] },
     { $parentName: 'panels-block', tagName: 'section', class: ['dbo-panel'], $name: 'dbo-panel' },

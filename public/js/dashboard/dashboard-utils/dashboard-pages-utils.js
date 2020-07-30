@@ -12,7 +12,6 @@ function addDashboardPageToPages(pages, pageNum, tables, dboItems) {
     dboItems: dboItems || addDashboardItemsToPage(tables),
     pageButton: addDashboardPageButtonToPage(pageNum),
     shown: false,
-    buildAllTheseTables: addBuildAllTheseTablesButtonToPage({ tables, pageNum }),
   };
 
   return pages[pageNum];
@@ -30,7 +29,6 @@ function addEmptyDashboardPageToPages(pages) {
     dboItems: [],
     pageButton: addDashboardPageButtonToPage(pageNum),
     shown: false,
-    buildAllTheseTables: addBuildAllTheseTablesButtonToPage({ tables: undefined, pageNum }),
   };
 
   return pages[pageNum];
@@ -66,28 +64,6 @@ function addDashboardPageButtonToPage(pageNum) {
   buildDOM(params);
   parentElement.children[0].addEventListener('click', dashboardDriver.setActivePage);
 
-  return parentElement.children[0];
-}
-
-/**
- * Add 'Build All These Tables' button to dashboardDriver's _data.pages' page.
- * @param {array} tables - tables of one page
- * @param {number} pageNum
- */
-function addBuildAllTheseTablesButtonToPage({ tables, pageNum }) {
-  const parentElement = document.createElement('div');
-
-  const params = {
-    parentElement,
-    elems: [{
-      parentElement, tagName: 'button', text: 'Build All These Tables',
-      newId: 'buildAllTheseTables',
-      dataset: [{ key: 'pageNum', value: pageNum }],
-      onClick: { funcName: 'buildTables', funcArgs: [ tables ] },
-    }],
-  };
-
-  buildDOM(params);
   return parentElement.children[0];
 }
 

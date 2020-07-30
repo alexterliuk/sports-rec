@@ -1,17 +1,14 @@
 /**
  * Trigger process of building tables.
  * @param {HTMLButtonElement} btn
- * @param {array} tables
- * @param {function} getShownTablesInDashboard
+ * @param {function} getTablesFromCurrentPage - Build All These Tables
  * @param {function} getTableFromDboItem
  */
-function buildTables(btn, { tables, getShownTablesInDashboard, getTableFromDboItem } = {}) {
-  const table = getTableFromDboItem(btn);
+function buildTables(btn, { getTablesFromCurrentPage, getTableFromDboItem } = {}) {
+  const tables = typeof getTablesFromCurrentPage === 'function' && getTablesFromCurrentPage(btn);
+  const table = typeof getTableFromDboItem === 'function' && getTableFromDboItem(btn);
 
-  const _tables = table && [table]
-               || tables
-               || typeof getShownTablesInDashboard === 'function' && getShownTablesInDashboard() // Build All These Tables
-               || [];
+  const _tables = tables || table && [table] || [];
 
   for (const table of _tables) {
     createTableContainer(table);

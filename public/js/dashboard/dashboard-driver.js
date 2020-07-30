@@ -5,7 +5,7 @@
  */
 const dashboardDriver = (function() {
   let launched = false;
-  let dashboardInfo, dashboardPagination, dashboardPages, prevPage, nextPage;
+  let buildAllTheseTables, dashboardInfo, dashboardPagination, dashboardPages, prevPage, nextPage;
   const _data = {};
 
   const isLaunched = () => launched;
@@ -16,6 +16,7 @@ const dashboardDriver = (function() {
    * @param maxButtonsInRow
    */
   const launch = ({ pages, maxTablesInDashboardPage, maxButtonsInRow } = {}) => {
+    buildAllTheseTables = pickElem('buildAllTheseTables');
     dashboardInfo = pickElem('dashboardInfo');
     createDashboardPagination();
     dashboardPagination = pickElem('dashboardPagination');
@@ -154,6 +155,8 @@ const dashboardDriver = (function() {
         _data.tablesTotal = 1;
         _data.currentShownPage = 1;
         _data.pages.pagesQty = 1;
+
+        buildAllTheseTables.dataset.pageNum = 1;
       }
 
       if (deleted) { // last table deleted, remove page from _data.pages
@@ -165,6 +168,8 @@ const dashboardDriver = (function() {
             delete _data.tablesTotal;
             delete _data.currentShownPage;
             delete _data.pages.pagesQty;
+
+            buildAllTheseTables.dataset.pageNum = 0;
 
           } else {
             delete _data.pages[_data.currentShownPage];
@@ -377,6 +382,8 @@ const dashboardDriver = (function() {
     if (event) pageNum = +event.target.dataset.pageNum;
 
     if (_data.pages[pageNum] && refresh || _data.pages[pageNum] && !_data.pages[pageNum].shown) {
+      buildAllTheseTables.dataset.pageNum = pageNum;
+
       // remove current page
       let stop = 0;
       while (dashboardInfo.children.length !== 1) {
@@ -534,6 +541,18 @@ const dashboardDriver = (function() {
   }
 
   /**
+   * Get all tables from page of _data.pages.
+   * @param {HTMLButtonElement} btn
+   */
+  function getAllTablesFromDashboardPage(btn) {
+    const pageNum = +btn.dataset.pageNum;
+
+    if (pageNum > 0 && _data.pages[pageNum]) {
+      return _data.pages[pageNum].tables;
+    }
+  }
+
+  /**
    * Add click event listener to prevPage, nextPage.
    * @param {HTMLElement} elems
    */
@@ -597,5 +616,12 @@ const dashboardDriver = (function() {
     }
   };
 
-  return { launch, isLaunched, setActivePage, getTableFromDashboardPage, updateDashboardInfo };
+  return {
+    launch,
+    isLaunched,
+    setActivePage,
+    getTableFromDashboardPage,
+    getAllTablesFromDashboardPage,
+    updateDashboardInfo,
+  };
 })();
