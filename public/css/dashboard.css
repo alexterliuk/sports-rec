@@ -13,6 +13,10 @@
   min-height: 0;
 }
 
+#buildAllTheseTables {
+  line-height: 1;
+}
+
 #dashboardBlock button {
   background: #676767;
   color: white;
@@ -156,11 +160,13 @@
   visibility: hidden;
 }
 
-#dashboardPagination .dbo-nav-page[data-page-num="0"] {
+#dashboardPagination .dbo-nav-page[data-page-num="0"],
+#buildAllTheseTables[data-page-num="0"] {
   visibility: hidden;
 }
 
-#dashboardPagination .dbo-nav-page:not([data-page-num="0"]) {
+#dashboardPagination .dbo-nav-page:not([data-page-num="0"]),
+#buildAllTheseTables:not([data-page-num="0"]) {
   visibility: initial;
 }
 
