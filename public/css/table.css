@@ -237,7 +237,6 @@ span[role=button].sorting-button::before {
   content: "\025b4";
   position: absolute;
   left: -14px;
-  top: 0;
   font-size: 22px;
   line-height: .4;
 }
@@ -251,7 +250,6 @@ span[role=button].sorting-button::after {
   content: "\025be";
   position: absolute;
   left: -5px;
-  top: 0;
   font-size: 22px;
   z-index: 1;
   line-height: .4;
