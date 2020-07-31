@@ -51,35 +51,6 @@ function toggleScrollMode(nodeOrHTMLCollection) {
 }
 
 /**
- * Create cell.
- * @param {HTMLTableRowElement} row
- * @param {string} cellId
- * @param {string} textValue
- * @returns {HTMLTableDataCellElement}
- */
-function createCell(row, cellId, textValue) {
-  const cell = row.insertCell();
-  cell.setAttribute('id', cellId);
-  const { textarea } = addTextareaAndHider(cell);
-  textarea.value = textValue || '';
-
-  if (row.children.length > 1) {
-    const rowDefaultHeight = parsedCssVars.find(parsed => parsed.varKey === '--rowDefaultHeight').vals[0].px;
-    const rowActualHeight = row.getBoundingClientRect().height;
-
-    if (rowActualHeight > rowDefaultHeight + 1) { // +1 to cover Firefox getBoundingClientRect's float number output (Chrome outputs integer)
-      cell.style.height = row.children[row.children.length - 2].style.height;
-      textarea.style.height = querySel(`#${row.children[row.children.length - 2].id} textarea`).style.height;
-    }
-  }
-
-  enactShowHideResizer(textarea);
-  watch('textareaHeight', textarea);
-
-  return cell;
-}
-
-/**
  * Display/hide textarea's resizer at right bottom corner.
  * @param {HTMLTextAreaElement} txtAr
  */
@@ -115,97 +86,6 @@ function alignTextAreasHeight(cell, txtArHeight) {
       }
     }
   }
-}
-
-/**
- * Create a span used as button for deleting row or column.
- * @param {string} title
- * @param {function} callback
- * @returns {HTMLSpanElement}
- */
-function createDelStick(title, callback) {
-  const delStick = document.createElement('span');
-  delStick.classList.add('delete-stick');
-  delStick.setAttribute('title', title);
-  delStick.setAttribute('role', 'button');
-  delStick.addEventListener('click', callback);
-
-  return delStick;
-}
-
-/**
- * Add editing block to element.
- * @param {HTMLTableDataCellElement | HTMLTableHeaderCellElement} elem
- * @returns {{ HTMLTextAreaElement, HTMLSpanElement }}
- */
-function addTextareaAndHider(elem) {
-  const textarea = document.createElement('textarea');
-  elem.append(textarea);
-  const resizerHider = document.createElement('span');
-  resizerHider.classList.add('resizer-hider');
-  elem.append(resizerHider);
-
-  return { textarea, resizerHider };
-}
-
-/**
- * Create span to cover textarea so that it is not editable.
- * @returns {HTMLSpanElement}
- */
-function createEditMask() {
-  const editMask = document.createElement('span');
-  editMask.classList.add('edit-mask');
-
-  return editMask;
-}
-
-/**
- * Create button to turn on/off editing of column's title.
- * @returns {HTMLSpanElement}
- */
-function createEditButton() {
-  const editBtn = document.createElement('span');
-  editBtn.classList.add('edit-button');
-  editBtn.setAttribute('title', 'Edit column title');
-  editBtn.setAttribute('role', 'button');
-  editBtn.textContent = 'e';
-  editBtn.addEventListener('click', event => {
-    const th = event.target.parentElement;
-    const editMask = querySel(`#${th.id} .edit-mask`);
-    const textarea = querySel(`#${th.id} textarea`);
-
-    if (editBtn.classList.value.includes('active')) {
-      editBtn.classList.remove('active');
-      editMask.style.display = 'initial';
-      textarea.style.backgroundColor = '';
-    } else {
-      editBtn.classList.add('active');
-      editMask.style.display = 'none';
-      textarea.focus();
-      textarea.style.backgroundColor = '#7593b1';
-    }
-  });
-
-  return editBtn;
-}
-
-/**
- * Create a span for invoking sorting function.
- * @param {string} title
- * @param {function} callback
- * @returns {HTMLSpanElement}
- */
-function createSortingButton(title, callback) {
-  const sortingCont = document.createElement('span');
-  sortingCont.classList.add('sorting-cont');
-  const sortingBtn = document.createElement('span');
-  sortingCont.append(sortingBtn);
-  sortingBtn.setAttribute('title', title);
-  sortingBtn.setAttribute('role', 'button');
-  sortingBtn.classList.add('sorting-button');
-  sortingBtn.addEventListener('click', callback);
-
-  return sortingCont;
 }
 
 /**
