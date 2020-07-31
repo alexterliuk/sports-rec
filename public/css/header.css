@@ -64,10 +64,11 @@ header {
 .log-panel {
   position: relative;
   margin-bottom: .5rem;
+  height: 75px;
 }
 
 .toggle-sign-mode {
-  width: 92px;
+  width: 98px;
   position: absolute;
   bottom: 0;
   text-decoration: underline;
@@ -88,8 +89,9 @@ header {
 }
 
 .login-button {
-  width: 64px;
+  width: 70px;
   margin: .25rem 0 0 11.95rem;
+  font: 400 .833rem "Arial";
 }
 
 #signInPanel {

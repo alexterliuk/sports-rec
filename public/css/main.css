@@ -3,7 +3,7 @@ main {
 }
 
 span[role=button] {
-  font: .8rem "Arial";
+  font: .833rem "Arial";
   font-weight: 600;
   cursor: pointer;
 }
