@@ -1,13 +1,13 @@
 const express = require('express');
 const router = new express.Router();
 const User = require('../models/user');
-const auth = require('../middleware/auth');
 const Table = require('../models/table');
-const validateTableData = require('../utils/validate-table-data');
+const auth = require('../middleware/auth');
+const validateTableData = require('../middleware/validate-table-data');
 const updateIfChanged = require('../utils/update-if-changed');
 
 // Create table
-router.post('/tables/new', auth, async (req, res) => {
+router.post('/tables/new', auth, validateTableData, async (req, res) => {
   req.body.owner = req.session.userId;
 
   const tablesWithSameHyphenId = await Table.find({ hyphenId: req.body.hyphenId });
@@ -19,7 +19,6 @@ router.post('/tables/new', auth, async (req, res) => {
   }
 
   try {
-    validateTableData(req.body);
     const table = new Table(req.body);
     await table.save();
     res.send({ id: table._id });
@@ -98,15 +97,13 @@ router.get('/tables/:id', auth, async (req, res) => {
 });
 
 // Update table
-router.patch('/tables', auth, async (req, res) => {
+router.patch('/tables', auth, validateTableData, async (req, res) => {
   const tablesWithSameHyphenId = await Table.find({ hyphenId: req.body.hyphenId });
   const tableOfCurrentUser = tablesWithSameHyphenId.find(table => table.owner.toString() === req.session.userId);
 
   if (!tableOfCurrentUser) return res.status(404).send({});
 
   try {
-    validateTableData(req.body);
-
     // delete empty table
     if (!req.body.theadRow.length && !req.body.tbodyRows.length) {
       try {
