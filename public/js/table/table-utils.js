@@ -1,33 +1,4 @@
 /**
- * Switch on/off scrolling mode for .table-panel elements.
- * @param {object} nodeOrHTMLCollection
- */
-function toggleScrollMode(nodeOrHTMLCollection) {
-  const nodes = nodeOrHTMLCollection instanceof Node && [nodeOrHTMLCollection] || nodeOrHTMLCollection;
-
-  for (const tablePanel of nodes) {
-    if (tablePanel.clientWidth > window.outerWidth - 1) {
-      tablePanel.style.overflowX = 'scroll';
-    } else {
-      tablePanel.style.overflowX = 'auto';
-    }
-  }
-}
-
-/**
- * Close whole table container including title and buttons-block.
- * @param {HTMLButtonElement} btn
- * @param {string} tableId
- */
-function closeTable(btn, { tableId }) {
-  const table = pickElem(tableId);
-
-  if (table) {
-    shownTables.remove(table.dataset.hyphenId);
-  }
-}
-
-/**
  * Delete table if user confirms.
  * @param {HTMLButtonElement} btn
  * @param {string} tableId
@@ -205,58 +176,6 @@ function collectCellsData(row) {
 }
 
 /**
- * Return id from stored collection, or make default one and return.
- * @param {array} storedCellsIds
- * @param {HTMLTableRowElement} row
- * @param {number} index
- * @param {string} hyphenId
- */
-function getStoredCellIdOrMakeNew(storedCellsIds, row, index, hyphenId) {
-  const cellsIds = Array.isArray(storedCellsIds) && storedCellsIds;
-  const cellsIdsInRow = cellsIds && Array.isArray(cellsIds[row.rowIndex - 1]) && cellsIds[row.rowIndex - 1] || [];
-
-  return cellsIdsInRow[index] || 'td' + createArbitraryString(6) + hyphenId;
-}
-
-/**
- * Parse style attribute of html tag.
- * @param {string} htmlStr - outerHTML | innerHTML
- * @returns {array}
- */
-function parseStyleAttr(htmlStr) {
-  const _htmlStr = typeof htmlStr === 'string' && htmlStr || '';
-  const firstTagOnlyStr = _htmlStr.slice(0, _htmlStr.search('>'));
-
-  const stylesRawStr = firstTagOnlyStr.split('style="')[1];
-  if (!stylesRawStr) return [];
-
-  const styles = [];
-  const stylesOnlyStr = stylesRawStr.slice(stylesRawStr.search(/\/\*|\w/), stylesRawStr.search('"')).trim();
-
-  const stylesNotParsed = stylesOnlyStr.split(/;\*\/|; \*\/|;/);
-
-  for (const style of stylesNotParsed) {
-    if (style && !/\/\*\w|\/\* /g.test(style)) { // not commented style
-      const split = style.split(':');
-      const parsedStyle = {
-        name: (n => n.slice(n.search(/\w/)))(split[0].trim()),
-        value: (split[1] || '').trim(),
-      };
-
-      const styleNameSplit = parsedStyle.name.split('-');
-      if (styleNameSplit[1]) {
-        const camelCasedPart = styleNameSplit.slice(1).map(str => `${str[0].toUpperCase()}${str.slice(1)}`).join('');
-        parsedStyle.name = styleNameSplit[0].concat(camelCasedPart);
-      }
-
-      styles.push(parsedStyle);
-    }
-  }
-
-  return styles;
-}
-
-/**
  * Check if objects' values are same by calling areObjectsEqualByKeysValues.
  * @param {object} oldData
  * @param {object} currData
@@ -310,54 +229,4 @@ function areObjectsEqualByKeysValues(keys, ...objs) {
     }
   }
   return !keys.length ? undefined : true;
-}
-
-/**
- * Create and show notification within .table-panel.
- * @param {string} tableId
- * @param {string} message
- * @param {string} type - success | error
- * @param {number} fadeAfter
- */
-function notify(tableId, message, type, fadeAfter) {
-  const _getElem = tagName => document.createElement(tagName);
-  const _ = { n: {} };
-
-  _.n.notifyWrapper = _getElem('div');
-  _.n.notifyWrapper.classList.add('notify-wrapper');
-
-  _.n.notify = _getElem('div');
-  _.n.notify.classList.add('notify', type);
-
-  _.n.text = _getElem('span');
-  _.n.text.textContent = message;
-
-  _.n.btnCross = _getElem('span');
-  _.n.btnCross.textContent = 'x';
-  _.n.btnCross.classList.add('btn-cross');
-  _.n.btnCross.addEventListener('click', () => {
-    _.n.notifyWrapper.remove();
-    delete _.n;
-  });
-
-  _.n.notify.append(_.n.text, _.n.btnCross);
-  _.n.notifyWrapper.append(_.n.notify);
-
-  // .panels-block
-  pickElem(tableId).parentElement.parentElement.append(_.n.notifyWrapper);
-
-  setTimeout(() => {
-    if (_.n) {
-      _.n.notify.style.backgroundColor = 'transparent';
-      _.n.notify.style.borderColor = 'transparent';
-      _.n.text.style.color = 'transparent';
-      _.n.btnCross.style.backgroundColor = 'transparent';
-      _.n.btnCross.style.color = 'transparent';
-
-      setTimeout(() => {
-        _.n.notifyWrapper.remove();
-        delete _.n;
-      }, 1000);
-    }
-  }, fadeAfter);
 }
