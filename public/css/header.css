@@ -104,6 +104,10 @@ header {
   display: none;
 }
 
+#deleteUser {
+  color: darkred;
+}
+
 /**
    ===== style for size < 608px =====
  */
