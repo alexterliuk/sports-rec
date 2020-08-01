@@ -23,6 +23,8 @@ th {
   background-color: slategrey;
   border-top: 3px solid slategrey;
   border-bottom: 3px solid slategrey;
+  border-left: 1px solid slategrey;
+  border-right: 1px solid slategrey;
 }
 
 th:hover {
@@ -37,10 +39,16 @@ td {
   padding: var(--cellPadVert);
   position: relative;
   text-align: center;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
 }
 
 td:hover {
   font-weight: bold;
+}
+
+tbody tr {
+  border-bottom: var(--rowBorderBottomWidth) solid transparent;
 }
 
 tbody tr:nth-child(even) {
@@ -59,24 +67,16 @@ tbody tr:last-child:hover {
    ===== Styles for table borders =====
  */
 
-th:last-child {
-  border-right: 2px solid slategrey;
-}
-
-tbody tr {
-  border-bottom: var(--rowBorderBottomWidth) solid transparent;
-}
-
 tbody tr:last-child {
   border-bottom-color: #e1e4e6;
 }
 
 td:first-child {
-  border-left: 1px solid #e1e4e6;
+  border-left-color: #e1e4e6;
 }
 
 td:last-child {
-  border-right: 1px solid #e1e4e6;
+  border-right-color: #e1e4e6;
 }
 
 /**
