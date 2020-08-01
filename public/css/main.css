@@ -28,6 +28,8 @@ span[role=button].button-look {
 
 .table-title-container {
   display: flex;
+  width: 48rem;
+  margin: 0 auto;
 }
 
 .table-title-container h2,
