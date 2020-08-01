@@ -75,11 +75,12 @@ span[role=button].button-look {
 }
 
 .buttons-block button {
-  margin-right: .25rem;
+  display: inline-block;
+  margin: 0 .25rem .25rem 0;
   height: 21px;
 }
 
-.btn-save {
+.buttons-block button.btn-save {
   margin-left: auto;
   background-color: #e9f0f9;
   border: 1px solid #8ea5c5;
@@ -116,6 +117,27 @@ span[role=button].button-look {
 
 .no-click {
   pointer-events: none;
+}
+
+@media(max-width: 48rem) {
+  .buttons-block {
+    width: unset;
+    display: block;
+  }
+
+  .buttons-block,
+  .panels-block,
+  .table-title-container {
+    margin: 0 calc(2 * var(--pad));
+  }
+
+  .side-panel {
+    display: none;
+  }
+
+  .table-panel {
+    margin: 0 auto;
+  }
 }
 
 /**
