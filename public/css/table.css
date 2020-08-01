@@ -230,13 +230,14 @@ thead tr .edit-button.active {
 
 span[role=button].sorting-button {
   position: relative;
+  display: block;
 }
 
 span[role=button].sorting-button::before {
   opacity: .3;
   content: "\025b4";
   position: absolute;
-  left: -14px;
+  left: -4px;
   font-size: 22px;
   line-height: .4;
 }
@@ -249,7 +250,7 @@ span[role=button].sorting-button::after {
   opacity: .3;
   content: "\025be";
   position: absolute;
-  left: -5px;
+  right: -4px;
   font-size: 22px;
   z-index: 1;
   line-height: .4;
