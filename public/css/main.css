@@ -157,6 +157,7 @@ span[role=button].button-look {
 
 .table-panel {
   position: relative;
+  overflow-x: auto;
 }
 
 .side-panel {

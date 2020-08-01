@@ -70,12 +70,3 @@ function $emit(response, emitter, emitType) {
     signInPanel.style.visibility = 'initial';
   }
 })();
-
-// Decide whether to switch table to scrolling mode
-(function onPageLoad() {
-  toggleScrollMode(querySelAll('.table-panel'));
-
-  window.addEventListener('resize', () => {
-    toggleScrollMode(querySelAll('.table-panel'));
-  });
-})();

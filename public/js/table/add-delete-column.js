@@ -89,8 +89,6 @@ function addColumn(btn, spec, dom) {
       if (spec.cellsTextareaStyles) _dom.addStyle(querySel(`#${cell.id} textarea`), spec.cellsTextareaStyles[cell.id] || []);
     }
   }
-
-  toggleScrollMode(tablePanel);
 }
 
 /**
