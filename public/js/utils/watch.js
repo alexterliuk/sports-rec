@@ -46,6 +46,30 @@ function watch(type, node, { ...options } = {}) {
     };
   };
 
+  // if table overflows, attach .btn-close to .panels-block, so that it stays within page
+  _mobs.tableWidth = () => {
+    const m = new MutationObserver(rec => {
+      let table = rec[0].target;
+
+      let stop = 0;
+      while (table.tagName !== 'TABLE') {
+        table = table.parentElement;
+        if (++stop === 1000) break;
+      }
+
+      putBtnCloseToRight(table);
+    });
+
+    return {
+      observe: () => {
+        m.observe(node, { attributes: true, subtree: true, childList: true });
+      },
+      disconnect: () => {
+        m.disconnect();
+      },
+    };
+  };
+
   // detect changes in dashboardInfo.children.length
   _mobs.dashboardInfoLength = () => {
     const m = new MutationObserver(rec => {

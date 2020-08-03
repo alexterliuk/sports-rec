@@ -165,6 +165,7 @@ span[role=button].delete-stick:hover {
   background: #8a2323;
   font: 600 1.1rem "Consolas";
   line-height: .7;
+  transition: none;
 }
 
 .table-panel .btn-close::after {

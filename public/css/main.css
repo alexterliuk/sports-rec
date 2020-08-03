@@ -126,17 +126,12 @@ span[role=button].button-look {
   }
 
   .buttons-block,
-  .panels-block,
   .table-title-container {
     margin: 0 calc(2 * var(--pad));
   }
 
-  .side-panel {
-    display: none;
-  }
-
-  .table-panel {
-    margin: 0 auto;
+  section.side-panel {
+    flex-basis: 0;
   }
 }
 

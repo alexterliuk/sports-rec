@@ -70,3 +70,12 @@ function $emit(response, emitter, emitType) {
     signInPanel.style.visibility = 'initial';
   }
 })();
+
+// Make sure .btn-close is always on page at table's right upper corner.
+(function onPageLoad() {
+  putBtnCloseToRight();
+
+  window.addEventListener('resize', () => {
+    putBtnCloseToRight();
+  });
+})();

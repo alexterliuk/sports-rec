@@ -277,6 +277,7 @@ function buildDOM(data) {
       if (data.tagName === 'table') {
         const table = dom.root.element;
         watch('pristine', table);
+        watch('tableWidth', table);
 
         dom.root.theadRow = collectRowsData(table.children[0]);
         dom.root.tbodyRows = collectRowsData(table.children[1]);
