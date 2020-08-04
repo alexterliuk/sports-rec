@@ -70,10 +70,38 @@ function watch(type, node, { ...options } = {}) {
     };
   };
 
-  // detect changes in dashboardInfo.children.length
+  // 1. remove a child of unexpected format from dashboardInfo
+  // 2. if dashboardInfo's state is different from corresponding page in _data.pages, repack _data.pages
+  // both cases may happen due to breaking of dashboardDriver's normal workflow (e.g. manual forced appending dboItem from another page)
   _mobs.dashboardInfoLength = () => {
     const m = new MutationObserver(rec => {
-      options.updateDashboard();
+      // stop if previously called _mobs has not finished its job, or if dashboardInfo is being currently updated by normal workflow
+      if (options.isDashboardInfoUpdating()) return;
+
+      const dashboardInfo = pickElem('dashboardInfo');
+      const currPageHyphenIdsInData = options.getCurrPageHyphenIds();
+      const currPageHyphenIdsInInfo = [];
+      const elemsToRemove = [];
+
+      for (const elem of dashboardInfo.children) {
+        if (!elem.classList.value.includes('dbo-head')) {
+          const dboItemClass = elem.classList.value.includes('dbo-item');
+          const dataHyphenId = elem.dataset.hyphenId !== undefined;
+
+          // if elem doesn't meet prerequisites, remove it
+          if (!(dboItemClass && dataHyphenId)) {
+            elemsToRemove.push(elem);
+
+          } else {
+            currPageHyphenIdsInInfo.push(elem.dataset.hyphenId);
+          }
+        }
+      }
+
+      elemsToRemove.forEach(elem => { elem.remove(); });
+
+      const hyphenIdsNotSame = currPageHyphenIdsInInfo.some((id, idx) => id !== currPageHyphenIdsInData[idx]);
+      if (hyphenIdsNotSame) options.repackDashboardPages();
     });
 
     return {

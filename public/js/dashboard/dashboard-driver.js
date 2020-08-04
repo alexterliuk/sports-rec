@@ -41,14 +41,14 @@ const dashboardDriver = (function() {
     }
 
     launched = true;
-    //watchDashboardChanges();
+    watchDashboardInfoChanges();
   };
 
   /**
    * Trigger mutation observer watching changes in dashboardInfo.
    */
-  const watchDashboardChanges = () => {
-    watch('dashboardInfoLength', dashboardInfo, { updateDashboardPages, maxTablesInDashboardPage: _data.maxTablesInDashboardPage });
+  const watchDashboardInfoChanges = () => {
+    watch('dashboardInfoLength', dashboardInfo, { isDashboardInfoUpdating, getCurrPageHyphenIds, repackDashboardPages });
   };
 
 
@@ -59,6 +59,7 @@ const dashboardDriver = (function() {
    * @param {object}
    */
   const updateDashboardInfo = ({ newTable, deletedTable, updatedTable }) => {
+    _data.dashboardInfoIsUpdating = true;
     addMaxTablesInDashboardPageHeight();
 
     if (newTable) {
@@ -261,9 +262,82 @@ const dashboardDriver = (function() {
 
       }
     }
+
+    delete _data.dashboardInfoIsUpdating;
   };
 
 
+
+  /**
+   * Repack _data.pages if dashboardInfo is changed by abnormal way (not as result of saving, deleting, updating data on server).
+   * Normal workflow of dashboardDriver might be broken by manual modifying of dashboardInfo contents.
+   */
+  const repackDashboardPages = () => {
+    _data.dashboardInfoIsUpdating = true;
+
+    let idx = 0;
+    for (const dboItem of dashboardInfo.children) {
+      const dboItemHyphenIdInDashboard = dboItem.dataset.hyphenId;
+
+      if (!dboItem.classList.value.includes('dbo-head')) {
+        const currPage = _data.pages[_data.currentShownPage];
+        const dboItemHyphenIdInData = ((currPage.dboItems[idx] || {}).dataset || {}).hyphenId;
+
+        if (dboItemHyphenIdInData !== dboItemHyphenIdInDashboard) {
+          let found, page;
+
+          // find where is in _data.pages dboItem with hyphenId like in dashboardInfo's dboItem
+          for (let i = 1; i <= _data.pages.pagesQty; i++) {
+            page = _data.pages[i];
+
+            const sameDboItemInDataIdx = page.dboItems.findIndex(item => item.dataset.hyphenId === dboItemHyphenIdInDashboard);
+
+            if (~sameDboItemInDataIdx) {
+              found = true;
+              // update _data.pages
+              currPage.dboItems.splice(idx, 0, page.dboItems.splice(sameDboItemInDataIdx, 1)[0]);
+              currPage.tables.splice(idx, 0, page.tables.splice(sameDboItemInDataIdx, 1)[0]);
+            }
+          }
+
+          if (found) {
+            if (page !== currPage) { // dboItem from another page added to currPage
+              dashboardInfo.children[dashboardInfo.children.length - 1].remove();
+              reflowTablesAndDboItems({ currPage, added: true });
+
+            } else { // currPage's dboItem moved to another position within currPage
+              const tables = [];
+              const dboItems = [];
+
+              // repack currPage to reflect state of dashboardInfo
+              for (const dboItem of dashboardInfo.children) {
+                if (!dboItem.classList.value.includes('dbo-head')) {
+                  dboItems.push(dboItem);
+                  tables.push(currPage.tables.find(table => table.hyphenId === dboItem.dataset.hyphenId));
+                }
+              }
+
+              currPage.dboItems = dboItems;
+              currPage.tables = tables;
+            }
+
+          } else { // dboItem with unknown hyphenId, thus not valid, remove it
+            dboItem.remove();
+          }
+
+          updateDashboardIndexes();
+
+          break;
+        }
+
+        idx++;
+      }
+    }
+
+    setTimeout(() => {
+      delete _data.dashboardInfoIsUpdating;
+      }, 100);
+  };
 
   /**
    * Insert rule of dashboardInfo height equal to heights of maximum tables on dashboard page + dboHead.
@@ -290,6 +364,7 @@ const dashboardDriver = (function() {
   /**
    * Look if dashboard page has less tables than maxTablesInDashboardPage, if needed add missing table and dboItem taking it from next page.
    * Do the same for all pages starting from currPage except last.
+   * added option is used only when normal workflow of dashboardDriver is broken (see _mobs.dashboardInfoLength).
    * @param {object} currPage
    * @param {boolean} deleted
    * @param {boolean} added
@@ -313,15 +388,15 @@ const dashboardDriver = (function() {
         }
       }
 
-      // if (added) {
-      //   const currPageLastDboItem = currPage.dboItems.pop();
-      //   const currPageLastTable = currPage.tables.pop();
-      //
-      //   if (currPageLastDboItem) {
-      //     nextPage.dboItems.unshift(currPageLastDboItem);
-      //     nextPage.tables.unshift(currPageLastTable);
-      //   }
-      // }
+      if (added) {
+        const currPageLastDboItem = currPage.dboItems.pop();
+        const currPageLastTable = currPage.tables.pop();
+
+        if (currPageLastDboItem) {
+          nextPage.dboItems.unshift(currPageLastDboItem);
+          nextPage.tables.unshift(currPageLastTable);
+        }
+      }
 
       currPage = nextPage;
       nextPage = _data.pages[++nextPageNum];
@@ -379,6 +454,8 @@ const dashboardDriver = (function() {
    * @param {boolean} refresh
    */
   const setActivePage = (event, pageNum, refresh) => {
+    _data.dashboardInfoIsUpdating = true;
+
     if (event) pageNum = +event.target.dataset.pageNum;
 
     if (_data.pages[pageNum] && refresh || _data.pages[pageNum] && !_data.pages[pageNum].shown) {
@@ -418,6 +495,8 @@ const dashboardDriver = (function() {
 
       updateDashboardIndexes();
     }
+
+    delete _data.dashboardInfoIsUpdating;
   };
 
   /**
@@ -615,6 +694,19 @@ const dashboardDriver = (function() {
       }
     }
   };
+
+  /**
+   * Collect hyphen ids from current shown page of _data.pages.
+   */
+  const getCurrPageHyphenIds = () => {
+    const currPage = _data.pages[_data.currentShownPage] || {};
+    return (currPage.tables || []).map(table => table.hyphenId);
+  };
+
+  /**
+   * Find out if dashboardInfo is currently being updated by dashboardDriver's normal workflow (due to save, delete, update).
+   */
+  const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
 
   return {
     launch,
