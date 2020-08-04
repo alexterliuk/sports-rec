@@ -4,7 +4,7 @@
  * @returns {array}
  */
 async function getUserTablesHyphenIds(username) {
-  const response = await fetch(`http:/tables/${username}/hyphen-ids`, {
+  const response = await fetch(`https:/tables/${username}/hyphen-ids`, {
     method: 'GET',
   });
 

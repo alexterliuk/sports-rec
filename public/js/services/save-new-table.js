@@ -15,7 +15,7 @@ async function saveNewTable(btn, tableData) {
 
   setWaitingState(true, tableData);
 
-  const response = await fetch('http:/tables/new', {
+  const response = await fetch('https:/tables/new', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

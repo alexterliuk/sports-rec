@@ -3,7 +3,7 @@
  * @returns {array}
  */
 async function getAllTablesHyphenIds() {
-  const response = await fetch(`http:/tables/hyphen-ids`, {
+  const response = await fetch(`https:/tables/hyphen-ids`, {
     method: 'GET',
   });
 

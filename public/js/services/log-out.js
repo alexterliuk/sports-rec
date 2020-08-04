@@ -1,7 +1,7 @@
 pickElem('logOut').addEventListener('click', async event => {
   event.preventDefault();
 
-  const response = await fetch('http:/log-out', {
+  const response = await fetch('https:/log-out', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

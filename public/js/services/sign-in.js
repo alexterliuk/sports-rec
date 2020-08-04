@@ -11,7 +11,7 @@ signInForm.addEventListener('submit', async event => {
       showError(message, errElem);
 
     } else {
-      const response = await fetch('http:/sign-in', {
+      const response = await fetch('https:/sign-in', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

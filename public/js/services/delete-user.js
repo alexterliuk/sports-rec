@@ -6,7 +6,7 @@ pickElem('deleteUser').addEventListener('click', async event => {
     const errElem = querySel('#logInPanel .header-error');
 
     if (password) {
-      const response = await fetch('http:/delete-user', {
+      const response = await fetch('https:/delete-user', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
