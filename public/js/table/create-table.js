@@ -41,8 +41,8 @@ function createTable({ parentSelector, contId, colsQty }, tableData) {
   function makeTableSpecs() {
     const funcArgs = {
       tableId,
-      onClick: { funcName: 'sortColumn' },
-      onHover: { funcName: 'highlightColumn' },
+      // onClick: { funcName: 'sortColumn' },
+      // onHover: { funcName: 'highlightColumn' },
     };
 
     addColumnsIdsAndNames();
