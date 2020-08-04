@@ -4,6 +4,7 @@
   "description": "Table making playground. Create a table with editable cells.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "dev": "env-cmd -f ./config/dev.env nodemon app.js -e js,html,css"
   },
   "author": "Alex Terliuk",
