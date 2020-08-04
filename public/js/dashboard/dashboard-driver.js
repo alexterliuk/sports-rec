@@ -73,6 +73,9 @@ const dashboardDriver = (function() {
 
         const newDboItem = (tempNode => tempNode.removeChild(tempNode.children[0]))(createDashboardItems([newTable]));
         visualizeWhileAppending(dashboardInfo, newDboItem);
+        setTimeout(() => {
+          updateDashboardIndexes();
+        }, 100);
 
         setTimeout(() => { // wait for visualizeWhileAppending finish
           updateDashboardPages({
@@ -336,7 +339,7 @@ const dashboardDriver = (function() {
 
     setTimeout(() => {
       delete _data.dashboardInfoIsUpdating;
-      }, 100);
+    }, 100);
   };
 
   /**
