@@ -11,7 +11,7 @@ signUpForm.addEventListener('submit', async event => {
       showError(message, errElem);
 
     } else {
-      const response = await fetch('https:/sign-up', {
+      const response = await fetch('/sign-up', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

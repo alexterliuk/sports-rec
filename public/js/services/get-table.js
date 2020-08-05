@@ -7,7 +7,7 @@ async function getTable(btn, { id } = {}) {
   if (!id) return null;
   setWaitingState(true, { id: 'dashboardBlock' });
 
-  const response = await fetch(`https:/tables/${id}`, {
+  const response = await fetch(`/tables/${id}`, {
     method: 'GET',
   });
 

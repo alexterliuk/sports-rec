@@ -2,7 +2,7 @@
  * Check whether current session is under logged in user.
  */
 async function isLoggedIn() {
-  const response = await fetch('https:/is-logged-in', {
+  const response = await fetch('/is-logged-in', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

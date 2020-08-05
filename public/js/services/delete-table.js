@@ -8,7 +8,7 @@ async function deleteTable(btn, tableData) {
 
   setWaitingState(true, tableData);
 
-  const response = await fetch(`https:/tables/${tableData.hyphenId}`, {
+  const response = await fetch(`/tables/${tableData.hyphenId}`, {
     method: 'DELETE',
   });
 

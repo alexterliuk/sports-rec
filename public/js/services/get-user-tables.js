@@ -7,7 +7,7 @@ async function getUserTables(btn, options) {
   setWaitingState(true, { id: 'dashboardBlock' });
 
   const queryStrings = makeQueryStrings(options, ['limit', 'skip'], 'number');
-  const baseUrl = 'https:/tables';
+  const baseUrl = `${baseURI}tables`;
   const url = queryStrings ? `${baseUrl}?${queryStrings}` : baseUrl;
 
   const response = await fetch(url, { method: 'GET' });

@@ -15,7 +15,7 @@ async function updateTable(btn, tableData) {
 
   setWaitingState(true, tableData);
 
-  const response = await fetch('https:/tables', {
+  const response = await fetch('/tables', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
