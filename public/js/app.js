@@ -3,12 +3,12 @@ function $listenToServerResponses(response, emitter, emitType) {
     'sign-up'() {
       welcomeMessage.textContent = `Welcome, ${signUpUsername.value}.`;
       this._showLogInPanel();
-      createDashboard(); // or call with options - e.g. createDashboard({ tablesQty: 50, maxTablesInDashboardPage: 10, maxButtonsInRow: 5 });
+      createDashboard();
     },
     'sign-in'() {
       welcomeMessage.textContent = `Welcome, ${signInUsername.value}.`;
       this._showLogInPanel();
-      createDashboard();
+      createDashboard(); // or call with options - e.g. createDashboard({ tablesQty: 20, maxTablesInDashboardPage: 5, maxButtonsInRow: 3 });
     },
     'log-out'() {
       mainTableBlock.dataset.username = '';
