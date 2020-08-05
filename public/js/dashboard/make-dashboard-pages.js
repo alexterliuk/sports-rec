@@ -13,7 +13,6 @@ async function makeDashboardPages({ tablesQty, skip, maxTablesInDashboardPage, m
   const tables = await getUserTables(null, { limit: tablesQty || 50, skip });
   // const getTables = () => JSON.parse(JSON.stringify(tables));
 
-  shownTablesInDashboard.add(tables.slice(0, 10));
   savedTablesHyphenIds.add();
 
   dashboardDriver.launch({ pages: composePages(), maxTablesInDashboardPage, maxButtonsInRow });
