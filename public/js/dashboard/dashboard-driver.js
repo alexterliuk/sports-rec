@@ -4,6 +4,7 @@
  * Component is initialized by dashboardDriver.launch.
  */
 const dashboardDriver = (function() {
+  let ctx;
   let launched = false;
   let buildAllTheseTables, dashboardInfo, dashboardPagination, dashboardPages, prevPage, nextPage;
   const _data = {};
@@ -34,6 +35,16 @@ const dashboardDriver = (function() {
     delete pages.tablesTotal;
     _data.maxTablesInDashboardPage = maxTablesInDashboardPage;
     _data.maxButtonsInRow = maxButtonsInRow;
+
+    ctx = {
+      _data,
+      buildAllTheseTables,
+      dashboardInfo,
+      dashboardPagination,
+      dashboardPages,
+      prevPage,
+      nextPage,
+    };
 
     if (_data.tablesTotal) {
       setActivePage(null, 1);
@@ -711,9 +722,28 @@ const dashboardDriver = (function() {
    */
   const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
 
+  /**
+   * Copy context object and return.
+   */
+  const getContext = () => {
+    const _ctx = Object.assign({}, ctx);
+    _ctx._data = Object.assign({}, ctx._data);
+    _ctx._data.pages = Object.assign({}, ctx._data.pages);
+
+    for (let i = 1; i <= _ctx._data.pages.pagesQty; i++) {
+      _ctx._data.pages[i] = Object.assign({}, ctx._data.pages[i]);
+      _ctx._data.pages[i].tables = JSON.parse(JSON.stringify(ctx._data.pages[i].tables));
+    }
+
+    return _ctx;
+  };
+
+
+
   return {
     launch,
     isLaunched,
+    getContext,
     setActivePage,
     getTableFromDashboardPage,
     getAllTablesFromDashboardPage,
@@ -721,5 +751,22 @@ const dashboardDriver = (function() {
   };
 })();
 
-const  { launch, isLaunched, setActivePage, getTableFromDashboardPage, getAllTablesFromDashboardPage, updateDashboardInfo } = dashboardDriver;
-export { launch, isLaunched, setActivePage, getTableFromDashboardPage, getAllTablesFromDashboardPage, updateDashboardInfo };
+const  {
+  launch,
+  isLaunched,
+  getContext,
+  setActivePage,
+  getTableFromDashboardPage,
+  getAllTablesFromDashboardPage,
+  updateDashboardInfo,
+} = dashboardDriver;
+
+export {
+  launch,
+  isLaunched,
+  getContext,
+  getTableFromDashboardPage,
+  getAllTablesFromDashboardPage,
+  updateDashboardInfo,
+  setActivePage,
+};
