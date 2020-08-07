@@ -1,3 +1,6 @@
+import { getAllTablesFromDashboardPage } from './dashboard-driver.js';
+import makeDashboardPages from './make-dashboard-pages.js';
+
 /**
  * Create page section which serves as user dashboard.
  * ?@param {number} tablesQty - how many tables to fetch
@@ -19,7 +22,7 @@ async function createDashboard({ tablesQty, maxTablesInDashboardPage, maxButtons
     { parentId: params.contId, tagName: 'div', class: ['buttons-block'], $name: 'buttons-block' },
     { $parentName: 'buttons-block', tagName: 'button', newId: 'buildAllTheseTables', text: 'Build All These Tables',
       dataset: [{ key: 'pageNum', value: 0 }],
-      onClick: { funcName: 'buildTables', funcArgs: [{ getTablesFromCurrentPage: dashboardDriver.getAllTablesFromDashboardPage }] },
+      onClick: { funcName: 'buildTables', funcArgs: [{ getTablesFromCurrentPage: getAllTablesFromDashboardPage }] },
     },
     { parentId: params.contId, tagName: 'div', class: ['panels-block'], $name: 'panels-block' },
     { $parentName: 'panels-block', tagName: 'section', class: ['side-panel', 'left-panel'] },
@@ -35,3 +38,5 @@ async function createDashboard({ tablesQty, maxTablesInDashboardPage, maxButtons
   buildDOM(params);
   makeDashboardPages({ tablesQty, maxTablesInDashboardPage, maxButtonsInRow });
 }
+
+export default createDashboard;
