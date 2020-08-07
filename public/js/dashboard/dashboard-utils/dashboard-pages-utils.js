@@ -1,3 +1,7 @@
+import { getTableFromDashboardPage, setActivePage } from '../dashboard-driver.js';
+import createDashboardItems from '../create-dashboard-items.js';
+import { getPageButtonSpec } from './dashboard-page-buttons-utils.js';
+
 /**
  * Add page to dashboardDriver's _data.pages (or to temporary object which in a moment will become dashboardDriver's _data.pages).
  * @param {object} pages
@@ -62,7 +66,7 @@ function addDashboardPageButtonToPage(pageNum) {
   };
 
   buildDOM(params);
-  parentElement.children[0].addEventListener('click', dashboardDriver.setActivePage);
+  parentElement.children[0].addEventListener('click', setActivePage);
 
   return parentElement.children[0];
 }
@@ -76,7 +80,15 @@ function getTableFromDboItem(btn) {
     const dboItem = btn.parentElement && btn.parentElement.parentElement;
 
     if (dboItem && dboItem.dataset.hyphenId) {
-      return dashboardDriver.getTableFromDashboardPage(dboItem.dataset.hyphenId);
+      return getTableFromDashboardPage(dboItem.dataset.hyphenId);
     }
   }
 }
+
+export {
+  addDashboardPageToPages,
+  addEmptyDashboardPageToPages,
+  addDashboardItemsToPage,
+  addDashboardPageButtonToPage,
+  getTableFromDboItem,
+};
