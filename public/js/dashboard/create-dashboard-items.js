@@ -1,3 +1,5 @@
+import { getTableFromDboItem } from './dashboard-utils/dashboard-pages-utils.js';
+
 /**
  * Create a row with position, table title and button 'Build table'.
  * @param {array} tables
@@ -40,3 +42,5 @@ function createDashboardItems(tables) {
     ];
   }
 }
+
+export default createDashboardItems;
