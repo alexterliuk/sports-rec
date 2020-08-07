@@ -720,3 +720,6 @@ const dashboardDriver = (function() {
     updateDashboardInfo,
   };
 })();
+
+const  { launch, isLaunched, setActivePage, getTableFromDashboardPage, getAllTablesFromDashboardPage, updateDashboardInfo } = dashboardDriver;
+export { launch, isLaunched, setActivePage, getTableFromDashboardPage, getAllTablesFromDashboardPage, updateDashboardInfo };
