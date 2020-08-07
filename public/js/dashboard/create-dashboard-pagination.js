@@ -1,3 +1,5 @@
+import { getNavPageButtonSpec } from './dashboard-utils/dashboard-page-buttons-utils.js';
+
 /**
  * Create dashboardPagination with prevPage, dashboardPages and nextPage.
  */
@@ -22,3 +24,5 @@ function createDashboardPagination() {
 
   buildDOM(params);
 }
+
+export default createDashboardPagination;
