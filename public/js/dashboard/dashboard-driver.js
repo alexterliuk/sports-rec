@@ -1,3 +1,6 @@
+import createDashboardPagination from './create-dashboard-pagination.js';
+import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-utils.js';
+
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
  * Dashboard consists of two main blocks - dashboardInfo, dashboardPages. Each is driven by corresponding update function.
