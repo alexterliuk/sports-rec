@@ -1,3 +1,5 @@
+import createDashboard from './dashboard/create-dashboard.js';
+
 function $listenToServerResponses(response, emitter, emitType) {
   const lib = {
     'sign-up'() {
