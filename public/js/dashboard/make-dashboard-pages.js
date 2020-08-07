@@ -1,3 +1,6 @@
+import { launch } from './dashboard-driver.js';
+import { addDashboardPageToPages } from './dashboard-utils/dashboard-pages-utils.js';
+
 /** Fetch tables and make pages - each with pageButton, dashboard rows (.dbo-items), 'Build All These Tables' button.
  * ?@param {number} tablesQty - how many tables to fetch
  * ?@param {number} skip - how many tables to skip
@@ -15,7 +18,7 @@ async function makeDashboardPages({ tablesQty, skip, maxTablesInDashboardPage, m
 
   savedTablesHyphenIds.add();
 
-  dashboardDriver.launch({ pages: composePages(), maxTablesInDashboardPage, maxButtonsInRow });
+  launch({ pages: composePages(), maxTablesInDashboardPage, maxButtonsInRow });
 
   function composePages() {
     const pgs = { pagesQty: 0, tablesTotal: 0 };
@@ -39,3 +42,5 @@ async function makeDashboardPages({ tablesQty, skip, maxTablesInDashboardPage, m
     return pgs;
   }
 }
+
+export default makeDashboardPages;
