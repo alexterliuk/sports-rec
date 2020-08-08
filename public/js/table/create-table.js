@@ -1,3 +1,5 @@
+import buildDOM from './build-dom.js';
+
 /**
  * Create table in .table-panel section.
  * @param {string} parentSelector
@@ -93,3 +95,5 @@ function createTable({ parentSelector, contId, colsQty }, tableData) {
     }
   }
 }
+
+export default createTable;

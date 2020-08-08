@@ -1,5 +1,6 @@
 import getBuildDOMLibrary from './get-build-dom-library.js';
 import collectTableDataAndSave from './table-utils/save-delete/collect-table-data-and-save.js';
+import buildTables from './build-tables.js';
 
 const funcLib = {
   editTableTitle,

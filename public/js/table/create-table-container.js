@@ -1,3 +1,7 @@
+import buildDOM from './build-dom.js';
+import createTable from './create-table.js';
+import createTableTemplate from './create-table-template.js';
+
 /**
  * Create page section with .table-title, .buttons-block and .panels-block where a table will reside.
  * @param {object} tableData
@@ -75,3 +79,5 @@ function createTableContainer(tableData) {
     createTableTemplate(tableInitParams);
   }
 }
+
+export default createTableContainer;
