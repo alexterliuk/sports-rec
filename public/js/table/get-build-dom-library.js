@@ -1,4 +1,5 @@
 import { funcLib } from './build-dom.js';
+import createArbitraryString from '../utils/create-arbitrary-string.js';
 
 /**
  * Provider of library for building DOM elements.
