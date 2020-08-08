@@ -2,7 +2,14 @@ import getBuildDOMLibrary from './get-build-dom-library.js';
 import { addRow, deleteRow } from './add-delete-row.js';
 import getStoredCellIdOrMakeNew from './table-utils/get-stored-cell-id-or-make-new.js';
 import createArbitraryString from '../utils/create-arbitrary-string.js';
-import { createCell, addTextareaAndHider } from './table-utils/constructors/index.js';
+import {
+  createCell,
+  addTextareaAndHider,
+  createEditMask,
+  createEditButton,
+  createDelStick,
+  createSortingButton,
+} from './table-utils/constructors/index.js';
 
 /**
  * Add new column to table. A new table is created by this function by column-by-column way.
