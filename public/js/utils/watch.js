@@ -1,3 +1,5 @@
+import { alignTextAreasHeight } from '../table/table-utils/modifiers/index.js';
+
 /**
  * Initialize MutationObserver of desired type and listen changes on node.
  * @param {string} type

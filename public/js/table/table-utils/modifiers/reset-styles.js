@@ -33,3 +33,5 @@ function resetStyles(btn, { tableId } = {}) {
     }
   }
 }
+
+export default resetStyles;

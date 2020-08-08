@@ -1,4 +1,5 @@
 import { updateDashboardInfo } from '../../../dashboard/dashboard-driver.js';
+import { removeEmptyColumns, removeLastEmptyRows } from '../modifiers/index.js';
 import watch from '../../../utils/watch.js';
 
 /**

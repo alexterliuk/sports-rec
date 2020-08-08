@@ -10,3 +10,5 @@ function removeLastEmptyRows(table) {
     table.tbodyRows.pop();
   }
 }
+
+export default removeLastEmptyRows;

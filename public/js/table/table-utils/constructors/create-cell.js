@@ -1,4 +1,5 @@
 import watch from '../../../utils/watch.js';
+import { enactShowHideResizer } from '../modifiers/index.js';
 import addTextareaAndHider from './add-textarea-and-hider.js';
 
 /**

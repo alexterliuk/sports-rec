@@ -33,3 +33,5 @@ function editTableTitle(btn, { id }) {
     input.removeEventListener('keydown', changeTitle);
   }
 }
+
+export default editTableTitle;

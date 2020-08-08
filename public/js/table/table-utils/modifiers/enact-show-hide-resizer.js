@@ -15,3 +15,5 @@ function enactShowHideResizer(txtAr) {
     }
   }
 }
+
+export default enactShowHideResizer;

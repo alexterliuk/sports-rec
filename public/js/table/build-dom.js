@@ -4,6 +4,7 @@ import buildTables from './build-tables.js';
 import { addColumn, deleteColumn } from './add-delete-column.js';
 import { addRow, deleteRow} from './add-delete-row.js';
 import watch from '../utils/watch.js';
+import { editTableTitle, changeColumnsWidth, resetStyles } from './table-utils/modifiers/index.js';
 
 const funcLib = {
   editTableTitle,
