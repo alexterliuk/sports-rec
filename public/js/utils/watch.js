@@ -1,4 +1,5 @@
 import { alignTextAreasHeight } from '../table/table-utils/modifiers/index.js';
+import putBtnCloseToRight from '../table/table-utils/put-btn-close-to-right.js';
 
 /**
  * Initialize MutationObserver of desired type and listen changes on node.

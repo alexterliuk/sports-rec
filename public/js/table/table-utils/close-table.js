@@ -10,3 +10,5 @@ function closeTable(btn, { tableId }) {
     shownTables.remove(table.dataset.hyphenId);
   }
 }
+
+export default closeTable;

@@ -1,3 +1,5 @@
+import parseStyleAttr from '../parse-style-attr.js';
+
 /**
  * Collect data by calling collectCellsData once or multiple times.
  * @param {HTMLElement} tableChild - thead | tbody

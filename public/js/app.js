@@ -1,5 +1,6 @@
 import createDashboard from './dashboard/create-dashboard.js';
 import createTableContainer from './table/create-table-container.js';
+import putBtnCloseToRight from './table/table-utils/put-btn-close-to-right.js';
 
 function $listenToServerResponses(response, emitter, emitType) {
   const lib = {
