@@ -1,6 +1,7 @@
 import createDashboard from './dashboard/create-dashboard.js';
 import createTableContainer from './table/create-table-container.js';
 import putBtnCloseToRight from './table/table-utils/put-btn-close-to-right.js';
+import enactTogglePasswordView from './utils/enact-toggle-password-view.js';
 
 function $listenToServerResponses(response, emitter, emitType) {
   const lib = {
@@ -87,4 +88,6 @@ function $emit(response, emitter, emitType) {
   const htmlStr = '<div class="buttons-block"><button id="createNewTable">Create New Table</button></div>';
   mainTableBlock.insertAdjacentHTML('beforebegin', htmlStr);
   pickElem('createNewTable').addEventListener('click', createTableContainer);
+
+  enactTogglePasswordView();
 })();
