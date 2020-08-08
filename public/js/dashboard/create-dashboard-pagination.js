@@ -1,4 +1,5 @@
 import { getNavPageButtonSpec } from './dashboard-utils/dashboard-page-buttons-utils.js';
+import buildDOM from '../table/build-dom.js';
 
 /**
  * Create dashboardPagination with prevPage, dashboardPages and nextPage.

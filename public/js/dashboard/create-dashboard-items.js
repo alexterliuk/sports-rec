@@ -1,4 +1,5 @@
 import { getTableFromDboItem } from './dashboard-utils/dashboard-pages-utils.js';
+import buildDOM from '../table/build-dom.js';
 
 /**
  * Create a row with position, table title and button 'Build table'.

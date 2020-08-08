@@ -1,5 +1,6 @@
 import { getAllTablesFromDashboardPage } from './dashboard-driver.js';
 import makeDashboardPages from './make-dashboard-pages.js';
+import buildDOM from '../table/build-dom.js';
 
 /**
  * Create page section which serves as user dashboard.

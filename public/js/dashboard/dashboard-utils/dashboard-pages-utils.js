@@ -2,6 +2,7 @@ import { getTableFromDashboardPage, getContext } from '../dashboard-driver.js';
 import setActivePage from './set-active-page.js';
 import createDashboardItems from '../create-dashboard-items.js';
 import { getPageButtonSpec } from './dashboard-page-buttons-utils.js';
+import buildDOM from '../../table/build-dom.js';
 
 /**
  * Add page to dashboardDriver's _data.pages (or to temporary object which in a moment will become dashboardDriver's _data.pages).
