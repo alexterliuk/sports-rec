@@ -1,5 +1,5 @@
 import getBuildDOMLibrary from './get-build-dom-library.js';
-import collectTableDataAndSave from './table-utils/save-delete/collect-table-data-and-save.js';
+import { collectRowsData, collectTableDataAndSave, confirmDeletingTable } from './table-utils/save-delete/index.js';
 import buildTables from './build-tables.js';
 import { addColumn, deleteColumn } from './add-delete-column.js';
 import { addRow, deleteRow} from './add-delete-row.js';

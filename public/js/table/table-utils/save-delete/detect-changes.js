@@ -53,3 +53,5 @@ function areObjectsEqualByKeysValues(keys, ...objs) {
   }
   return !keys.length ? undefined : true;
 }
+
+export default detectChanges;

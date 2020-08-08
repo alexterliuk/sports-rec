@@ -54,3 +54,5 @@ function collectCellsData(row) {
 
   return data;
 }
+
+export default collectRowsData;
