@@ -89,7 +89,7 @@ const dashboardDriver = (function() {
         const newDboItem = (tempNode => tempNode.removeChild(tempNode.children[0]))(createDashboardItems([newTable]));
         visualizeWhileAppending(dashboardInfo, newDboItem);
         setTimeout(() => {
-          updateDashboardIndexes();
+          updateDashboardIndexes(ctx._data.maxTablesInDashboardPage, ctx._data.currentShownPage);
         }, 100);
 
         setTimeout(() => { // wait for visualizeWhileAppending finish
@@ -343,7 +343,7 @@ const dashboardDriver = (function() {
             dboItem.remove();
           }
 
-          updateDashboardIndexes();
+          updateDashboardIndexes(ctx._data.maxTablesInDashboardPage, ctx._data.currentShownPage);
 
           break;
         }
@@ -462,23 +462,6 @@ const dashboardDriver = (function() {
       });
 
       if (found) return found;
-    }
-  };
-
-  /**
-   * Make correct positions for .dbo-items.
-   */
-  const updateDashboardIndexes = () => {
-    const dashboardInfo = pickElem('dashboardInfo');
-    if (!dashboardInfo) return;
-
-    const dboCellNums = querySelAll('#dashboardInfo .dbo-cell-num');
-    const maxTables = _data.maxTablesInDashboardPage;
-    const currPage = _data.currentShownPage || 1;
-
-    let pos = 1;
-    for (const cellNum of dboCellNums) {
-      cellNum.textContent = (currPage * maxTables) - maxTables + pos++;
     }
   };
 

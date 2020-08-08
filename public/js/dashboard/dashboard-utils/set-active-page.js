@@ -1,3 +1,5 @@
+import updateDashboardIndexes from './update-dashboard-indexes.js';
+
 /**
  * Show desired page.
  * @param {Event} event
@@ -47,7 +49,7 @@ function setActivePage (event, pageNum, refresh, ctx) {
     ctx._data.pages[pageNum].pageButton.classList.add('active');
     ctx._data.currentShownPage = pageNum;
 
-    updateDashboardIndexes();
+    updateDashboardIndexes(ctx._data.maxTablesInDashboardPage, ctx._data.currentShownPage);
   }
 
   delete ctx._data.dashboardInfoIsUpdating;
