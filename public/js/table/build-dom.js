@@ -149,4 +149,5 @@ function buildDOM(data) {
   sessionStorage.setItem('data_v1', JSON.stringify(data));
 }
 
+export { funcLib };
 export default buildDOM;

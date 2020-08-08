@@ -1,3 +1,5 @@
+import { funcLib } from './build-dom.js';
+
 /**
  * Provider of library for building DOM elements.
  * @param {string} id - id of root element which will be created by buildDOM
