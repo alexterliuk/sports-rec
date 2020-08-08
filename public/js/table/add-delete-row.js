@@ -1,3 +1,5 @@
+import getBuildDOMLibrary from './get-build-dom-library.js';
+
 /**
  * Add new row to table.
  * @param {HTMLButtonElement} btn
@@ -49,3 +51,5 @@ function deleteRow() {
   const tbody = tr.parentElement;
   tbody.removeChild(tr);
 }
+
+export { addRow, deleteRow };

@@ -1,4 +1,4 @@
-import { updateDashboardInfo } from "../../../dashboard/dashboard-driver.js";
+import { updateDashboardInfo } from '../../../dashboard/dashboard-driver.js';
 
 /**
  * Collect table data and invoke saveNewTable or updateTable function.

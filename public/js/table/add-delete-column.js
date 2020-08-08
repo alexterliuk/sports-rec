@@ -1,3 +1,6 @@
+import getBuildDOMLibrary from './get-build-dom-library.js';
+import { addRow, deleteRow } from './add-delete-row.js';
+
 /**
  * Add new column to table. A new table is created by this function by column-by-column way.
  * @param {HTMLButtonElement} btn
@@ -111,6 +114,7 @@ function deleteColumn(event) {
 
   for (const row of tbody.children) {
     row.removeChild(row.children[cellIndex]);
+
     if (!cellIndex && theadRow.children.length) {
       row.children[cellIndex].append(createDelStick('Delete row', deleteRow));
     }
@@ -120,3 +124,5 @@ function deleteColumn(event) {
     while (tbody.children.length) tbody.deleteRow(-1);
   }
 }
+
+export { addColumn, deleteColumn };
