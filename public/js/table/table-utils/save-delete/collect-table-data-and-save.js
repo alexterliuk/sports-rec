@@ -1,4 +1,5 @@
 import { updateDashboardInfo } from '../../../dashboard/dashboard-driver.js';
+import watch from '../../../utils/watch.js';
 
 /**
  * Collect table data and invoke saveNewTable or updateTable function.

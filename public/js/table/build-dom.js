@@ -3,6 +3,7 @@ import collectTableDataAndSave from './table-utils/save-delete/collect-table-dat
 import buildTables from './build-tables.js';
 import { addColumn, deleteColumn } from './add-delete-column.js';
 import { addRow, deleteRow} from './add-delete-row.js';
+import watch from '../utils/watch.js';
 
 const funcLib = {
   editTableTitle,

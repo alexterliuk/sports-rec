@@ -119,3 +119,5 @@ function watch(type, node, { ...options } = {}) {
 
   return { disconnect: initializedMobs.disconnect };
 }
+
+export default watch;
