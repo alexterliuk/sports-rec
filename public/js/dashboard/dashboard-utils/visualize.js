@@ -38,3 +38,5 @@ function visualizeThenRemove(parentNode, childNode, hyphenId, duration) {
     parentNode.classList.remove('spinner');
   }, time + 500); // time to show/hide notify
 }
+
+export { visualizeWhileAppending, visualizeThenRemove };
