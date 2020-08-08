@@ -4,7 +4,7 @@ const pickTags = tag => document.getElementsByTagName(tag);
 const querySel = sel => document.querySelector(sel);
 const querySelAll = sel => document.querySelectorAll(sel);
 
-const baseURI = querySel('base').href;
+const baseURI = querySel('base') && querySel('base').href || '';
 
 const signInForm = querySel('#signInPanel form');
 const signInPanel = pickElem('signInPanel');
