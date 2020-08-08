@@ -13,8 +13,6 @@ const funcLib = {
   deleteRow,
   addColumn,
   deleteColumn,
-  sortColumn,
-  highlightColumn,
   changeColumnsWidth,
   resetStyles,
   collectTableDataAndSave,
