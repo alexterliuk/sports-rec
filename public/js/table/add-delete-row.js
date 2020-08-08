@@ -1,6 +1,7 @@
 import getBuildDOMLibrary from './get-build-dom-library.js';
 import getStoredCellIdOrMakeNew from './table-utils/get-stored-cell-id-or-make-new.js';
 import createArbitraryString from '../utils/create-arbitrary-string.js';
+import { createCell } from './table-utils/constructors/index.js';
 
 /**
  * Add new row to table.

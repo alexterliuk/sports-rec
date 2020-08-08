@@ -6,9 +6,12 @@
 function addTextareaAndHider(elem) {
   const textarea = document.createElement('textarea');
   elem.append(textarea);
+
   const resizerHider = document.createElement('span');
   resizerHider.classList.add('resizer-hider');
   elem.append(resizerHider);
 
   return { textarea, resizerHider };
 }
+
+export default addTextareaAndHider;

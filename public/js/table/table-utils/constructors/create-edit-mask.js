@@ -8,3 +8,5 @@ function createEditMask() {
 
   return editMask;
 }
+
+export default createEditMask;
