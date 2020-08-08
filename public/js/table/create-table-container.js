@@ -4,9 +4,10 @@ import createTableTemplate from './create-table-template.js';
 
 /**
  * Create page section with .table-title, .buttons-block and .panels-block where a table will reside.
+ * @param {Event} event
  * @param {object} tableData
  */
-function createTableContainer(tableData) {
+function createTableContainer(event, tableData) {
   // Do not create a table which already exists on page.
   if (tableData && shownTables.get(tableData.hyphenId)) return;
 

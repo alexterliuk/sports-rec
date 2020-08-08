@@ -1,4 +1,5 @@
 import createDashboard from './dashboard/create-dashboard.js';
+import createTableContainer from './table/create-table-container.js';
 
 function $listenToServerResponses(response, emitter, emitType) {
   const lib = {
@@ -80,4 +81,9 @@ function $emit(response, emitter, emitType) {
   window.addEventListener('resize', () => {
     putBtnCloseToRight();
   });
+
+  // Add Create New Table button to page
+  const htmlStr = '<div class="buttons-block"><button id="createNewTable">Create New Table</button></div>';
+  mainTableBlock.insertAdjacentHTML('beforebegin', htmlStr);
+  pickElem('createNewTable').addEventListener('click', createTableContainer);
 })();

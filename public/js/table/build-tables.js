@@ -13,7 +13,7 @@ function buildTables(btn, { getTablesFromCurrentPage, getTableFromDboItem } = {}
   const _tables = tables || table && [table] || [];
 
   for (const table of _tables) {
-    createTableContainer(table);
+    createTableContainer(null, table);
   }
 }
 
