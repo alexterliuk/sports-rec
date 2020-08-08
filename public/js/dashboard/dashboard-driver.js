@@ -1,5 +1,6 @@
 import createDashboardPagination from './create-dashboard-pagination.js';
 import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-utils.js';
+import setActivePage from './dashboard-utils/set-active-page.js';
 
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
@@ -50,7 +51,7 @@ const dashboardDriver = (function() {
     };
 
     if (_data.tablesTotal) {
-      setActivePage(null, 1);
+      setActivePage(null, 1, undefined, ctx);
       addPageButtons(1);
     }
 
@@ -194,7 +195,7 @@ const dashboardDriver = (function() {
             _data.tablesTotal--;
             _data.pages.pagesQty--;
             refreshPageButtons();
-            setActivePage(null, --_data.currentShownPage);
+            setActivePage(null, --ctx._data.currentShownPage, undefined, ctx);
           }
         }
       }
@@ -267,12 +268,12 @@ const dashboardDriver = (function() {
           _data.pages.pagesQty--;
 
           // if it is the page currently shown in dashboardInfo, redirect to previous one
-          if (_data.currentShownPage === _data.pages.pagesQty + 1) setActivePage(null, _data.pages.pagesQty);
+          if (_data.currentShownPage === _data.pages.pagesQty + 1) setActivePage(null, ctx._data.pages.pagesQty, undefined, ctx);
           refreshPageButtons();
         }
 
         // dboItem from shown page might have flown to another page to fill the gap there after deletion, refresh page
-        setActivePage(null, _data.currentShownPage, true);
+        setActivePage(null, ctx._data.currentShownPage, true, ctx);
       }
 
       if (updated) {
@@ -465,58 +466,6 @@ const dashboardDriver = (function() {
   };
 
   /**
-   * Show desired page.
-   * @param {Event} event
-   * @param {number} pageNum
-   * @param {boolean} refresh
-   */
-  const setActivePage = (event, pageNum, refresh) => {
-    _data.dashboardInfoIsUpdating = true;
-
-    if (event) pageNum = +event.target.dataset.pageNum;
-
-    if (_data.pages[pageNum] && refresh || _data.pages[pageNum] && !_data.pages[pageNum].shown) {
-      buildAllTheseTables.dataset.pageNum = pageNum;
-
-      // remove current page
-      let stop = 0;
-      while (dashboardInfo.children.length !== 1) {
-        dashboardInfo.children[dashboardInfo.children.length - 1].remove();
-        if (++stop === 1000) break;
-      }
-
-      if (_data.pages[pageNum].dboItems.length === _data.maxTablesInDashboardPage) {
-        dashboardInfo.classList.add('maxTablesInDashboardPageHeight');
-      } else {
-        dashboardInfo.classList.remove('maxTablesInDashboardPageHeight');
-      }
-
-      // add new page
-      dashboardInfo.classList.add('spinner');
-      setTimeout(() => { dashboardInfo.classList.remove('spinner') }, 100);
-      _data.pages[pageNum].dboItems.forEach(item => {
-        // can be used for visual effects:
-        // let delay = 0;
-        // setTimeout(() => visualizeWhileAppending(dashboardInfo, item), delay += 10);
-        dashboardInfo.append(item);
-      });
-
-      if (_data.currentShownPage && _data.pages[_data.currentShownPage]) {
-        _data.pages[_data.currentShownPage].shown = false;
-        _data.pages[_data.currentShownPage].pageButton.classList.remove('active');
-      }
-
-      _data.pages[pageNum].shown = true;
-      _data.pages[pageNum].pageButton.classList.add('active');
-      _data.currentShownPage = pageNum;
-
-      updateDashboardIndexes();
-    }
-
-    delete _data.dashboardInfoIsUpdating;
-  };
-
-  /**
    * Make correct positions for .dbo-items.
    */
   const updateDashboardIndexes = () => {
@@ -692,7 +641,7 @@ const dashboardDriver = (function() {
 
                   // refresh current page if it got new data
                   if (_data.currentShownPage === lastPage.pageNum) {
-                    setActivePage(null, _data.currentShownPage, true);
+                    setActivePage(null, ctx._data.currentShownPage, true, ctx);
                   }
 
                   let tablesForOtherPages = newTables.slice(tablesForLastPage.length);
@@ -758,7 +707,6 @@ const  {
   launch,
   isLaunched,
   getContext,
-  setActivePage,
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
   updateDashboardInfo,
@@ -771,5 +719,4 @@ export {
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
   updateDashboardInfo,
-  setActivePage,
 };

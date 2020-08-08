@@ -1,4 +1,5 @@
-import { getTableFromDashboardPage, setActivePage } from '../dashboard-driver.js';
+import { getTableFromDashboardPage, getContext } from '../dashboard-driver.js';
+import setActivePage from './set-active-page.js';
 import createDashboardItems from '../create-dashboard-items.js';
 import { getPageButtonSpec } from './dashboard-page-buttons-utils.js';
 
@@ -66,7 +67,7 @@ function addDashboardPageButtonToPage(pageNum) {
   };
 
   buildDOM(params);
-  parentElement.children[0].addEventListener('click', setActivePage);
+  parentElement.children[0].addEventListener('click', setActivePage.bind({ getContext }));
 
   return parentElement.children[0];
 }
