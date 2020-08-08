@@ -1,3 +1,5 @@
+import { shownTables } from '../../table/state-collectors/index.js';
+
 /**
  * Show/hide spinner, then append element.
  * @param parentNode

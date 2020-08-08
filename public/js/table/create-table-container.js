@@ -1,6 +1,7 @@
 import buildDOM from './build-dom.js';
 import createTable from './create-table.js';
 import createTableTemplate from './create-table-template.js';
+import { shownTables, tablesConfig } from './state-collectors/index.js';
 
 /**
  * Create page section with .table-title, .buttons-block and .panels-block where a table will reside.

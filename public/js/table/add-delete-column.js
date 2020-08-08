@@ -2,6 +2,7 @@ import getBuildDOMLibrary from './get-build-dom-library.js';
 import { addRow, deleteRow } from './add-delete-row.js';
 import getStoredCellIdOrMakeNew from './table-utils/get-stored-cell-id-or-make-new.js';
 import createArbitraryString from '../utils/create-arbitrary-string.js';
+import { shownTables, tablesConfig } from './state-collectors/index.js';
 import {
   createCell,
   addTextareaAndHider,

@@ -1,3 +1,5 @@
+import { shownTables } from '../state-collectors/index.js';
+
 /**
  * Close whole table container including title and buttons-block.
  * @param {HTMLButtonElement} btn

@@ -1,5 +1,6 @@
 import { funcLib } from './build-dom.js';
 import createArbitraryString from '../utils/create-arbitrary-string.js';
+import { shownTables } from './state-collectors/index.js';
 
 /**
  * Provider of library for building DOM elements.
