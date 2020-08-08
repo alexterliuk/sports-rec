@@ -1,3 +1,5 @@
+import isEmptyString from '../../../utils/is-empty-string.js';
+
 /**
  * Edit table title.
  * @param {HTMLButtonElement} btn

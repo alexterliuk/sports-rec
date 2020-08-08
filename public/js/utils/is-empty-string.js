@@ -6,3 +6,5 @@
 function isEmptyString(str) {
   return typeof str !== 'string' ? false : !str.trim().length;
 }
+
+export default isEmptyString;
