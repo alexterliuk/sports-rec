@@ -1,3 +1,5 @@
+import { updateDashboardInfo } from "../../../dashboard/dashboard-driver.js";
+
 /**
  * Collect table data and invoke saveNewTable or updateTable function.
  * @param {HTMLButtonElement} btn
@@ -32,7 +34,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
     const saved = await saveNewTable(btn, _table);
     if (saved) {
       savedTablesHyphenIds.replace();
-      dashboardDriver.updateDashboardInfo({ newTable: _table });
+      updateDashboardInfo({ newTable: _table });
     }
 
     return;
@@ -51,14 +53,14 @@ async function collectTableDataAndSave(btn, { tableId }) {
   if (tableUpdated) {
     if (tableUpdated.deleted) {
       btn.classList.add('no-click'); // avoid secondary click on Save before table container is removed
-      dashboardDriver.updateDashboardInfo({ deletedTable: _table });
+      updateDashboardInfo({ deletedTable: _table });
 
     } else { // updated
       shownTables.addToTable(hyphenId, { tableTitle }, true);
       shownTables.addToTable(hyphenId, { theadRow }, true);
       shownTables.addToTable(hyphenId, { tbodyRows }, true);
 
-      dashboardDriver.updateDashboardInfo({ updatedTable: _table });
+      updateDashboardInfo({ updatedTable: _table });
 
       tableElem.classList.add('pristine');
       watch('pristine', tableElem);
@@ -92,3 +94,5 @@ async function collectTableDataAndSave(btn, { tableId }) {
     return saved;
   }
 }
+
+export default collectTableDataAndSave;
