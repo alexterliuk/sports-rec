@@ -1,4 +1,4 @@
-signInForm.addEventListener('submit', async event => {
+(signInForm.addEventListener('submit', async event => {
   event.preventDefault();
 
   const name = signInUsername.value;
@@ -30,4 +30,4 @@ signInForm.addEventListener('submit', async event => {
       }
     }
   }
-});
+}))();

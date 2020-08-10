@@ -1,4 +1,4 @@
-pickElem('deleteUser').addEventListener('click', async event => {
+(pickElem('deleteUser').addEventListener('click', async event => {
   event.preventDefault();
 
   if (window.confirm('Are you sure to delete your account? Your tables will be deleted too.')) {
@@ -23,4 +23,4 @@ pickElem('deleteUser').addEventListener('click', async event => {
       }
     }
   }
-});
+}))();

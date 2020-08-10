@@ -1,4 +1,4 @@
-signUpForm.addEventListener('submit', async event => {
+(signUpForm.addEventListener('submit', async event => {
   event.preventDefault();
 
   const name = signUpUsername.value;
@@ -30,4 +30,4 @@ signUpForm.addEventListener('submit', async event => {
       }
     }
   }
-});
+}))();
