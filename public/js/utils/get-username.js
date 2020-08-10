@@ -1,5 +1,5 @@
 /**
- *
+ * Get username of logged in person.
  */
 async function getUsername() {
   const user = {
@@ -8,3 +8,5 @@ async function getUsername() {
 
   return user.name;
 }
+
+export default getUsername;

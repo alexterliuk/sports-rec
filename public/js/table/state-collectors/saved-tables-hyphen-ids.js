@@ -1,3 +1,5 @@
+import getUsername from '../../utils/get-username.js';
+
 /**
  * Collector of hyphen ids from all saved tables of a user.
  */
