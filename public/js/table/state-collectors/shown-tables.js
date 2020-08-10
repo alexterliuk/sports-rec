@@ -1,3 +1,5 @@
+import createNewTableDataObject from '../table-utils/create-new-table-data-object.js';
+
 /**
  * Collector of current user tables shown on page (both saved and new not yet saved).
  * Each table represents data used to create table and its contents.
