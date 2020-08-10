@@ -10,3 +10,5 @@ async function getUserTablesHyphenIds(username) {
 
   return response.json();
 }
+
+export default getUserTablesHyphenIds;

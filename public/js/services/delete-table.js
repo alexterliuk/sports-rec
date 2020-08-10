@@ -28,3 +28,5 @@ async function deleteTable(btn, tableData) {
     return { deleted: false };
   }
 }
+
+export default deleteTable;

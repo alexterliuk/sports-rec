@@ -53,3 +53,5 @@ async function saveNewTable(btn, tableData) {
     }
   }
 }
+
+export default saveNewTable;

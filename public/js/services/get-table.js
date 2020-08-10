@@ -21,3 +21,5 @@ async function getTable(btn, { id } = {}) {
     return null;
   }
 }
+
+export default getTable;

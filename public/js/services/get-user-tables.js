@@ -22,3 +22,5 @@ async function getUserTables(btn, options) {
     return [];
   }
 }
+
+export default getUserTables;

@@ -15,3 +15,5 @@ async function isLoggedIn() {
 
   return { name: false };
 }
+
+export default isLoggedIn;

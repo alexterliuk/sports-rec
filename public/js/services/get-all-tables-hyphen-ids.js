@@ -9,3 +9,5 @@ async function getAllTablesHyphenIds() {
 
   return response.json();
 }
+
+export default getAllTablesHyphenIds;

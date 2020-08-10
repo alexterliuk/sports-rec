@@ -38,3 +38,5 @@ async function updateTable(btn, tableData) {
   if (response.status === 404) _notify('Table not found.');
   if (response.status === 500) _notify(result.error);
 }
+
+export default updateTable;
