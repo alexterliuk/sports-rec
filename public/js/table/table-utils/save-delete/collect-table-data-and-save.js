@@ -4,7 +4,7 @@ import { collectRowsData, detectChanges } from './index.js';
 import watch from '../../../utils/watch.js';
 import isEmptyString from '../../../utils/is-empty-string.js';
 import { shownTables, savedTablesHyphenIds } from '../../state-collectors/index.js';
-
+import { saveNewTable, updateTable } from '../../../services/index.js';
 /**
  * Collect table data and invoke saveNewTable or updateTable function.
  * @param {HTMLButtonElement} btn

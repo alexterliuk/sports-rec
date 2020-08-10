@@ -6,6 +6,7 @@ import { addRow, deleteRow} from './add-delete-row.js';
 import watch from '../utils/watch.js';
 import { editTableTitle, changeColumnsWidth, resetStyles } from './table-utils/modifiers/index.js';
 import closeTable from './table-utils/close-table.js';
+import { getUserTables, getTable } from '../services/index.js';
 
 const funcLib = {
   editTableTitle,

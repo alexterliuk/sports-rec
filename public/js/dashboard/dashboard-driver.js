@@ -5,6 +5,7 @@ import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-u
 import setActivePage from './dashboard-utils/set-active-page.js';
 import { visualizeWhileAppending, visualizeThenRemove } from './dashboard-utils/visualize.js';
 import watch from '../utils/watch.js';
+import { getUserTables } from '../services/index.js';
 
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.

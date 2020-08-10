@@ -3,6 +3,7 @@ import createTableContainer from './table/create-table-container.js';
 import putBtnCloseToRight from './table/table-utils/put-btn-close-to-right.js';
 import enactTogglePasswordView from './utils/enact-toggle-password-view.js';
 import { shownTables, savedTablesHyphenIds } from './table/state-collectors/index.js';
+import { isLoggedIn } from './services/index.js';
 
 function $listenToServerResponses(response, emitter, emitType) {
   const lib = {

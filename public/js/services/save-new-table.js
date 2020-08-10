@@ -1,3 +1,5 @@
+import getUserTablesHyphenIds from './get-user-tables-hyphen-ids.js';
+
 /**
  * Save new table to server.
  * @param {HTMLButtonElement} btn

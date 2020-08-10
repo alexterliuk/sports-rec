@@ -2,6 +2,7 @@ import { launch } from './dashboard-driver.js';
 import { addDashboardPageToPages } from './dashboard-utils/dashboard-pages-utils.js';
 import validatePositiveNumber from '../utils/validate-positive-number.js';
 import { savedTablesHyphenIds } from '../table/state-collectors/index.js';
+import { getUserTables } from '../services/index.js';
 
 /** Fetch tables and make pages - each with pageButton, dashboard rows (.dbo-items), 'Build All These Tables' button.
  * ?@param {number} tablesQty - how many tables to fetch

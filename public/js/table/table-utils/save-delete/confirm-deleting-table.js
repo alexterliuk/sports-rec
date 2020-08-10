@@ -1,5 +1,6 @@
 import { updateDashboardInfo } from '../../../dashboard/dashboard-driver.js';
 import { shownTables } from '../../state-collectors/index.js';
+import { deleteTable } from '../../../services/index.js';
 
 /**
  * Delete table if user confirms.
