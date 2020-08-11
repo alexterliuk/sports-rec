@@ -1,28 +1,30 @@
-(() => {
-  pickElem('deleteUser').addEventListener('click', async event => {
-    event.preventDefault();
+import $emit from '../app.js';
 
-    if (window.confirm('Are you sure to delete your account? Your tables will be deleted too.')) {
-      const password = window.prompt('Please, type your password.');
-      const errElem = querySel('#logInPanel .header-error');
+async function deleteUser(event) {
+  event.preventDefault();
 
-      if (password) {
-        const response = await fetch('/delete-user', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ password }),
-        });
+  if (window.confirm('Are you sure to delete your account? Your tables will be deleted too.')) {
+    const password = window.prompt('Please, type your password.');
+    const errElem = querySel('#logInPanel .header-error');
 
-        if (response.status === 200) {
-          $emit(response, logInPanel, 'log-out');
+    if (password) {
+      const response = await fetch('/delete-user', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
 
-        } else {
-          const message = 'Failed to delete user. You probably made a typo in your password.';
-          showError(message, errElem);
-        }
+      if (response.status === 200) {
+        $emit(response, logInPanel, 'log-out');
+
+      } else {
+        const message = 'Failed to delete user. You probably made a typo in your password.';
+        showError(message, errElem);
       }
     }
-  });
-})();
+  }
+}
+
+export default deleteUser;

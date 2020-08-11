@@ -4,6 +4,10 @@ import putBtnCloseToRight from './table/table-utils/put-btn-close-to-right.js';
 import enactTogglePasswordView from './utils/enact-toggle-password-view.js';
 import { shownTables, savedTablesHyphenIds } from './table/state-collectors/index.js';
 import { isLoggedIn } from './services/index.js';
+import signIn from './services/sign-in.js';
+import signUp from './services/sign-up.js';
+import logOut from './services/log-out.js';
+import deleteUser from './services/delete-user.js';
 
 function $listenToServerResponses(response, emitter, emitType) {
   const lib = {
@@ -80,11 +84,14 @@ function $emit(response, emitter, emitType) {
 
 // Make sure .btn-close is always on page at table's right upper corner.
 (function onPageLoad() {
-  putBtnCloseToRight();
+  // Add event listeners for logging, creating/deleting user
+  signInForm.addEventListener('submit', signIn);
+  signUpForm.addEventListener('submit', signUp);
+  pickElem('logOut').addEventListener('click', logOut);
+  pickElem('deleteUser').addEventListener('click', deleteUser);
 
-  window.addEventListener('resize', () => {
-    putBtnCloseToRight();
-  });
+  putBtnCloseToRight();
+  window.addEventListener('resize', () => { putBtnCloseToRight(); });
 
   // Add Create New Table button to page
   const htmlStr = '<div class="buttons-block"><button id="createNewTable">Create New Table</button></div>';
@@ -93,3 +100,5 @@ function $emit(response, emitter, emitType) {
 
   enactTogglePasswordView();
 })();
+
+export default $emit;

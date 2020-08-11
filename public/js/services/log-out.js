@@ -1,16 +1,18 @@
-(() => {
-  pickElem('logOut').addEventListener('click', async event => {
-    event.preventDefault();
+import $emit from '../app.js';
 
-    const response = await fetch('/log-out', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+async function logOut(event) {
+  event.preventDefault();
 
-    if (response.status === 200) {
-      $emit(response, logInPanel, 'log-out');
-    }
+  const response = await fetch('/log-out', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
-})();
+
+  if (response.status === 200) {
+    $emit(response, logInPanel, 'log-out');
+  }
+}
+
+export default logOut;
