@@ -1,4 +1,4 @@
-import isLoggedIn from '../services/index.js';
+import { isLoggedIn } from '../services/index.js';
 
 /**
  * Get username of logged in person.
