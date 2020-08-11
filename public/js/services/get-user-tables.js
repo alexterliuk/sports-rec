@@ -1,3 +1,5 @@
+import notify from '../table/table-utils/notify.js';
+
 /**
  * Get all tables of logged in user.
  * @param {HTMLButtonElement} btn

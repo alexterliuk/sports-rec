@@ -1,3 +1,5 @@
+import notify from '../table/table-utils/notify.js';
+
 /**
  * Delete table in database.
  * @param {HTMLButtonElement} btn

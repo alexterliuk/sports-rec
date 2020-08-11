@@ -1,3 +1,5 @@
+import notify from '../table/table-utils/notify.js';
+
 /**
  * Get table.
  * @param {HTMLButtonElement} btn

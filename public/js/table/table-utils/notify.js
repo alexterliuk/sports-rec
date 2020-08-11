@@ -47,3 +47,5 @@ function notify(tableId, message, type, fadeAfter) {
     }
   }, fadeAfter);
 }
+
+export default notify;

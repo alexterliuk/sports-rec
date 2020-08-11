@@ -1,4 +1,5 @@
 import getUserTablesHyphenIds from './get-user-tables-hyphen-ids.js';
+import notify from '../table/table-utils/notify.js';
 
 /**
  * Save new table to server.
