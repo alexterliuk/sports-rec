@@ -1,14 +1,16 @@
-(pickElem('logOut').addEventListener('click', async event => {
-  event.preventDefault();
+(() => {
+  pickElem('logOut').addEventListener('click', async event => {
+    event.preventDefault();
 
-  const response = await fetch('/log-out', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    const response = await fetch('/log-out', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      $emit(response, logInPanel, 'log-out');
+    }
   });
-
-  if (response.status === 200) {
-    $emit(response, logInPanel, 'log-out');
-  }
-}))();
+})();
