@@ -2,6 +2,7 @@ import createDashboard from './dashboard/create-dashboard.js';
 import createTableContainer from './table/create-table-container.js';
 import putBtnCloseToRight from './table/table-utils/put-btn-close-to-right.js';
 import enactTogglePasswordView from './utils/enact-toggle-password-view.js';
+import enactToggleSignMode from './utils/enact-toggle-sign-mode.js';
 import { shownTables, savedTablesHyphenIds } from './table/state-collectors/index.js';
 import { isLoggedIn, signIn, signUp, logOut, deleteUser } from './services/index.js';
 
@@ -95,6 +96,7 @@ function $emit(response, emitter, emitType) {
   pickElem('createNewTable').addEventListener('click', createTableContainer);
 
   enactTogglePasswordView();
+  enactToggleSignMode();
 })();
 
 export default $emit;
