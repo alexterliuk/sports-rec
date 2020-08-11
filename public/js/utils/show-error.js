@@ -1,3 +1,8 @@
+/**
+ * Show error in signIn, signUp or logIn panel.
+ * @param {string} message
+ * @param {HTMLElement} errElem
+ */
 function showError(message, errElem) {
   errElem.children[0].textContent = message;
   errElem.classList.add('active-error');
@@ -14,3 +19,5 @@ function showError(message, errElem) {
     needLink.classList.remove('not-clickable');
   });
 }
+
+export default showError;

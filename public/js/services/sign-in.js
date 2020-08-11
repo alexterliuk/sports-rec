@@ -1,4 +1,5 @@
 import $emit from '../app.js';
+import showError from '../utils/show-error.js';
 
 async function signIn(event) {
   event.preventDefault();
