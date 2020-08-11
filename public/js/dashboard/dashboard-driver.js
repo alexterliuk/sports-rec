@@ -1,6 +1,7 @@
 import createDashboardItems from './create-dashboard-items.js';
 import createDashboardPagination from './create-dashboard-pagination.js';
 import updateDashboardIndexes from './dashboard-utils/update-dashboard-indexes.js';
+import { addDashboardPageToPages } from './dashboard-utils/dashboard-pages-utils.js';
 import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-utils.js';
 import setActivePage from './dashboard-utils/set-active-page.js';
 import { visualizeWhileAppending, visualizeThenRemove } from './dashboard-utils/visualize.js';
@@ -115,7 +116,7 @@ const dashboardDriver = (function() {
       }
 
     } else if (deletedTable) {
-      // remove table from dashboardInfo
+      // find dboItem which should be removed from dashboardInfo
       const dashboardItem = (() => {
         let idx = dashboardInfo.children.length;
         while (idx) {
@@ -251,7 +252,7 @@ const dashboardDriver = (function() {
       if (deleted) {
         const removedDboItemIndex = hyphenIdsInData.findIndex(id => !hyphenIdsOnPage.includes(id));
 
-        if (~removedDboItemIndex) { // look for deleted table on current shown page
+        if (~removedDboItemIndex) { // deleted table is from current shown page
           currPage.dboItems.splice(removedDboItemIndex, 1);
           currPage.tables.splice(removedDboItemIndex, 1);
 
