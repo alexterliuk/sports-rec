@@ -1,3 +1,5 @@
+import isEmptyString from '../../../utils/is-empty-string.js';
+
 /**
  * Edit table title.
  * @param {HTMLButtonElement} btn
@@ -33,3 +35,5 @@ function editTableTitle(btn, { id }) {
     input.removeEventListener('keydown', changeTitle);
   }
 }
+
+export default editTableTitle;

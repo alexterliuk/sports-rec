@@ -17,3 +17,7 @@ const tablesConfig = (function() {
 
   return { addToConfig, getConfigItem, getAllConfig };
 })();
+
+const { addToConfig, getConfigItem, getAllConfig } = tablesConfig;
+
+export { addToConfig, getConfigItem, getAllConfig };

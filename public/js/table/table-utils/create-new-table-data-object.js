@@ -17,3 +17,5 @@ function createNewTableDataObject(obj) {
     return newObj;
   }
 }
+
+export default createNewTableDataObject;

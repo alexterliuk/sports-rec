@@ -1,4 +1,7 @@
-pickElem('deleteUser').addEventListener('click', async event => {
+import $emit from '../app.js';
+import showError from '../utils/show-error.js';
+
+async function deleteUser(event) {
   event.preventDefault();
 
   if (window.confirm('Are you sure to delete your account? Your tables will be deleted too.')) {
@@ -23,4 +26,6 @@ pickElem('deleteUser').addEventListener('click', async event => {
       }
     }
   }
-});
+}
+
+export default deleteUser;

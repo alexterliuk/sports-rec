@@ -1,4 +1,6 @@
-pickElem('logOut').addEventListener('click', async event => {
+import $emit from '../app.js';
+
+async function logOut(event) {
   event.preventDefault();
 
   const response = await fetch('/log-out', {
@@ -11,4 +13,6 @@ pickElem('logOut').addEventListener('click', async event => {
   if (response.status === 200) {
     $emit(response, logInPanel, 'log-out');
   }
-});
+}
+
+export default logOut;

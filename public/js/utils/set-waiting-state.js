@@ -27,3 +27,5 @@ function setWaitingState(type, { tableId, id }) {
     }
   }
 }
+
+export default setWaitingState;

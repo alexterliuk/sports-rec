@@ -1,3 +1,5 @@
+import createTableContainer from './create-table-container.js';
+
 /**
  * Trigger process of building tables.
  * @param {HTMLButtonElement} btn
@@ -11,6 +13,8 @@ function buildTables(btn, { getTablesFromCurrentPage, getTableFromDboItem } = {}
   const _tables = tables || table && [table] || [];
 
   for (const table of _tables) {
-    createTableContainer(table);
+    createTableContainer(null, table);
   }
 }
+
+export default buildTables;

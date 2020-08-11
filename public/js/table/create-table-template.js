@@ -1,3 +1,5 @@
+import buildDOM from './build-dom.js';
+
 /**
  * Create table in .table-panel section.
  * @param {string} parentSelector
@@ -41,3 +43,5 @@ function createTableTemplate({ parentSelector, contId, colsQty }) {
 
   buildDOM(params);
 }
+
+export default createTableTemplate;

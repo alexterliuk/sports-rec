@@ -1,3 +1,5 @@
+import { shownTables } from '../state-collectors/index.js';
+
 /**
  * Close whole table container including title and buttons-block.
  * @param {HTMLButtonElement} btn
@@ -10,3 +12,5 @@ function closeTable(btn, { tableId }) {
     shownTables.remove(table.dataset.hyphenId);
   }
 }
+
+export default closeTable;

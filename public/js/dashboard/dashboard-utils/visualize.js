@@ -1,3 +1,5 @@
+import { shownTables } from '../../table/state-collectors/index.js';
+
 /**
  * Show/hide spinner, then append element.
  * @param parentNode
@@ -38,3 +40,5 @@ function visualizeThenRemove(parentNode, childNode, hyphenId, duration) {
     parentNode.classList.remove('spinner');
   }, time + 500); // time to show/hide notify
 }
+
+export { visualizeWhileAppending, visualizeThenRemove };

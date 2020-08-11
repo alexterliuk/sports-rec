@@ -29,3 +29,5 @@ function changeColumnsWidth(btn, { tableId, type }) {
 
   if (type === 'increase') table.classList.add('wid-3');
 }
+
+export default changeColumnsWidth;

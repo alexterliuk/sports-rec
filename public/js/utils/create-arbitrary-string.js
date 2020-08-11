@@ -16,3 +16,5 @@ function createArbitraryString(length) {
     return id;
   })();
 }
+
+export default createArbitraryString;

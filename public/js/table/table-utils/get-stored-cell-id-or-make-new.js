@@ -1,3 +1,5 @@
+import createArbitraryString from '../../utils/create-arbitrary-string.js';
+
 /**
  * Return id from stored collection, or make default one and return.
  * @param {array} storedCellsIds
@@ -11,3 +13,5 @@ function getStoredCellIdOrMakeNew(storedCellsIds, row, index, hyphenId) {
 
   return cellsIdsInRow[index] || 'td' + createArbitraryString(6) + hyphenId;
 }
+
+export default getStoredCellIdOrMakeNew;

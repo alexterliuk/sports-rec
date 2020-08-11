@@ -35,3 +35,5 @@ function parseStyleAttr(htmlStr) {
 
   return styles;
 }
+
+export default parseStyleAttr;

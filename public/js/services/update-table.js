@@ -1,3 +1,6 @@
+import setWaitingState from '../utils/set-waiting-state.js';
+import notify from '../table/table-utils/notify.js';
+
 /**
  * Update existing table.
  * @param {HTMLButtonElement} btn
@@ -38,3 +41,5 @@ async function updateTable(btn, tableData) {
   if (response.status === 404) _notify('Table not found.');
   if (response.status === 500) _notify(result.error);
 }
+
+export default updateTable;

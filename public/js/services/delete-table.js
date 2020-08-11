@@ -1,3 +1,6 @@
+import setWaitingState from '../utils/set-waiting-state.js';
+import notify from '../table/table-utils/notify.js';
+
 /**
  * Delete table in database.
  * @param {HTMLButtonElement} btn
@@ -28,3 +31,5 @@ async function deleteTable(btn, tableData) {
     return { deleted: false };
   }
 }
+
+export default deleteTable;

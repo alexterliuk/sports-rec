@@ -8,6 +8,7 @@ function createEditButton() {
   editBtn.setAttribute('title', 'Edit column title');
   editBtn.setAttribute('role', 'button');
   editBtn.textContent = 'e';
+
   editBtn.addEventListener('click', event => {
     const th = event.target.parentElement;
     const editMask = querySel(`#${th.id} .edit-mask`);
@@ -17,6 +18,7 @@ function createEditButton() {
       editBtn.classList.remove('active');
       editMask.style.display = 'initial';
       textarea.style.backgroundColor = '';
+
     } else {
       editBtn.classList.add('active');
       editMask.style.display = 'none';
@@ -27,3 +29,5 @@ function createEditButton() {
 
   return editBtn;
 }
+
+export default createEditButton;

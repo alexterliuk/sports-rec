@@ -1,3 +1,7 @@
+import { updateDashboardInfo } from '../../../dashboard/dashboard-driver.js';
+import { shownTables } from '../../state-collectors/index.js';
+import { deleteTable } from '../../../services/index.js';
+
 /**
  * Delete table if user confirms.
  * @param {HTMLButtonElement} btn
@@ -15,10 +19,12 @@ async function confirmDeletingTable(btn, { tableId }) {
 
     const tableDeleted = await deleteTable(btn, { tableId, hyphenId });
     if (tableDeleted.deleted) {
-      dashboardDriver.updateDashboardInfo({ deletedTable: shownTables.get(hyphenId) });
+      updateDashboardInfo({ deletedTable: shownTables.get(hyphenId) });
 
     } else {
       btn.classList.remove('no-click');
     }
   }
 }
+
+export default confirmDeletingTable;

@@ -7,8 +7,10 @@
 function createSortingButton(title, callback) {
   const sortingCont = document.createElement('span');
   sortingCont.classList.add('sorting-cont');
+
   const sortingBtn = document.createElement('span');
   sortingCont.append(sortingBtn);
+
   sortingBtn.setAttribute('title', title);
   sortingBtn.setAttribute('role', 'button');
   sortingBtn.classList.add('sorting-button');
@@ -16,3 +18,5 @@ function createSortingButton(title, callback) {
 
   return sortingCont;
 }
+
+export default createSortingButton;

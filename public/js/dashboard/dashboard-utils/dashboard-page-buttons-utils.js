@@ -49,3 +49,5 @@ function updateNavPageButtons(...ids) {
     }
   });
 }
+
+export { getPageButtonSpec, getNavPageButtonSpec, updateNavPageButtons };

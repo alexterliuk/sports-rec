@@ -1,3 +1,6 @@
+import buildDOM from './build-dom.js';
+import { shownTables, tablesConfig } from './state-collectors/index.js';
+
 /**
  * Create table in .table-panel section.
  * @param {string} parentSelector
@@ -93,3 +96,5 @@ function createTable({ parentSelector, contId, colsQty }, tableData) {
     }
   }
 }
+
+export default createTable;

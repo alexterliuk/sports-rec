@@ -1,3 +1,6 @@
+import setWaitingState from '../utils/set-waiting-state.js';
+import notify from '../table/table-utils/notify.js';
+
 /**
  * Get table.
  * @param {HTMLButtonElement} btn
@@ -21,3 +24,5 @@ async function getTable(btn, { id } = {}) {
     return null;
   }
 }
+
+export default getTable;

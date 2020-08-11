@@ -1,3 +1,11 @@
+import createDashboard from './dashboard/create-dashboard.js';
+import createTableContainer from './table/create-table-container.js';
+import putBtnCloseToRight from './table/table-utils/put-btn-close-to-right.js';
+import enactTogglePasswordView from './utils/enact-toggle-password-view.js';
+import enactToggleSignMode from './utils/enact-toggle-sign-mode.js';
+import { shownTables, savedTablesHyphenIds } from './table/state-collectors/index.js';
+import { isLoggedIn, signIn, signUp, logOut, deleteUser } from './services/index.js';
+
 function $listenToServerResponses(response, emitter, emitType) {
   const lib = {
     'sign-up'() {
@@ -73,9 +81,22 @@ function $emit(response, emitter, emitType) {
 
 // Make sure .btn-close is always on page at table's right upper corner.
 (function onPageLoad() {
-  putBtnCloseToRight();
+  // Add event listeners for logging, creating/deleting user
+  signInForm.addEventListener('submit', signIn);
+  signUpForm.addEventListener('submit', signUp);
+  pickElem('logOut').addEventListener('click', logOut);
+  pickElem('deleteUser').addEventListener('click', deleteUser);
 
-  window.addEventListener('resize', () => {
-    putBtnCloseToRight();
-  });
+  putBtnCloseToRight();
+  window.addEventListener('resize', () => { putBtnCloseToRight(); });
+
+  // Add Create New Table button to page
+  const htmlStr = '<div class="buttons-block"><button id="createNewTable">Create New Table</button></div>';
+  mainTableBlock.insertAdjacentHTML('beforebegin', htmlStr);
+  pickElem('createNewTable').addEventListener('click', createTableContainer);
+
+  enactTogglePasswordView();
+  enactToggleSignMode();
 })();
+
+export default $emit;

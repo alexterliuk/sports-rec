@@ -13,3 +13,5 @@ function createDelStick(title, callback) {
 
   return delStick;
 }
+
+export default createDelStick;

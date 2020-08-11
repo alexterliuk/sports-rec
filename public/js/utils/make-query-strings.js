@@ -27,3 +27,5 @@ function makeQueryStrings(options, queryStringsKeys, makingType) {
 
   return (queryStrings || []).filter(val => val).join('&');
 }
+
+export default makeQueryStrings;

@@ -25,3 +25,5 @@ function removeEmptyColumns(table) {
     row.cells = row.cells.filter(cell => cell);
   });
 }
+
+export default removeEmptyColumns;

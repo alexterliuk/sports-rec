@@ -17,3 +17,5 @@ function alignTextAreasHeight(cell, txtArHeight) {
     }
   }
 }
+
+export default alignTextAreasHeight;

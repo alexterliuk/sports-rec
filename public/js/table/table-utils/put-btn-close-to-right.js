@@ -25,3 +25,5 @@ function putBtnCloseToRight(table) {
     tablePanel.style.position = tableIsBigger ? 'initial' : '';
   }
 }
+
+export default putBtnCloseToRight;

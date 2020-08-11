@@ -1,4 +1,7 @@
-signInForm.addEventListener('submit', async event => {
+import $emit from '../app.js';
+import showError from '../utils/show-error.js';
+
+async function signIn(event) {
   event.preventDefault();
 
   const name = signInUsername.value;
@@ -16,7 +19,7 @@ signInForm.addEventListener('submit', async event => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({name, password}),
       });
 
       if (response.status === 400) {
@@ -30,4 +33,6 @@ signInForm.addEventListener('submit', async event => {
       }
     }
   }
-});
+}
+
+export default signIn;

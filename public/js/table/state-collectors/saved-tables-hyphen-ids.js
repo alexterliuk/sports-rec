@@ -1,3 +1,6 @@
+import getUsername from '../../utils/get-username.js';
+import { getUserTablesHyphenIds } from '../../services/index.js';
+
 /**
  * Collector of hyphen ids from all saved tables of a user.
  */
@@ -20,3 +23,7 @@ const savedTablesHyphenIds = (function() {
 
   return { add, get, remove, replace };
 })();
+
+const { add, get, remove, replace } = savedTablesHyphenIds;
+
+export { add, get, remove, replace };

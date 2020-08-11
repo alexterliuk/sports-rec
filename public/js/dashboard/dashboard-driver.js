@@ -1,9 +1,19 @@
+import createDashboardItems from './create-dashboard-items.js';
+import createDashboardPagination from './create-dashboard-pagination.js';
+import updateDashboardIndexes from './dashboard-utils/update-dashboard-indexes.js';
+import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-utils.js';
+import setActivePage from './dashboard-utils/set-active-page.js';
+import { visualizeWhileAppending, visualizeThenRemove } from './dashboard-utils/visualize.js';
+import watch from '../utils/watch.js';
+import { getUserTables } from '../services/index.js';
+
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
  * Dashboard consists of two main blocks - dashboardInfo, dashboardPages. Each is driven by corresponding update function.
  * Component is initialized by dashboardDriver.launch.
  */
 const dashboardDriver = (function() {
+  let ctx;
   let launched = false;
   let buildAllTheseTables, dashboardInfo, dashboardPagination, dashboardPages, prevPage, nextPage;
   const _data = {};
@@ -35,8 +45,18 @@ const dashboardDriver = (function() {
     _data.maxTablesInDashboardPage = maxTablesInDashboardPage;
     _data.maxButtonsInRow = maxButtonsInRow;
 
+    ctx = {
+      _data,
+      buildAllTheseTables,
+      dashboardInfo,
+      dashboardPagination,
+      dashboardPages,
+      prevPage,
+      nextPage,
+    };
+
     if (_data.tablesTotal) {
-      setActivePage(null, 1);
+      setActivePage(null, 1, undefined, ctx);
       addPageButtons(1);
     }
 
@@ -74,7 +94,7 @@ const dashboardDriver = (function() {
         const newDboItem = (tempNode => tempNode.removeChild(tempNode.children[0]))(createDashboardItems([newTable]));
         visualizeWhileAppending(dashboardInfo, newDboItem);
         setTimeout(() => {
-          updateDashboardIndexes();
+          updateDashboardIndexes(ctx._data.maxTablesInDashboardPage, ctx._data.currentShownPage);
         }, 100);
 
         setTimeout(() => { // wait for visualizeWhileAppending finish
@@ -180,7 +200,7 @@ const dashboardDriver = (function() {
             _data.tablesTotal--;
             _data.pages.pagesQty--;
             refreshPageButtons();
-            setActivePage(null, --_data.currentShownPage);
+            setActivePage(null, --ctx._data.currentShownPage, undefined, ctx);
           }
         }
       }
@@ -253,12 +273,12 @@ const dashboardDriver = (function() {
           _data.pages.pagesQty--;
 
           // if it is the page currently shown in dashboardInfo, redirect to previous one
-          if (_data.currentShownPage === _data.pages.pagesQty + 1) setActivePage(null, _data.pages.pagesQty);
+          if (_data.currentShownPage === _data.pages.pagesQty + 1) setActivePage(null, ctx._data.pages.pagesQty, undefined, ctx);
           refreshPageButtons();
         }
 
         // dboItem from shown page might have flown to another page to fill the gap there after deletion, refresh page
-        setActivePage(null, _data.currentShownPage, true);
+        setActivePage(null, ctx._data.currentShownPage, true, ctx);
       }
 
       if (updated) {
@@ -328,7 +348,7 @@ const dashboardDriver = (function() {
             dboItem.remove();
           }
 
-          updateDashboardIndexes();
+          updateDashboardIndexes(ctx._data.maxTablesInDashboardPage, ctx._data.currentShownPage);
 
           break;
         }
@@ -447,75 +467,6 @@ const dashboardDriver = (function() {
       });
 
       if (found) return found;
-    }
-  };
-
-  /**
-   * Show desired page.
-   * @param {Event} event
-   * @param {number} pageNum
-   * @param {boolean} refresh
-   */
-  const setActivePage = (event, pageNum, refresh) => {
-    _data.dashboardInfoIsUpdating = true;
-
-    if (event) pageNum = +event.target.dataset.pageNum;
-
-    if (_data.pages[pageNum] && refresh || _data.pages[pageNum] && !_data.pages[pageNum].shown) {
-      buildAllTheseTables.dataset.pageNum = pageNum;
-
-      // remove current page
-      let stop = 0;
-      while (dashboardInfo.children.length !== 1) {
-        dashboardInfo.children[dashboardInfo.children.length - 1].remove();
-        if (++stop === 1000) break;
-      }
-
-      if (_data.pages[pageNum].dboItems.length === _data.maxTablesInDashboardPage) {
-        dashboardInfo.classList.add('maxTablesInDashboardPageHeight');
-      } else {
-        dashboardInfo.classList.remove('maxTablesInDashboardPageHeight');
-      }
-
-      // add new page
-      dashboardInfo.classList.add('spinner');
-      setTimeout(() => { dashboardInfo.classList.remove('spinner') }, 100);
-      _data.pages[pageNum].dboItems.forEach(item => {
-        // can be used for visual effects:
-        // let delay = 0;
-        // setTimeout(() => visualizeWhileAppending(dashboardInfo, item), delay += 10);
-        dashboardInfo.append(item);
-      });
-
-      if (_data.currentShownPage && _data.pages[_data.currentShownPage]) {
-        _data.pages[_data.currentShownPage].shown = false;
-        _data.pages[_data.currentShownPage].pageButton.classList.remove('active');
-      }
-
-      _data.pages[pageNum].shown = true;
-      _data.pages[pageNum].pageButton.classList.add('active');
-      _data.currentShownPage = pageNum;
-
-      updateDashboardIndexes();
-    }
-
-    delete _data.dashboardInfoIsUpdating;
-  };
-
-  /**
-   * Make correct positions for .dbo-items.
-   */
-  const updateDashboardIndexes = () => {
-    const dashboardInfo = pickElem('dashboardInfo');
-    if (!dashboardInfo) return;
-
-    const dboCellNums = querySelAll('#dashboardInfo .dbo-cell-num');
-    const maxTables = _data.maxTablesInDashboardPage;
-    const currPage = _data.currentShownPage || 1;
-
-    let pos = 1;
-    for (const cellNum of dboCellNums) {
-      cellNum.textContent = (currPage * maxTables) - maxTables + pos++;
     }
   };
 
@@ -678,7 +629,7 @@ const dashboardDriver = (function() {
 
                   // refresh current page if it got new data
                   if (_data.currentShownPage === lastPage.pageNum) {
-                    setActivePage(null, _data.currentShownPage, true);
+                    setActivePage(null, ctx._data.currentShownPage, true, ctx);
                   }
 
                   let tablesForOtherPages = newTables.slice(tablesForLastPage.length);
@@ -711,12 +662,49 @@ const dashboardDriver = (function() {
    */
   const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
 
+  /**
+   * Copy context object and return.
+   */
+  const getContext = () => {
+    const _ctx = Object.assign({}, ctx);
+    _ctx._data = Object.assign({}, ctx._data);
+    _ctx._data.pages = Object.assign({}, ctx._data.pages);
+
+    for (let i = 1; i <= _ctx._data.pages.pagesQty; i++) {
+      _ctx._data.pages[i] = Object.assign({}, ctx._data.pages[i]);
+      _ctx._data.pages[i].tables = JSON.parse(JSON.stringify(ctx._data.pages[i].tables));
+    }
+
+    return _ctx;
+  };
+
+
+
   return {
     launch,
     isLaunched,
+    getContext,
     setActivePage,
     getTableFromDashboardPage,
     getAllTablesFromDashboardPage,
     updateDashboardInfo,
   };
 })();
+
+const  {
+  launch,
+  isLaunched,
+  getContext,
+  getTableFromDashboardPage,
+  getAllTablesFromDashboardPage,
+  updateDashboardInfo,
+} = dashboardDriver;
+
+export {
+  launch,
+  isLaunched,
+  getContext,
+  getTableFromDashboardPage,
+  getAllTablesFromDashboardPage,
+  updateDashboardInfo,
+};

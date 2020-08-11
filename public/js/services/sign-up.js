@@ -1,4 +1,7 @@
-signUpForm.addEventListener('submit', async event => {
+import $emit from '../app.js';
+import showError from '../utils/show-error.js';
+
+async function signUp(event) {
   event.preventDefault();
 
   const name = signUpUsername.value;
@@ -30,4 +33,6 @@ signUpForm.addEventListener('submit', async event => {
       }
     }
   }
-});
+}
+
+export default signUp;

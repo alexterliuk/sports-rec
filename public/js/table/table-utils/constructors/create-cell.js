@@ -1,3 +1,7 @@
+import watch from '../../../utils/watch.js';
+import { enactShowHideResizer } from '../modifiers/index.js';
+import addTextareaAndHider from './add-textarea-and-hider.js';
+
 /**
  * Create cell.
  * @param {HTMLTableRowElement} row
@@ -8,6 +12,7 @@
 function createCell(row, cellId, textValue) {
   const cell = row.insertCell();
   cell.setAttribute('id', cellId);
+
   const { textarea } = addTextareaAndHider(cell);
   textarea.value = textValue || '';
 
@@ -26,3 +31,5 @@ function createCell(row, cellId, textValue) {
 
   return cell;
 }
+
+export default createCell;
