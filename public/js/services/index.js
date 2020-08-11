@@ -6,6 +6,10 @@ import getAllTablesHyphenIds from './get-all-tables-hyphen-ids.js';
 import saveNewTable from './save-new-table.js';
 import updateTable from './update-table.js';
 import deleteTable from './delete-table.js';
+import signIn from './sign-in.js';
+import signUp from './sign-up.js';
+import logOut from './log-out.js';
+import deleteUser from './delete-user.js';
 
 export {
   isLoggedIn,
@@ -16,4 +20,8 @@ export {
   saveNewTable,
   updateTable,
   deleteTable,
+  signIn,
+  signUp,
+  logOut,
+  deleteUser,
 }
