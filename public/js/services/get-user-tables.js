@@ -1,6 +1,7 @@
 import setWaitingState from '../utils/set-waiting-state.js';
 import makeQueryStrings from '../utils/make-query-strings.js';
 import notify from '../table/table-utils/notify.js';
+import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
 
 /**
  * Get all tables of logged in user.
@@ -22,7 +23,7 @@ async function getUserTables(btn, options) {
 
   } else {
     setWaitingState(false, { id: 'dashboardBlock' });
-    notify('dashboardInfo', 'Something went wrong.', 'error', 3000);
+    notify('dashboardInfo', 'Something went wrong.', 'error', getDefaultTimeoutDuration());
     return [];
   }
 }

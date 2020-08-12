@@ -5,6 +5,7 @@ import { addDashboardPageToPages } from './dashboard-utils/dashboard-pages-utils
 import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-utils.js';
 import setActivePage from './dashboard-utils/set-active-page.js';
 import { visualizeWhileAppending, visualizeThenRemove } from './dashboard-utils/visualize.js';
+import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
 import watch from '../utils/watch.js';
 import { getUserTables } from '../services/index.js';
 
@@ -125,8 +126,10 @@ const dashboardDriver = (function() {
         }
       })();
 
+      const duration = getDefaultTimeoutDuration();
+
       // remove dboItem from dashboardInfo, and table from mainTableBlock
-      visualizeThenRemove(dashboardInfo, dashboardItem, deletedTable.hyphenId, 3000);
+      visualizeThenRemove(dashboardInfo, dashboardItem, deletedTable.hyphenId, duration);
 
       // if table of current page removed, then dashboardInfo lacks one dboItem to match maxTablesInDashboardPage criterion
       // if so and there's next page, fill the gap by taking dboItem from that page of dashboardPages
@@ -147,7 +150,7 @@ const dashboardDriver = (function() {
             }
           }, 100);
         }
-      }, 3500);
+      }, duration + 500);
 
     } else if (updatedTable) {
       const tableAddress = getAddressOfFetchedEarlierTable(updatedTable.hyphenId);

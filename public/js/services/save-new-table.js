@@ -1,6 +1,7 @@
 import getUserTablesHyphenIds from './get-user-tables-hyphen-ids.js';
 import setWaitingState from '../utils/set-waiting-state.js';
 import notify from '../table/table-utils/notify.js';
+import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
 
 /**
  * Save new table to server.
@@ -27,20 +28,22 @@ async function saveNewTable(btn, tableData) {
     body: tableDataJSON,
   });
 
+  const duration = getDefaultTimeoutDuration();
+
   if (response.status === 200) {
     setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Table successfully saved.', 'success', 3000);
+    notify(tableData.tableId, 'Table successfully saved.', 'success', duration);
     return true;
   }
 
   if (response.status === 400) {
     setWaitingState(false, tableData);
-    notify(tableData.tableId, 'One or more fields of table are not valid.', 'error', 3000);
+    notify(tableData.tableId, 'One or more fields of table are not valid.', 'error', duration);
   }
 
   if (response.status === 401) {
     setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Table not saved. Please authorize.', 'error', 3000);
+    notify(tableData.tableId, 'Table not saved. Please authorize.', 'error', duration);
   }
 
   if (response.status === 409) {

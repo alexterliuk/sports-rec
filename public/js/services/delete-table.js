@@ -1,5 +1,6 @@
 import setWaitingState from '../utils/set-waiting-state.js';
 import notify from '../table/table-utils/notify.js';
+import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
 
 /**
  * Delete table in database.
@@ -15,19 +16,21 @@ async function deleteTable(btn, tableData) {
     method: 'DELETE',
   });
 
+  const duration = getDefaultTimeoutDuration();
+
   if (response.status === 200) {
     setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Table successfully deleted.', 'success', 3000);
+    notify(tableData.tableId, 'Table successfully deleted.', 'success', duration);
     return { deleted: true };
 
   } else if (response.status === 404) {
     setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Table not found.', 'error', 3000);
+    notify(tableData.tableId, 'Table not found.', 'error', duration);
     return { deleted: false };
 
   } else {
     setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Failed to delete. Something went wrong.', 'error', 3000);
+    notify(tableData.tableId, 'Failed to delete. Something went wrong.', 'error', duration);
     return { deleted: false };
   }
 }

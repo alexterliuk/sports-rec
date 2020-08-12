@@ -1,5 +1,6 @@
 import setWaitingState from '../utils/set-waiting-state.js';
 import notify from '../table/table-utils/notify.js';
+import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
 
 /**
  * Update existing table.
@@ -26,7 +27,7 @@ async function updateTable(btn, tableData) {
     body: tableDataJSON,
   });
 
-  const _notify = (info, success) => { notify(tableData.tableId, info, success || 'error', 3000); };
+  const _notify = (info, success) => { notify(tableData.tableId, info, success || 'error', getDefaultTimeoutDuration()); };
 
   const result = await response.json();
   setWaitingState(false, tableData);
