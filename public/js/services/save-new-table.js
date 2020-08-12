@@ -1,4 +1,5 @@
 import getUserTablesHyphenIds from './get-user-tables-hyphen-ids.js';
+import validatePositiveNumber from '../utils/validate-positive-number.js';
 import setWaitingState from '../utils/set-waiting-state.js';
 import notify from '../table/table-utils/notify.js';
 import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
@@ -7,8 +8,9 @@ import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js'
  * Save new table to server.
  * @param {HTMLButtonElement} btn
  * @param {object} tableData
+ * @param {number|boolean} [showResultDuration] - time in ms OR false (response returns)
  */
-async function saveNewTable(btn, tableData) {
+async function saveNewTable(btn, tableData, showResultDuration) {
   // exclude tableId and convert data to JSON
   const tableDataJSON = (() => {
     const tData = {};
@@ -18,8 +20,6 @@ async function saveNewTable(btn, tableData) {
     return JSON.stringify(tData);
   })();
 
-  setWaitingState(true, tableData);
-
   const response = await fetch('/tables/new', {
     method: 'POST',
     headers: {
@@ -28,35 +28,41 @@ async function saveNewTable(btn, tableData) {
     body: tableDataJSON,
   });
 
-  const duration = getDefaultTimeoutDuration();
+  if (showResultDuration === false) {
+    return response;
 
-  if (response.status === 200) {
-    setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Table successfully saved.', 'success', duration);
-    return true;
-  }
+  } else {
+    const duration = validatePositiveNumber(showResultDuration) || getDefaultTimeoutDuration();
+    setWaitingState(true, tableData);
 
-  if (response.status === 400) {
-    setWaitingState(false, tableData);
-    notify(tableData.tableId, 'One or more fields of table are not valid.', 'error', duration);
-  }
-
-  if (response.status === 401) {
-    setWaitingState(false, tableData);
-    notify(tableData.tableId, 'Table not saved. Please authorize.', 'error', duration);
-  }
-
-  if (response.status === 409) {
-    const username = mainTableBlock.dataset.username;
-
-    if (username) {
-      const hyphenIds = await getUserTablesHyphenIds(username);
-      tableData.hyphenId = getBuildDOMLibrary().createHyphenId(hyphenIds);
-      saveNewTable(btn, tableData);
-
-    } else {
+    if (response.status === 200) {
       setWaitingState(false, tableData);
-      notify(tableData.tableId, 'Table cannot be saved - its hyphenId already taken by another table in database.', 'error', 6000);
+      notify(tableData.tableId, 'Table successfully saved.', 'success', duration);
+      return true;
+    }
+
+    if (response.status === 400) {
+      setWaitingState(false, tableData);
+      notify(tableData.tableId, 'One or more fields of table are not valid.', 'error', duration);
+    }
+
+    if (response.status === 401) {
+      setWaitingState(false, tableData);
+      notify(tableData.tableId, 'Table not saved. Please authorize.', 'error', duration);
+    }
+
+    if (response.status === 409) {
+      const username = mainTableBlock.dataset.username;
+
+      if (username) {
+        const hyphenIds = await getUserTablesHyphenIds(username);
+        tableData.hyphenId = getBuildDOMLibrary().createHyphenId(hyphenIds);
+        saveNewTable(btn, tableData);
+
+      } else {
+        setWaitingState(false, tableData);
+        notify(tableData.tableId, 'Table cannot be saved - its hyphenId already taken by another table in database.', 'error', 6000);
+      }
     }
   }
 }
