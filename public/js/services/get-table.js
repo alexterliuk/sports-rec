@@ -6,7 +6,7 @@ import notify from '../table/table-utils/notify.js';
  * Get table.
  * @param {HTMLButtonElement} btn
  * @param {string} id
- * @param {number|boolean} [showResultDuration] - time in ms OR false (response returns)
+ * @param {number|boolean} [showResultDuration] - time in ms OR false (response is returned)
  */
 async function getTable(btn, { id } = {}, showResultDuration) {
   if (!id) return null;

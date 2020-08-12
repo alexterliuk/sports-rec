@@ -8,7 +8,7 @@ import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js'
  * Get all tables of logged in user.
  * @param {HTMLButtonElement} btn
  * @param {object} options - e.g. { limit: 10, skip: 20 }
- * @param {number|boolean} [showResultDuration] - time in ms OR false (response returns)
+ * @param {number|boolean} [showResultDuration] - time in ms OR false (response is returned)
  */
 async function getUserTables(btn, options, showResultDuration) {
   const queryStrings = makeQueryStrings(options, ['limit', 'skip'], 'number');

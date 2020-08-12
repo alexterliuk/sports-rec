@@ -7,7 +7,7 @@ import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js'
  * Delete table in database.
  * @param {HTMLButtonElement} btn
  * @param {object} tableData
- * @param {number|boolean} [showResultDuration] - time in ms OR false (response returns)
+ * @param {number|boolean} [showResultDuration] - time in ms OR false (response is returned)
  */
 async function deleteTable(btn, tableData, showResultDuration) {
   if (!tableData) return { deleted: false };

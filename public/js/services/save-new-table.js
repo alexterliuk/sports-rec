@@ -8,7 +8,7 @@ import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js'
  * Save new table to server.
  * @param {HTMLButtonElement} btn
  * @param {object} tableData
- * @param {number|boolean} [showResultDuration] - time in ms OR false (response returns)
+ * @param {number|boolean} [showResultDuration] - time in ms OR false (response is returned)
  */
 async function saveNewTable(btn, tableData, showResultDuration) {
   // exclude tableId and convert data to JSON
