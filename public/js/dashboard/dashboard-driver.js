@@ -664,20 +664,9 @@ const dashboardDriver = (function() {
   const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
 
   /**
-   * Copy context object and return.
+   * Get dashboard context.
    */
-  const getContext = () => {
-    const _ctx = Object.assign({}, ctx);
-    _ctx._data = Object.assign({}, ctx._data);
-    _ctx._data.pages = Object.assign({}, ctx._data.pages);
-
-    for (let i = 1; i <= _ctx._data.pages.pagesQty; i++) {
-      _ctx._data.pages[i] = Object.assign({}, ctx._data.pages[i]);
-      _ctx._data.pages[i].tables = JSON.parse(JSON.stringify(ctx._data.pages[i].tables));
-    }
-
-    return _ctx;
-  };
+  const getContext = () => ctx;
 
 
 
