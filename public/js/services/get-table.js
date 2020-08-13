@@ -1,5 +1,5 @@
 import validatePositiveNumber from '../utils/validate-positive-number.js';
-import setWaitingState from '../utils/set-waiting-state.js';
+import setWaitingStateInTable from '../utils/set-waiting-state-in-table.js';
 import notify from '../table/table-utils/notify.js';
 
 /**
@@ -11,6 +11,8 @@ import notify from '../table/table-utils/notify.js';
 async function getTable(btn, { id } = {}, showResultDuration) {
   if (!id) return null;
 
+  if (showResultDuration !== false) setWaitingStateInTable(true, { id: 'dashboardBlock' });
+
   const response = await fetch(`/tables/${id}`, {
     method: 'GET',
   });
@@ -20,14 +22,13 @@ async function getTable(btn, { id } = {}, showResultDuration) {
 
   } else {
     const duration = validatePositiveNumber(showResultDuration) || 5000;
-    setWaitingState(true, { id: 'dashboardBlock' });
 
     if (response.status === 200 || response.status === 304) {
-      setWaitingState(false, { id: 'dashboardBlock' });
+      setWaitingStateInTable(false, { id: 'dashboardBlock' });
       return response.json();
 
     } else {
-      setWaitingState(false, { id: 'dashboardBlock' });
+      setWaitingStateInTable(false, { id: 'dashboardBlock' });
       notify('dashboardInfo', 'Table not found. Make sure you search own table, not another user\'s one.', 'error', duration);
       return null;
     }

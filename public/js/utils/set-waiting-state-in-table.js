@@ -1,10 +1,10 @@
 /**
- * Start or finish waiting state to indicate client <-> server interaction.
+ * Start or finish waiting state in table to indicate client <-> server interaction.
  * @param {boolean} type
  * @param {string} tableId
  * @param {string} id
  */
-function setWaitingState(type, { tableId, id }) {
+function setWaitingStateInTable(type, { tableId, id }) {
   const method = type ? 'add' : 'remove';
   const pageSegmentId = tableId && tableId.slice(0, -5) || id;
   const tableTitle = querySel(`#${pageSegmentId} .table-title`);
@@ -28,4 +28,4 @@ function setWaitingState(type, { tableId, id }) {
   }
 }
 
-export default setWaitingState;
+export default setWaitingStateInTable;

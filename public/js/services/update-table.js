@@ -1,5 +1,5 @@
 import validatePositiveNumber from '../utils/validate-positive-number.js';
-import setWaitingState from '../utils/set-waiting-state.js';
+import setWaitingStateInTable from '../utils/set-waiting-state-in-table.js';
 import notify from '../table/table-utils/notify.js';
 import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
 
@@ -19,6 +19,8 @@ async function updateTable(btn, tableData, showResultDuration) {
     return JSON.stringify(tData);
   })();
 
+  if (showResultDuration !== false) setWaitingStateInTable(true, tableData);
+
   const response = await fetch('/tables', {
     method: 'PATCH',
     headers: {
@@ -33,10 +35,9 @@ async function updateTable(btn, tableData, showResultDuration) {
   } else {
     const duration = validatePositiveNumber(showResultDuration) || getDefaultTimeoutDuration();
     const _notify = (info, success) => { notify(tableData.tableId, info, success || 'error', duration); };
-    setWaitingState(true, tableData);
 
     const result = await response.json();
-    setWaitingState(false, tableData);
+    setWaitingStateInTable(false, tableData);
 
     if (response.status === 200) {
       _notify(result.updated ? 'Table successfully updated.' : 'Empty table deleted.', 'success');

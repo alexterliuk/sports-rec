@@ -1,6 +1,6 @@
 import getUserTablesHyphenIds from './get-user-tables-hyphen-ids.js';
 import validatePositiveNumber from '../utils/validate-positive-number.js';
-import setWaitingState from '../utils/set-waiting-state.js';
+import setWaitingStateInTable from '../utils/set-waiting-state-in-table.js';
 import notify from '../table/table-utils/notify.js';
 import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
 
@@ -20,6 +20,8 @@ async function saveNewTable(btn, tableData, showResultDuration) {
     return JSON.stringify(tData);
   })();
 
+  if (showResultDuration !== false) setWaitingStateInTable(true, tableData);
+
   const response = await fetch('/tables/new', {
     method: 'POST',
     headers: {
@@ -33,21 +35,20 @@ async function saveNewTable(btn, tableData, showResultDuration) {
 
   } else {
     const duration = validatePositiveNumber(showResultDuration) || getDefaultTimeoutDuration();
-    setWaitingState(true, tableData);
 
     if (response.status === 200) {
-      setWaitingState(false, tableData);
+      setWaitingStateInTable(false, tableData);
       notify(tableData.tableId, 'Table successfully saved.', 'success', duration);
       return true;
     }
 
     if (response.status === 400) {
-      setWaitingState(false, tableData);
+      setWaitingStateInTable(false, tableData);
       notify(tableData.tableId, 'One or more fields of table are not valid.', 'error', duration);
     }
 
     if (response.status === 401) {
-      setWaitingState(false, tableData);
+      setWaitingStateInTable(false, tableData);
       notify(tableData.tableId, 'Table not saved. Please authorize.', 'error', duration);
     }
 
@@ -60,7 +61,7 @@ async function saveNewTable(btn, tableData, showResultDuration) {
         saveNewTable(btn, tableData);
 
       } else {
-        setWaitingState(false, tableData);
+        setWaitingStateInTable(false, tableData);
         notify(tableData.tableId, 'Table cannot be saved - its hyphenId already taken by another table in database.', 'error', 6000);
       }
     }

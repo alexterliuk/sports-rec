@@ -1,5 +1,5 @@
 import validatePositiveNumber from '../utils/validate-positive-number.js';
-import setWaitingState from '../utils/set-waiting-state.js';
+import setWaitingStateInTable from '../utils/set-waiting-state-in-table.js';
 import makeQueryStrings from '../utils/make-query-strings.js';
 import notify from '../table/table-utils/notify.js';
 import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
@@ -15,6 +15,8 @@ async function getUserTables(btn, options, showResultDuration) {
   const baseUrl = `${baseURI}tables`;
   const url = queryStrings ? `${baseUrl}?${queryStrings}` : baseUrl;
 
+  if (showResultDuration !== false) setWaitingStateInTable(true, { id: 'dashboardBlock' });
+
   const response = await fetch(url, { method: 'GET' });
 
   if (showResultDuration === false) {
@@ -22,14 +24,13 @@ async function getUserTables(btn, options, showResultDuration) {
 
   } else {
     const duration = validatePositiveNumber(showResultDuration) || getDefaultTimeoutDuration();
-    setWaitingState(true, { id: 'dashboardBlock' });
 
     if (response.status === 200 || response.status === 304) {
-      setWaitingState(false, {id: 'dashboardBlock'});
+      setWaitingStateInTable(false, {id: 'dashboardBlock'});
       return response.json();
 
     } else {
-      setWaitingState(false, {id: 'dashboardBlock'});
+      setWaitingStateInTable(false, {id: 'dashboardBlock'});
       notify('dashboardInfo', 'Something went wrong.', 'error', duration);
       return [];
     }
