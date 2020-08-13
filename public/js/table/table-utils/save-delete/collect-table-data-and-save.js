@@ -6,6 +6,7 @@ import isEmptyString from '../../../utils/is-empty-string.js';
 import { shownTables, savedTablesHyphenIds } from '../../state-collectors/index.js';
 import { saveNewTable, updateTable } from '../../../services/index.js';
 import notify from '../notify.js';
+import getDefaultTimeoutDuration from '../../../utils/get-default-timeout-duration.js';
 
 /**
  * Collect table data and invoke saveNewTable or updateTable function.
@@ -25,7 +26,7 @@ async function collectTableDataAndSave(btn, { tableId }) {
     tbodyRows = collectRowsData(tableElem.children[1]);
 
   } catch (error) {
-    notify(tableId, error.message, 'error', 3000);
+    notify(tableId, error.message, 'error', getDefaultTimeoutDuration());
     return;
   }
 

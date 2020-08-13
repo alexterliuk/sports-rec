@@ -1,4 +1,5 @@
 import { shownTables } from '../../table/state-collectors/index.js';
+import getDefaultTimeoutDuration from '../../utils/get-default-timeout-duration.js';
 
 /**
  * Show/hide spinner, then append element.
@@ -28,7 +29,7 @@ function visualizeWhileAppending(parentNode, childNode, duration) {
  * @param {number} duration
  */
 function visualizeThenRemove(parentNode, childNode, hyphenId, duration) {
-  const time = typeof duration === 'number' && duration || 3000;
+  const time = typeof duration === 'number' && duration || getDefaultTimeoutDuration();
 
   setTimeout(() => {
     parentNode.classList.add('spinner');
