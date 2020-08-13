@@ -186,8 +186,8 @@ function getBuildDOMLibrary(id, options) {
       this.columnsData = columnsData;
 
       const columnsDataJSON = JSON.stringify(columnsData);
-      sessionStorage.setItem('columnsData', columnsDataJSON);
-      sessionStorage.setItem('initColumnsData', columnsDataJSON);
+      // sessionStorage.setItem('columnsData', columnsDataJSON);
+      // sessionStorage.setItem('initColumnsData', columnsDataJSON);
     },
 
     createHyphenId(storedHyphenIds) {
