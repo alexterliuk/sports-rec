@@ -527,12 +527,12 @@ const dashboardDriver = (function() {
    * @param {object} newPage
    */
   const refreshPageButtons = ({ firstButtonNum, newPage } = {}) => {
-    if (firstButtonNum) { // navigation buttons
+    if (firstButtonNum) { // navigation button clicked
       if (firstButtonNum < +dashboardPages.children[0].dataset.pageNum) { // prevPage clicked
         dashboardPages.children[dashboardPages.children.length - 1].remove();
         dashboardPages.prepend(_data.pages[firstButtonNum].pageButton);
 
-      } else if (firstButtonNum > +dashboardPages.children[0].dataset.pageNum) { // nextPage clicked
+      } else { // nextPage clicked
         const lastPageNum = +dashboardPages.children[dashboardPages.children.length - 1].dataset.pageNum;
         dashboardPages.children[0].remove();
         dashboardPages.append(_data.pages[lastPageNum + 1].pageButton);
@@ -540,13 +540,24 @@ const dashboardDriver = (function() {
 
     } else if (newPage && dashboardPages.children.length < _data.maxButtonsInRow) {
       dashboardPages.append(newPage.pageButton);
+      refreshNavPageButtons();
 
     } else { // last page might have been deleted
+      let lastPageButton = dashboardPages.children[dashboardPages.children.length - 1];
+
       let stop = 0;
-      while (dashboardPages.children.length && !_data.pages[dashboardPages.children.length]) {
-        dashboardPages.children[dashboardPages.children.length - 1].remove();
+      while (dashboardPages.children.length && !_data.pages[lastPageButton.dataset.pageNum]) {
+        lastPageButton.remove();
+        lastPageButton = dashboardPages.children[dashboardPages.children.length - 1];
+
+        const firstPageButtonNum = +dashboardPages.children[0].dataset.pageNum;
+        if (firstPageButtonNum !== 1) {
+          dashboardPages.prepend(_data.pages[firstPageButtonNum - 1].pageButton);
+        }
         if (++stop === 1000) break;
       }
+
+      refreshNavPageButtons();
     }
   };
 
