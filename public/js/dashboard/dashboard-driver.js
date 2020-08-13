@@ -677,7 +677,6 @@ const dashboardDriver = (function() {
     launch,
     isLaunched,
     getContext,
-    setActivePage,
     getTableFromDashboardPage,
     getAllTablesFromDashboardPage,
     updateDashboardInfo,
