@@ -527,32 +527,35 @@ const dashboardDriver = (function() {
    * @param {object} newPage
    */
   const refreshPageButtons = ({ firstButtonNum, newPage } = {}) => {
+    const dp = dashboardPages;
+    const dpC = dp.children;
+    const firstPageNum = +dpC[0].dataset.pageNum;
+    const lastPageNum = +dpC[dpC.length - 1].dataset.pageNum;
+
     if (firstButtonNum) { // navigation button clicked
-      if (firstButtonNum < +dashboardPages.children[0].dataset.pageNum) { // prevPage clicked
-        dashboardPages.children[dashboardPages.children.length - 1].remove();
-        dashboardPages.prepend(_data.pages[firstButtonNum].pageButton);
+      if (firstButtonNum < +dpC[0].dataset.pageNum) { // prevPage clicked
+        dpC[dpC.length - 1].remove();
+        dp.prepend(_data.pages[firstButtonNum].pageButton);
 
       } else { // nextPage clicked
-        const lastPageNum = +dashboardPages.children[dashboardPages.children.length - 1].dataset.pageNum;
-        dashboardPages.children[0].remove();
-        dashboardPages.append(_data.pages[lastPageNum + 1].pageButton);
+        dpC[0].remove();
+        dp.append(_data.pages[lastPageNum + 1].pageButton);
       }
 
-    } else if (newPage && dashboardPages.children.length < _data.maxButtonsInRow) {
-      dashboardPages.append(newPage.pageButton);
+    } else if (newPage && dpC.length < _data.maxButtonsInRow) {
+      dp.append(newPage.pageButton);
       refreshNavPageButtons();
 
     } else { // last page might have been deleted
-      let lastPageButton = dashboardPages.children[dashboardPages.children.length - 1];
+      let lastPage = dpC[dpC.length - 1];
 
       let stop = 0;
-      while (dashboardPages.children.length && !_data.pages[lastPageButton.dataset.pageNum]) {
-        lastPageButton.remove();
-        lastPageButton = dashboardPages.children[dashboardPages.children.length - 1];
+      while (dpC.length && !_data.pages[lastPage.dataset.pageNum]) {
+        lastPage.remove();
+        lastPage = dpC[dpC.length - 1];
 
-        const firstPageButtonNum = +dashboardPages.children[0].dataset.pageNum;
-        if (firstPageButtonNum !== 1) {
-          dashboardPages.prepend(_data.pages[firstPageButtonNum - 1].pageButton);
+        if (firstPageNum !== 1) {
+          dp.prepend(_data.pages[firstPageNum - 1].pageButton);
         }
         if (++stop === 1000) break;
       }
