@@ -10,6 +10,7 @@ import watch from '../utils/watch.js';
 import { getUserTables } from '../services/index.js';
 
 import * as dashboardPageTablesUtils from './dashboard-utils/dashboard-page-tables-utils.js';
+import addMaxTablesInDashboardPageHeight from './dashboard-utils/add-max-tables-in-dashboard-page-height.js';
 
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
@@ -39,9 +40,9 @@ const dashboardDriver = (function() {
     });
 
     return bundle;
-  })(
-    { ...dashboardPageTablesUtils },
-  );
+  })({
+      ...dashboardPageTablesUtils,
+    });
 
 
 
@@ -105,7 +106,7 @@ const dashboardDriver = (function() {
    */
   const updateDashboardInfo = ({ newTable, deletedTable, updatedTable }) => {
     _data.dashboardInfoIsUpdating = true;
-    addMaxTablesInDashboardPageHeight();
+    addMaxTablesInDashboardPageHeight(getContext());
 
     if (newTable) {
       // first table
@@ -387,28 +388,6 @@ const dashboardDriver = (function() {
     setTimeout(() => {
       delete _data.dashboardInfoIsUpdating;
     }, 100);
-  };
-
-  /**
-   * Insert rule of dashboardInfo height equal to heights of maximum tables on dashboard page + dboHead.
-   * Style is used when dashboard page is full, so height does not twitch when del/add dboItem from another page.
-   */
-  const addMaxTablesInDashboardPageHeight = () => {
-    if (dashboardInfo.children.length > 1 && _data.maxTablesInDashboardPage && !_data.maxTablesInDashboardPageStyleAdded) {
-      const dboItemHeight = querySel('.dbo-item').getBoundingClientRect().height;
-      const dboHeadHeight = querySel('.dbo-head').getBoundingClientRect().height;
-
-      for (const styleSheet of document.styleSheets) {
-        if (styleSheet.href.includes('dashboard.css')) {
-          const height = dboHeadHeight + (dboItemHeight * _data.maxTablesInDashboardPage);
-
-          styleSheet.insertRule(`#dashboardInfo.maxTablesInDashboardPageHeight { height: ${height}px }`, styleSheet.rules.length);
-          _data.maxTablesInDashboardPageStyleAdded = true;
-
-          break;
-        }
-      }
-    }
   };
 
   /**
