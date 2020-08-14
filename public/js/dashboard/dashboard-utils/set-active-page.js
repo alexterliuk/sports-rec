@@ -1,4 +1,5 @@
 import updateDashboardIndexes from './update-dashboard-indexes.js';
+// import { visualizeWhileAppending } from './visualize.js';
 
 /**
  * Show desired page.
@@ -33,10 +34,10 @@ function setActivePage (event, pageNum, refresh, ctx) {
     // add new page
     ctx.dashboardInfo.classList.add('spinner');
     setTimeout(() => { ctx.dashboardInfo.classList.remove('spinner') }, 100);
+    // let delay = 0;
     ctx._data.pages[pageNum].dboItems.forEach(item => {
       // can be used for visual effects:
-      // let delay = 0;
-      // setTimeout(() => visualizeWhileAppending(dashboardInfo, item), delay += 10);
+      // setTimeout(() => visualizeWhileAppending(pickElem('dashboardInfo'), item), delay += 10);
       ctx.dashboardInfo.append(item);
     });
 
