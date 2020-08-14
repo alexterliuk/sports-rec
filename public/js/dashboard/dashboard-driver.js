@@ -9,18 +9,41 @@ import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js'
 import watch from '../utils/watch.js';
 import { getUserTables } from '../services/index.js';
 
+import * as dashboardPageTablesUtils from './dashboard-utils/dashboard-page-tables-utils.js';
+
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
  * Dashboard consists of two main blocks - dashboardInfo, dashboardPages. Each is driven by corresponding update function.
  * Component is initialized by dashboardDriver.launch.
  */
 const dashboardDriver = (function() {
-  let ctx;
-  let launched = false;
-  let buildAllTheseTables, dashboardInfo, dashboardPagination, dashboardPages, prevPage, nextPage;
   const _data = {};
 
+  let launched = false;
   const isLaunched = () => launched;
+
+  let buildAllTheseTables, dashboardInfo, dashboardPagination, dashboardPages, prevPage, nextPage;
+  let ctx;
+
+  // get dashboard context
+  const getContext = () => ctx;
+
+  // bind getContext to imported modules which require updated context when invoked
+  const boundCtxGetter = ((...objs) => {
+    const bundle = {};
+
+    objs.forEach(obj => {
+      Object.keys(obj).forEach(key => {
+        bundle[key] = obj[key].bind({ getContext });
+      });
+    });
+
+    return bundle;
+  })(
+    { ...dashboardPageTablesUtils },
+  );
+
+
 
   /**
    * @param pages
@@ -153,7 +176,7 @@ const dashboardDriver = (function() {
       }, duration + 500);
 
     } else if (updatedTable) {
-      const tableAddress = getAddressOfFetchedEarlierTable(updatedTable.hyphenId);
+      const tableAddress = boundCtxGetter.getAddressOfFetchedEarlierTable(updatedTable.hyphenId, _data.pages);
 
       _data.pages[tableAddress.pageNum].tables[tableAddress.tableIndex] = updatedTable;
       _data.pages[tableAddress.pageNum].dboItems[tableAddress.tableIndex].children[1].textContent = updatedTable.tableTitle;
@@ -226,7 +249,7 @@ const dashboardDriver = (function() {
         const addedTableIndex = hyphenIdsOnPage.findIndex(id => !hyphenIdsInData.includes(id));
         const addedTableHyphenId = hyphenIdsOnPage[addedTableIndex];
 
-        const tableAddress = addedTableHyphenId && getAddressOfFetchedEarlierTable(addedTableHyphenId);
+        const tableAddress = addedTableHyphenId && boundCtxGetter.getAddressOfFetchedEarlierTable(addedTableHyphenId, _data.pages);
         if (tableAddress) { // table from other page has been added to current shown page
           const dboItem = _data.pages[tableAddress.pageNum].dboItems[tableAddress.tableIndex];
 
@@ -262,7 +285,7 @@ const dashboardDriver = (function() {
           reflowTablesAndDboItems({ currPage, deleted: true });
 
         } else { // if deleted table not found, search it over all fetched tables (in _data.pages)
-          const tableAddress = getAddressOfFetchedEarlierTable(deleted.table.hyphenId);
+          const tableAddress = boundCtxGetter.getAddressOfFetchedEarlierTable(deleted.table.hyphenId, _data.pages);
           if (tableAddress) {
             _data.pages[tableAddress.pageNum].dboItems.splice(tableAddress.tableIndex, 1);
             _data.pages[tableAddress.pageNum].tables.splice(tableAddress.tableIndex, 1);
@@ -454,27 +477,6 @@ const dashboardDriver = (function() {
   };
 
   /**
-   * Find a table in all tables in _data.pages, return its address in _data.pages.
-   * @param {string} hyphenId
-   */
-  const getAddressOfFetchedEarlierTable = hyphenId => {
-    let found;
-
-    for (let i = 1; i <= _data.pages.pagesQty; i++) {
-      _data.pages[i].dboItems.some((item, idx) => {
-
-        if (item.dataset.hyphenId === hyphenId) {
-          found = { pageNum: i, tableIndex: idx };
-
-          return true;
-        }
-      });
-
-      if (found) return found;
-    }
-  };
-
-  /**
    * Add page buttons.
    * @param {number} firstButtonNum
    */
@@ -578,32 +580,6 @@ const dashboardDriver = (function() {
   };
 
   /**
-   * Get table from _data.pages.
-   * @param {string} hyphenId
-   */
-  function getTableFromDashboardPage(hyphenId) {
-    if (typeof hyphenId === 'string') {
-      const tableAddress = getAddressOfFetchedEarlierTable(hyphenId);
-
-      if (tableAddress) {
-        return _data.pages[tableAddress.pageNum].tables[tableAddress.tableIndex];
-      }
-    }
-  }
-
-  /**
-   * Get all tables from page of _data.pages.
-   * @param {HTMLButtonElement} btn
-   */
-  function getAllTablesFromDashboardPage(btn) {
-    const pageNum = +btn.dataset.pageNum;
-
-    if (pageNum > 0 && _data.pages[pageNum]) {
-      return _data.pages[pageNum].tables;
-    }
-  }
-
-  /**
    * Add click event listener to prevPage, nextPage.
    * @param {HTMLElement} elems
    */
@@ -680,19 +656,14 @@ const dashboardDriver = (function() {
    */
   const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
 
-  /**
-   * Get dashboard context.
-   */
-  const getContext = () => ctx;
-
 
 
   return {
     launch,
     isLaunched,
     getContext,
-    getTableFromDashboardPage,
-    getAllTablesFromDashboardPage,
+    getTableFromDashboardPage: boundCtxGetter.getTableFromDashboardPage,
+    getAllTablesFromDashboardPage: boundCtxGetter.getAllTablesFromDashboardPage,
     updateDashboardInfo,
   };
 })();
