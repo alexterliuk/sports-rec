@@ -9,6 +9,7 @@ import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js'
 import watch from '../utils/watch.js';
 import { getUserTables } from '../services/index.js';
 
+import * as dashboardPageButtonsUtils from './dashboard-utils/dashboard-page-buttons-utils.js';
 import * as dashboardPageTablesUtils from './dashboard-utils/dashboard-page-tables-utils.js';
 import addMaxTablesInDashboardPageHeight from './dashboard-utils/add-max-tables-in-dashboard-page-height.js';
 import * as getHIdsFromCurrPage from './dashboard-utils/get-hyphen-ids-from-current-page.js';
@@ -42,6 +43,7 @@ const dashboardDriver = (function() {
 
     return bundle;
   })({
+      ...dashboardPageButtonsUtils,
       ...dashboardPageTablesUtils,
       ...getHIdsFromCurrPage,
     });
@@ -437,109 +439,6 @@ const dashboardDriver = (function() {
   };
 
   /**
-   * Add page buttons.
-   * @param {number} firstButtonNum
-   */
-  const addPageButtons = (firstButtonNum/*, delay*/) => {
-    if (!firstButtonNum || firstButtonNum < 0) firstButtonNum = 1;
-
-    setTimeout(() => {
-      dashboardPagination.classList.add('active');
-    }, 250);
-
-    setTimeout(() => {
-      let lastPage = _data.pages[firstButtonNum + _data.maxButtonsInRow - 1];
-      let stop = 0;
-      while (!lastPage) {
-        lastPage = _data.pages[--firstButtonNum + _data.maxButtonsInRow];
-        if (++stop === 1000) break;
-      }
-
-      let stop2 = 0;
-      const stopNum = lastPage.pageNum < _data.maxButtonsInRow ? 0 : lastPage.pageNum - _data.maxButtonsInRow;
-      for (let i = lastPage.pageNum; i !== stopNum; i--) {
-        dashboardPages.prepend(_data.pages[i].pageButton);
-        if (++stop2 === 1000) break;
-      }
-
-      refreshNavPageButtons();
-    }, /*delay || delay === 0 || */500);
-  };
-
-  /**
-   * Remove page buttons and close dashboardPagination.
-   */
-  const removePageButtons = () => {
-    if (dashboardPages.children[0]) {
-      let stop = 0;
-      while (dashboardPages.children.length) {
-        dashboardPages.children[dashboardPages.children.length - 1].remove();
-        if (++stop === 1000) break;
-      }
-
-      nextPage.dataset.pageNum = 0;
-      prevPage.dataset.pageNum = 0;
-      dashboardPagination.classList.remove('active');
-    }
-  };
-
-  /**
-   * Refresh dashboardPages due to adding/deleting of a page or navigating between page buttons.
-   * @param {number} firstButtonNum
-   * @param {object} newPage
-   */
-  const refreshPageButtons = ({ firstButtonNum, newPage } = {}) => {
-    const dp = dashboardPages;
-    const dpC = dp.children;
-    const firstPageNum = +dpC[0].dataset.pageNum;
-    const lastPageNum = +dpC[dpC.length - 1].dataset.pageNum;
-
-    if (firstButtonNum) { // navigation button clicked
-      if (firstButtonNum < +dpC[0].dataset.pageNum) { // prevPage clicked
-        dpC[dpC.length - 1].remove();
-        dp.prepend(_data.pages[firstButtonNum].pageButton);
-
-      } else { // nextPage clicked
-        dpC[0].remove();
-        dp.append(_data.pages[lastPageNum + 1].pageButton);
-      }
-
-    } else if (newPage && dpC.length < _data.maxButtonsInRow) {
-      dp.append(newPage.pageButton);
-      refreshNavPageButtons();
-
-    } else { // last page might have been deleted
-      let lastPage = dpC[dpC.length - 1];
-
-      let stop = 0;
-      while (dpC.length && !_data.pages[lastPage.dataset.pageNum]) {
-        lastPage.remove();
-        lastPage = dpC[dpC.length - 1];
-
-        if (firstPageNum !== 1) {
-          dp.prepend(_data.pages[firstPageNum - 1].pageButton);
-        }
-        if (++stop === 1000) break;
-      }
-
-      refreshNavPageButtons();
-    }
-  };
-
-  /**
-   * Refresh navigational buttons to prev, next pages.
-   */
-  const refreshNavPageButtons = () => {
-    if (!dashboardPages.children.length) return;
-
-    const lastPageNumInRow = +dashboardPages.children[dashboardPages.children.length - 1].dataset.pageNum;
-    nextPage.dataset.pageNum = lastPageNumInRow + 1;
-
-    const firstPageNumInRow = +dashboardPages.children[0].dataset.pageNum;
-    prevPage.dataset.pageNum = firstPageNumInRow - 1;
-  };
-
-  /**
    * Add click event listener to prevPage, nextPage.
    * @param {HTMLElement} elems
    */
@@ -617,6 +516,9 @@ const dashboardDriver = (function() {
     getTableFromDashboardPage: boundCtxGetter.getTableFromDashboardPage,
     getAllTablesFromDashboardPage: boundCtxGetter.getAllTablesFromDashboardPage,
     getHyphenIdsFromCurrentPage: boundCtxGetter.getHyphenIdsFromCurrentPage,
+    addPageButtons: boundCtxGetter.addPageButtons,
+    removePageButtons: boundCtxGetter.removePageButtons,
+    refreshPageButtons: boundCtxGetter.refreshPageButtons,
     updateDashboardInfo,
   };
 })();
@@ -628,6 +530,9 @@ const  {
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
   getHyphenIdsFromCurrentPage,
+  addPageButtons,
+  removePageButtons,
+  refreshPageButtons,
   updateDashboardInfo,
 } = dashboardDriver;
 
@@ -638,5 +543,8 @@ export {
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
   getHyphenIdsFromCurrentPage,
+  addPageButtons,
+  removePageButtons,
+  refreshPageButtons,
   updateDashboardInfo,
 };
