@@ -11,6 +11,7 @@ import { getUserTables } from '../services/index.js';
 
 import * as dashboardPageTablesUtils from './dashboard-utils/dashboard-page-tables-utils.js';
 import addMaxTablesInDashboardPageHeight from './dashboard-utils/add-max-tables-in-dashboard-page-height.js';
+import * as getHIdsFromCurrPage from './dashboard-utils/get-hyphen-ids-from-current-page.js';
 
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
@@ -42,6 +43,7 @@ const dashboardDriver = (function() {
     return bundle;
   })({
       ...dashboardPageTablesUtils,
+      ...getHIdsFromCurrPage,
     });
 
 
@@ -94,7 +96,7 @@ const dashboardDriver = (function() {
    * Trigger mutation observer watching changes in dashboardInfo.
    */
   const watchDashboardInfoChanges = () => {
-    watch('dashboardInfoLength', dashboardInfo, { isDashboardInfoUpdating, getCurrPageHyphenIds, repackDashboardPages });
+    watch('dashboardInfoLength', dashboardInfo, { getContext, isDashboardInfoUpdating, getHyphenIdsFromCurrentPage, repackDashboardPages });
   };
 
 
@@ -244,7 +246,7 @@ const dashboardDriver = (function() {
       let currPage = _data.pages[_data.currentShownPage];
       let lastPage = _data.pages[_data.pages.pagesQty];
 
-      const { hyphenIdsOnPage, hyphenIdsInData } = getHyphenIdsFromCurrentPage(currPage);
+      const { hyphenIdsOnPage, hyphenIdsInData } = getHyphenIdsFromCurrentPage();
 
       if (added) {
         const addedTableIndex = hyphenIdsOnPage.findIndex(id => !hyphenIdsInData.includes(id));
@@ -434,27 +436,6 @@ const dashboardDriver = (function() {
     }
   };
 
-  /** Collect hyphenIds from all tables in dashboardInfo and in _data.pages' page.
-   * @param {object} currPage - page of _data.pages
-   */
-  const getHyphenIdsFromCurrentPage = currPage => {
-    const hyphenIdsOnPage = [];
-    const hyphenIdsInData = [];
-
-    for (const entity of [[dashboardInfo.children, hyphenIdsOnPage], [currPage.dboItems, hyphenIdsInData]]) {
-      const data = entity[0];
-      const arr = entity[1];
-
-      for (const child of data) {
-        if (child.classList.value.includes('dbo-item')) {
-          arr.push(child.dataset.hyphenId);
-        }
-      }
-    }
-
-    return { hyphenIdsOnPage, hyphenIdsInData };
-  };
-
   /**
    * Add page buttons.
    * @param {number} firstButtonNum
@@ -623,14 +604,6 @@ const dashboardDriver = (function() {
   };
 
   /**
-   * Collect hyphen ids from current shown page of _data.pages.
-   */
-  const getCurrPageHyphenIds = () => {
-    const currPage = _data.pages[_data.currentShownPage] || {};
-    return (currPage.tables || []).map(table => table.hyphenId);
-  };
-
-  /**
    * Find out if dashboardInfo is currently being updated by dashboardDriver's normal workflow (due to save, delete, update).
    */
   const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
@@ -643,6 +616,7 @@ const dashboardDriver = (function() {
     getContext,
     getTableFromDashboardPage: boundCtxGetter.getTableFromDashboardPage,
     getAllTablesFromDashboardPage: boundCtxGetter.getAllTablesFromDashboardPage,
+    getHyphenIdsFromCurrentPage: boundCtxGetter.getHyphenIdsFromCurrentPage,
     updateDashboardInfo,
   };
 })();
@@ -653,6 +627,7 @@ const  {
   getContext,
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
+  getHyphenIdsFromCurrentPage,
   updateDashboardInfo,
 } = dashboardDriver;
 
@@ -662,5 +637,6 @@ export {
   getContext,
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
+  getHyphenIdsFromCurrentPage,
   updateDashboardInfo,
 };
