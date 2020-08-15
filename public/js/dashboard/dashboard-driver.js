@@ -2,7 +2,7 @@ import createDashboardItems from './create-dashboard-items.js';
 import createDashboardPagination from './create-dashboard-pagination.js';
 import updateDashboardIndexes from './dashboard-utils/update-dashboard-indexes.js';
 import { addDashboardPageToPages } from './dashboard-utils/dashboard-pages-utils.js';
-import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-utils.js';
+import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-creating-utils.js';
 import setActivePage from './dashboard-utils/set-active-page.js';
 import { visualizeWhileAppending, visualizeThenRemove } from './dashboard-utils/visualize.js';
 import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
