@@ -1,4 +1,4 @@
-import { getNavPageButtonSpec } from './dashboard-utils/dashboard-page-buttons-utils.js';
+import { getNavPageButtonSpec } from './dashboard-utils/dashboard-page-buttons-creating-utils.js';
 import buildDOM from '../table/build-dom.js';
 
 /**

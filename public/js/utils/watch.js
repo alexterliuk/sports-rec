@@ -81,8 +81,8 @@ function watch(type, node, { ...options } = {}) {
       // stop if previously called _mobs has not finished its job, or if dashboardInfo is being currently updated by normal workflow
       if (options.isDashboardInfoUpdating()) return;
 
-      const dashboardInfo = pickElem('dashboardInfo');
-      const currPageHyphenIdsInData = options.getCurrPageHyphenIds();
+      const dashboardInfo = options.getContext().dashboardInfo;
+      const currPageHyphenIdsInData = options.getHyphenIdsFromCurrentPage().hyphenIdsInData;
       const currPageHyphenIdsInInfo = [];
       const elemsToRemove = [];
 
