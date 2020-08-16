@@ -1,17 +1,16 @@
 import createDashboardItems from './create-dashboard-items.js';
 import createDashboardPagination from './create-dashboard-pagination.js';
 import updateDashboardIndexes from './dashboard-utils/update-dashboard-indexes.js';
-import { addDashboardPageToPages } from './dashboard-utils/dashboard-pages-utils.js';
+import { addDashboardItemsToPage, addDashboardPageToPages } from './dashboard-utils/dashboard-pages-utils.js';
 import { updateNavPageButtons } from './dashboard-utils/dashboard-page-buttons-creating-utils.js';
+import addNavPageButtonClickListeners from './dashboard-utils/add-nav-page-button-click-listeners.js';
 import setActivePage from './dashboard-utils/set-active-page.js';
 import { visualizeWhileAppending, visualizeThenRemove } from './dashboard-utils/visualize.js';
 import getDefaultTimeoutDuration from '../utils/get-default-timeout-duration.js';
+import addMaxTablesInDashboardPageHeight from './dashboard-utils/add-max-tables-in-dashboard-page-height.js';
 import watch from '../utils/watch.js';
-import { getUserTables } from '../services/index.js';
-
 import * as dashboardPageButtonsUtils from './dashboard-utils/dashboard-page-buttons-utils.js';
 import * as dashboardPageTablesUtils from './dashboard-utils/dashboard-page-tables-utils.js';
-import addMaxTablesInDashboardPageHeight from './dashboard-utils/add-max-tables-in-dashboard-page-height.js';
 import * as getHIdsFromCurrPage from './dashboard-utils/get-hyphen-ids-from-current-page.js';
 import reflowTablesAndDboItems from './dashboard-utils/reflow-tables-and-dbo-items.js';
 import * as repackDP from './dashboard-utils/repack-dashboard-pages.js';
@@ -65,12 +64,11 @@ const dashboardDriver = (function() {
     dashboardPagination = pickElem('dashboardPagination');
     dashboardPages = pickElem('dashboardPages');
 
+    if (!dashboardInfo || !dashboardPages) return;
+
     const navButtons = updateNavPageButtons('prevPage', 'nextPage');
     prevPage = navButtons[0];
     nextPage = navButtons[1];
-    addNavPageButtonClickListeners(prevPage, nextPage);
-
-    if (!dashboardInfo || !dashboardPages) return;
 
     _data.pages = pages;
     _data.tablesTotal = pages.tablesTotal;
@@ -88,6 +86,9 @@ const dashboardDriver = (function() {
       nextPage,
     };
 
+    const navPageButtonCtx = { getContext, addDashboardItemsToPage, addDashboardPageToPages, setActivePage, refreshPageButtons };
+    addNavPageButtonClickListeners.call(navPageButtonCtx, prevPage, nextPage);
+
     if (_data.tablesTotal) {
       setActivePage(null, 1, undefined, ctx);
       addPageButtons(1);
@@ -103,6 +104,11 @@ const dashboardDriver = (function() {
   const watchDashboardInfoChanges = () => {
     watch('dashboardInfoLength', dashboardInfo, { getContext, isDashboardInfoUpdating, getHyphenIdsFromCurrentPage, repackDashboardPages });
   };
+
+  /**
+   * Find out if dashboardInfo is currently being updated by dashboardDriver's normal workflow (due to save, delete, update).
+   */
+  const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
 
 
 
@@ -323,77 +329,6 @@ const dashboardDriver = (function() {
 
     delete _data.dashboardInfoIsUpdating;
   };
-
-
-
-  /**
-   * Add click event listener to prevPage, nextPage.
-   * @param {HTMLElement} elems
-   */
-  const addNavPageButtonClickListeners = (...elems) => {
-    for (const elem of elems) {
-      if (typeof elem === 'object' && elem instanceof HTMLElement) {
-        // make sure this is nav button, add functionality of navigation between pageButtons
-        if (['prevPage', 'nextPage'].includes(elem.id)) {
-          elem.addEventListener('click', event => {
-            const pageNum = +event.target.dataset.pageNum;
-
-            if (_data.pages[pageNum]) {
-              if (event.target.id === 'prevPage') {
-                prevPage.dataset.pageNum = pageNum === 1 ? 0 : pageNum - 1;
-                nextPage.dataset.pageNum = +nextPage.dataset.pageNum - 1;
-
-              } else {
-                nextPage.dataset.pageNum = pageNum + 1;
-                prevPage.dataset.pageNum = +prevPage.dataset.pageNum + 1;
-              }
-
-              refreshPageButtons({ firstButtonNum: +prevPage.dataset.pageNum + 1});
-
-            } else { // fetch new tables from server
-              (async () => {
-                const lastPageTablesQty = _data.pages[_data.pages.pagesQty].tables.length;
-
-                const newTables = await getUserTables(null, {
-                  tablesQty: 50,
-                  skip: ((_data.pages.pagesQty - 1) * _data.maxTablesInDashboardPage + lastPageTablesQty) || 0,
-                });
-
-                if (newTables.length) {
-                  const tablesForLastPage = newTables.slice(0, _data.maxTablesInDashboardPage - lastPageTablesQty);
-                  const dboItemsForLastPage = addDashboardItemsToPage(tablesForLastPage);
-
-                  const lastPage = _data.pages[_data.pages.pagesQty];
-                  lastPage.tables = lastPage.tables.concat(tablesForLastPage);
-                  lastPage.dboItems = lastPage.dboItems.concat(dboItemsForLastPage);
-                  _data.tablesTotal += tablesForLastPage.length;
-
-                  // refresh current page if it got new data
-                  if (_data.currentShownPage === lastPage.pageNum) {
-                    setActivePage(null, ctx._data.currentShownPage, true, ctx);
-                  }
-
-                  let tablesForOtherPages = newTables.slice(tablesForLastPage.length);
-                  while (tablesForOtherPages.length) {
-                    const currPageTables = tablesForOtherPages.slice(0, _data.maxTablesInDashboardPage);
-                    addDashboardPageToPages(_data.pages, ++_data.pages.pagesQty, currPageTables);
-
-                    _data.tablesTotal += _data.pages[_data.pages.pagesQty].tables.length;
-                    tablesForOtherPages.splice(0, _data.maxTablesInDashboardPage);
-                  }
-                }
-              })();
-            }
-          });
-        }
-      }
-    }
-  };
-
-  /**
-   * Find out if dashboardInfo is currently being updated by dashboardDriver's normal workflow (due to save, delete, update).
-   */
-  const isDashboardInfoUpdating = () => _data.dashboardInfoIsUpdating;
 
 
 
