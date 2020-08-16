@@ -480,7 +480,7 @@ const dashboardDriver = (function() {
   };
 })();
 
-const  {
+const {
   launch,
   isLaunched,
   getContext,
@@ -500,8 +500,5 @@ export {
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
   getHyphenIdsFromCurrentPage,
-  addPageButtons,
-  removePageButtons,
-  refreshPageButtons,
   updateDashboardInfo,
 };
