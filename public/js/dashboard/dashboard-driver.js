@@ -13,6 +13,7 @@ import * as dashboardPageButtonsUtils from './dashboard-utils/dashboard-page-but
 import * as dashboardPageTablesUtils from './dashboard-utils/dashboard-page-tables-utils.js';
 import addMaxTablesInDashboardPageHeight from './dashboard-utils/add-max-tables-in-dashboard-page-height.js';
 import * as getHIdsFromCurrPage from './dashboard-utils/get-hyphen-ids-from-current-page.js';
+import reflowTablesAndDboItems from './dashboard-utils/reflow-tables-and-dbo-items.js';
 
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
@@ -287,7 +288,7 @@ const dashboardDriver = (function() {
           currPage.dboItems.splice(removedDboItemIndex, 1);
           currPage.tables.splice(removedDboItemIndex, 1);
 
-          reflowTablesAndDboItems({ currPage, deleted: true });
+          reflowTablesAndDboItems(ctx, { currPage, deleted: true });
 
         } else { // if deleted table not found, search it over all fetched tables (in _data.pages)
           const tableAddress = boundCtxGetter.getAddressOfFetchedEarlierTable(deleted.table.hyphenId, _data.pages);
@@ -295,7 +296,7 @@ const dashboardDriver = (function() {
             _data.pages[tableAddress.pageNum].dboItems.splice(tableAddress.tableIndex, 1);
             _data.pages[tableAddress.pageNum].tables.splice(tableAddress.tableIndex, 1);
 
-            reflowTablesAndDboItems({ currPage: _data.pages[tableAddress.pageNum], deleted: true });
+            reflowTablesAndDboItems(ctx, { currPage: _data.pages[tableAddress.pageNum], deleted: true });
           }
         }
 
@@ -358,7 +359,7 @@ const dashboardDriver = (function() {
           if (found) {
             if (page !== currPage) { // dboItem from another page added to currPage
               dashboardInfo.children[dashboardInfo.children.length - 1].remove();
-              reflowTablesAndDboItems({ currPage, added: true });
+              reflowTablesAndDboItems(ctx, { currPage, added: true });
 
             } else { // currPage's dboItem moved to another position within currPage
               const tables = [];
@@ -392,50 +393,6 @@ const dashboardDriver = (function() {
     setTimeout(() => {
       delete _data.dashboardInfoIsUpdating;
     }, 100);
-  };
-
-  /**
-   * Look if dashboard page has less tables than maxTablesInDashboardPage, if needed add missing table and dboItem taking it from next page.
-   * Do the same for all pages starting from currPage except last.
-   * added option is used only when normal workflow of dashboardDriver is broken (see _mobs.dashboardInfoLength).
-   * @param {object} currPage
-   * @param {boolean} deleted
-   * @param {boolean} added
-   */
-  const reflowTablesAndDboItems = ({ currPage, deleted, added } = {}) => {
-    if (!currPage) return;
-
-    let nextPageNum = currPage.pageNum + 1;
-    let nextPage = _data.pages[nextPageNum];
-
-    let stop = 0;
-    while (nextPage) {
-      if (deleted && currPage.dboItems.length < _data.maxTablesInDashboardPage) {
-
-        const nextPageFirstDboItem = nextPage.dboItems.shift();
-        const nextPageFirstTable = nextPage.tables.shift();
-
-        if (nextPageFirstDboItem && nextPageFirstTable) {
-          currPage.dboItems.push(nextPageFirstDboItem);
-          currPage.tables.push(nextPageFirstTable);
-        }
-      }
-
-      if (added) {
-        const currPageLastDboItem = currPage.dboItems.pop();
-        const currPageLastTable = currPage.tables.pop();
-
-        if (currPageLastDboItem) {
-          nextPage.dboItems.unshift(currPageLastDboItem);
-          nextPage.tables.unshift(currPageLastTable);
-        }
-      }
-
-      currPage = nextPage;
-      nextPage = _data.pages[++nextPageNum];
-
-      if (++stop === 1000) break;
-    }
   };
 
   /**
