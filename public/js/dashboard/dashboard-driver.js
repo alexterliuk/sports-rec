@@ -14,6 +14,7 @@ import * as dashboardPageTablesUtils from './dashboard-utils/dashboard-page-tabl
 import addMaxTablesInDashboardPageHeight from './dashboard-utils/add-max-tables-in-dashboard-page-height.js';
 import * as getHIdsFromCurrPage from './dashboard-utils/get-hyphen-ids-from-current-page.js';
 import reflowTablesAndDboItems from './dashboard-utils/reflow-tables-and-dbo-items.js';
+import * as repackDP from './dashboard-utils/repack-dashboard-pages.js';
 
 /**
  * Dashboard driver component. Responsible for creating, updating, deleting of data inside dashboard.
@@ -47,6 +48,7 @@ const dashboardDriver = (function() {
       ...dashboardPageButtonsUtils,
       ...dashboardPageTablesUtils,
       ...getHIdsFromCurrPage,
+      ...repackDP,
     });
 
 
@@ -325,77 +327,6 @@ const dashboardDriver = (function() {
 
 
   /**
-   * Repack _data.pages if dashboardInfo is changed by abnormal way (not as result of saving, deleting, updating data on server).
-   * Normal workflow of dashboardDriver might be broken by manual modifying of dashboardInfo contents.
-   */
-  const repackDashboardPages = () => {
-    _data.dashboardInfoIsUpdating = true;
-
-    let idx = 0;
-    for (const dboItem of dashboardInfo.children) {
-      const dboItemHyphenIdInDashboard = dboItem.dataset.hyphenId;
-
-      if (!dboItem.classList.value.includes('dbo-head')) {
-        const currPage = _data.pages[_data.currentShownPage];
-        const dboItemHyphenIdInData = ((currPage.dboItems[idx] || {}).dataset || {}).hyphenId;
-
-        if (dboItemHyphenIdInData !== dboItemHyphenIdInDashboard) {
-          let found, page;
-
-          // find where is in _data.pages dboItem with hyphenId like in dashboardInfo's dboItem
-          for (let i = 1; i <= _data.pages.pagesQty; i++) {
-            page = _data.pages[i];
-
-            const sameDboItemInDataIdx = page.dboItems.findIndex(item => item.dataset.hyphenId === dboItemHyphenIdInDashboard);
-
-            if (~sameDboItemInDataIdx) {
-              found = true;
-              // update _data.pages
-              currPage.dboItems.splice(idx, 0, page.dboItems.splice(sameDboItemInDataIdx, 1)[0]);
-              currPage.tables.splice(idx, 0, page.tables.splice(sameDboItemInDataIdx, 1)[0]);
-            }
-          }
-
-          if (found) {
-            if (page !== currPage) { // dboItem from another page added to currPage
-              dashboardInfo.children[dashboardInfo.children.length - 1].remove();
-              reflowTablesAndDboItems(ctx, { currPage, added: true });
-
-            } else { // currPage's dboItem moved to another position within currPage
-              const tables = [];
-              const dboItems = [];
-
-              // repack currPage to reflect state of dashboardInfo
-              for (const dboItem of dashboardInfo.children) {
-                if (!dboItem.classList.value.includes('dbo-head')) {
-                  dboItems.push(dboItem);
-                  tables.push(currPage.tables.find(table => table.hyphenId === dboItem.dataset.hyphenId));
-                }
-              }
-
-              currPage.dboItems = dboItems;
-              currPage.tables = tables;
-            }
-
-          } else { // dboItem with unknown hyphenId, thus not valid, remove it
-            dboItem.remove();
-          }
-
-          updateDashboardIndexes(ctx._data.maxTablesInDashboardPage, ctx._data.currentShownPage);
-
-          break;
-        }
-
-        idx++;
-      }
-    }
-
-    setTimeout(() => {
-      delete _data.dashboardInfoIsUpdating;
-    }, 100);
-  };
-
-  /**
    * Add click event listener to prevPage, nextPage.
    * @param {HTMLElement} elems
    */
@@ -473,6 +404,7 @@ const dashboardDriver = (function() {
     getTableFromDashboardPage: boundCtxGetter.getTableFromDashboardPage,
     getAllTablesFromDashboardPage: boundCtxGetter.getAllTablesFromDashboardPage,
     getHyphenIdsFromCurrentPage: boundCtxGetter.getHyphenIdsFromCurrentPage,
+    repackDashboardPages: boundCtxGetter.repackDashboardPages,
     addPageButtons: boundCtxGetter.addPageButtons,
     removePageButtons: boundCtxGetter.removePageButtons,
     refreshPageButtons: boundCtxGetter.refreshPageButtons,
@@ -487,6 +419,7 @@ const {
   getTableFromDashboardPage,
   getAllTablesFromDashboardPage,
   getHyphenIdsFromCurrentPage,
+  repackDashboardPages,
   addPageButtons,
   removePageButtons,
   refreshPageButtons,
