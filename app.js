@@ -11,6 +11,12 @@ app.use(express.json());
 app.use(userRouter);
 app.use(tableRouter);
 
+// store static files in cache for one week
+app.use((req, res, next) => {
+  res.set('Cache-control', 'public, max-age=604800');
+  next();
+});
+
 const publicDirectoryPath = path.join(__dirname, '/public');
 app.use(express.static(publicDirectoryPath));
 
