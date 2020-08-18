@@ -217,8 +217,7 @@ span[role=button].button-look {
   margin: 0 auto;
 }
 
-.table-title-container h2,
-.table-title-container input {
+.table-title-container h2, .table-title-container input {
   margin: 20px 0;
 }
 
@@ -231,8 +230,7 @@ span[role=button].button-look {
   font-size: 1rem;
 }
 
-.table-title-container input,
-.table-title-container span {
+.table-title-container input, .table-title-container span {
   align-self: center;
 }
 
@@ -240,7 +238,7 @@ span[role=button].button-look {
   display: none;
 }
 
-.table-title-container .btn-ok::after {
+.table-title-container .btn-ok:after {
   content: '\2714';
   width: 14px;
   margin-left: .25rem;
@@ -272,28 +270,28 @@ span[role=button].button-look {
   transition: none;
 }
 
-.btn-save:hover {
+.buttons-block button.btn-save:hover {
   background-color: #d9e9f3;
 }
 
-.btn-save:focus {
+.buttons-block button.btn-save:focus {
   background-color: #bdd0e2;
   outline: none;
   border: 1px solid #8eadc5;
 }
 
-.btn-delete {
+.buttons-block button.btn-delete {
   background-color: #ffeae6;
   border: 1px solid #f1b6b1;
   border-radius: 2px;
   transition: none;
 }
 
-.btn-delete:hover {
+.buttons-block button.btn-delete:hover {
   background-color: #f9dfdb;
 }
 
-.btn-delete:focus {
+.buttons-block button.btn-delete:focus {
   background-color: #f3c7c3;
   outline: none;
   border: 1px solid #e4a6a1;
