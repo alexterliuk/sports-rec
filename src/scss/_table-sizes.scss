@@ -1,101 +1,26 @@
 /**
    ========== >>>>> TABLE SIZES <<<<< ==========
  */
-/* base width (applied by default - with or without .wid-2 on table) */
-.wid-2 th,
-.wid-2 .edit-mask,
-.wid-2 td {
-  min-width: calc(2 * var(--wid));
-}
+$textareaWidth: var(--textareaWidth);
+$small-sizes: ($textareaWidth, calc(#{$textareaWidth} + var(--wid)));
 
-.wid-2 textarea {
-  min-width: var(--textareaWidth);
-}
+/* NB: .wid-2 is base width (applied by default - with or without .wid-2 on table) */
 
-/* + 1 level to base width */
-.wid-3 th,
-.wid-3 .edit-mask,
-.wid-3 td {
-  min-width: calc(3 * var(--wid));
-}
+@for $i from 2 through 10 {
+  .wid-#{$i} {
+    th, .edit-mask, td {
+      min-width: calc(#{$i} * var(--wid));
+    }
+  }
 
-.wid-3 textarea {
-  min-width: calc(var(--textareaWidth) + var(--wid));
-}
+  @if ($i < 4) { // .wid-2, .wid-3
+    .wid-#{$i} textarea {
+      min-width: nth($small-sizes, $i - 1);
+    }
 
-/* + 2 levels */
-.wid-4 th,
-.wid-4 .edit-mask,
-.wid-4 td {
-  min-width: calc(4 * var(--wid));
-}
-
-.wid-4 textarea {
-  min-width: calc(var(--textareaWidth) + (2 * var(--wid)));
-}
-
-/* + 3 levels */
-.wid-5 th,
-.wid-5 .edit-mask,
-.wid-5 td {
-  min-width: calc(5 * var(--wid));
-}
-
-.wid-5 textarea {
-  min-width: calc(var(--textareaWidth) + (3 * var(--wid)));
-}
-
-/* + 4 levels */
-.wid-6 th,
-.wid-6 .edit-mask,
-.wid-6 td {
-  min-width: calc(6 * var(--wid));
-}
-
-.wid-6 textarea {
-  min-width: calc(var(--textareaWidth) + (4 * var(--wid)));
-}
-
-/* + 5 levels */
-.wid-7 th,
-.wid-7 .edit-mask,
-.wid-7 td {
-  min-width: calc(7 * var(--wid));
-}
-
-.wid-7 textarea {
-  min-width: calc(var(--textareaWidth) + (5 * var(--wid)));
-}
-
-/* + 6 levels */
-.wid-8 th,
-.wid-8 .edit-mask,
-.wid-8 td {
-  min-width: calc(8 * var(--wid));
-}
-
-.wid-8 textarea {
-  min-width: calc(var(--textareaWidth) + (6 * var(--wid)));
-}
-
-/* + 7 levels */
-.wid-9 th,
-.wid-9 .edit-mask,
-.wid-9 td {
-  min-width: calc(9 * var(--wid));
-}
-
-.wid-9 textarea {
-  min-width: calc(var(--textareaWidth) + (7 * var(--wid)));
-}
-
-/* + 8 levels */
-.wid-10 th,
-.wid-10 .edit-mask,
-.wid-10 td {
-  min-width: calc(10 * var(--wid));
-}
-
-.wid-10 textarea {
-  min-width: calc(var(--textareaWidth) + (8 * var(--wid)));
+  } @else {
+    .wid-#{$i} textarea {
+      min-width: calc(#{$textareaWidth} + (#{$i - 2} * var(--wid)));
+    }
+  }
 }
