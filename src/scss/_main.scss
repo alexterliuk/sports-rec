@@ -1,3 +1,4 @@
+@import '_variables';
 /**
    ========== >>>>> MAIN STYLES <<<<< ==========
  */
@@ -30,11 +31,11 @@ span[role=button] {
  */
 .table-title-container {
   display: flex;
-  width: 48rem;
+  width: $base-content-width;
   margin: 0 auto;
 
   h2, input {
-    margin: 20px 0;
+    margin: $base-content-margin 0;
   }
 
   input {
@@ -69,7 +70,7 @@ span[role=button] {
 .buttons-block {
   display: flex;
   position: relative;
-  width: 48rem;
+  width: $base-content-width;
   margin: 0 auto .25rem;
 
   button {
@@ -116,7 +117,7 @@ span[role=button] {
   pointer-events: none;
 }
 
-@media(max-width: 48rem) {
+@media(max-width: $base-content-width) {
   .buttons-block {
     width: unset;
     display: block;
@@ -137,7 +138,7 @@ span[role=button] {
  */
 .panels-block {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: $base-content-margin;
   position: relative;
   min-height: 110px;
 

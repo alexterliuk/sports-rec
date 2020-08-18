@@ -1,3 +1,4 @@
+@import '_variables';
 /**
    ========== >>>>> HEADER STYLES <<<<< ==========
  */
@@ -36,7 +37,7 @@ header {
 .description {
   font: 1.2rem "Times New Roman";
   line-height: 1.4;
-  max-width: 48rem;
+  max-width: $base-content-width;
   min-width: 17rem;
   color: #444444;
   padding: 1rem;

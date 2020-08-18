@@ -1,3 +1,4 @@
+@import '_variables';
 /**
    ========== >>>>> DASHBOARD STYLES <<<<< ==========
  */
@@ -48,7 +49,7 @@ $dbo-btn-color-interaction: #4282af;
 
 .dbo-panel {
   position: relative;
-  flex: 0 1 48rem;
+  flex: 0 1 $base-content-width;
   padding: 4px;
   border: 1px solid #dfe3e6;
   box-shadow: $dbo-box-shadow-main;
