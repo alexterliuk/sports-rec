@@ -1,3 +1,6 @@
+/**
+   ===== Base styles =====
+ */
 html {
   font: 1.2rem "Fira Sans", sans-serif;
   font-size: 16px;
@@ -30,10 +33,14 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .semitransparent {
-  filter: opacity(.5);
+  filter: opacity(0.5);
 }
