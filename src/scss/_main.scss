@@ -122,12 +122,10 @@ span[role=button] {
     width: unset;
     display: block;
   }
-
   .buttons-block,
   .table-title-container {
     margin: 0 calc(2 * var(--pad));
   }
-
   section.side-panel {
     flex-basis: 0;
   }
