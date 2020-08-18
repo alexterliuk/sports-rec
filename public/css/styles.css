@@ -804,8 +804,7 @@ span[role=button].sorting-button:hover::after {
   border-color: brown;
 }
 
-.header-error .btn-cross,
-.notify.error .btn-cross {
+.header-error .btn-cross, .notify.error .btn-cross {
   background: brown;
 }
 
