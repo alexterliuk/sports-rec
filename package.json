@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon app.js -e js,html,css"
+    "dev": "env-cmd -f ./config/dev.env nodemon app.js -e js,html,css",
+    "compile-styles": "node-sass -w --output-style expanded -o public/css src/scss"
   },
   "author": "Alex Terliuk",
   "license": "ISC",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
+    "node-sass": "^4.14.1",
     "nodemon": "^2.0.4"
   }
 }

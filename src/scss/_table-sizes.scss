@@ -1,0 +1,26 @@
+/**
+   ========== >>>>> TABLE SIZES <<<<< ==========
+ */
+$textareaWidth: var(--textareaWidth);
+$small-sizes: ($textareaWidth, calc(#{$textareaWidth} + var(--wid)));
+
+/* NB: .wid-2 is base width (applied by default - with or without .wid-2 on table) */
+
+@for $i from 2 through 10 {
+  .wid-#{$i} {
+    th, .edit-mask, td {
+      min-width: calc(#{$i} * var(--wid));
+    }
+  }
+
+  @if ($i < 4) { // .wid-2, .wid-3
+    .wid-#{$i} textarea {
+      min-width: nth($small-sizes, $i - 1);
+    }
+
+  } @else {
+    .wid-#{$i} textarea {
+      min-width: calc(#{$textareaWidth} + (#{$i - 2} * var(--wid)));
+    }
+  }
+}

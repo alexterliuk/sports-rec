@@ -1,6 +1,12 @@
 /**
-   ===== Main table styles =====
+   ========== >>>>> TABLE STYLES <<<<< ==========
  */
+$table-background-color: slategrey;
+$table-background-color-hover: #617a92;
+$table-border-color: #e1e4e6;
+$table-th-content-color: #8ca3a7;
+$table-th-content-color-interaction: #4f5e61;
+$table-tr-even-background-color: #f0f2f4;
 
 table {
   display: flex;
@@ -20,17 +26,17 @@ th {
   height: 3rem;
   cursor: pointer;
   padding: 0;
-  background-color: slategrey;
-  border-top: 3px solid slategrey;
-  border-bottom: 3px solid slategrey;
-  border-left: 1px solid slategrey;
-  border-right: 1px solid slategrey;
-}
+  background-color: $table-background-color;
+  border-top: 3px solid $table-background-color;
+  border-bottom: 3px solid $table-background-color;
+  border-left: 1px solid $table-background-color;
+  border-right: 1px solid $table-background-color;
 
-th:hover {
-  background-color: #617a92;
-  border-top-color: #617a92;
-  border-bottom-color: #617a92;
+  &:hover {
+    background-color: $table-background-color-hover;
+    border-top-color: $table-background-color-hover;
+    border-bottom-color: $table-background-color-hover;
+  }
 }
 
 td {
@@ -41,48 +47,45 @@ td {
   text-align: center;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
-}
 
-td:hover {
-  font-weight: bold;
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 tbody tr {
   border-bottom: var(--rowBorderBottomWidth) solid transparent;
-}
 
-tbody tr:nth-child(even) {
-  background-color: #f0f2f4;
-}
-
-tbody tr:hover { /*tbody tr:not(:last-child):hover*/
-  border-bottom-color: #bbc2ca;
-}
-
-tbody tr:last-child:hover {
-  border-bottom-color: #bbc2ca;
+  &:nth-child(even) {
+    background-color: $table-tr-even-background-color;
+  }
+  &:hover { /*tbody tr:not(:last-child):hover*/
+    border-bottom-color: #bbc2ca;
+  }
+  &:last-child:hover {
+    border-bottom-color: #bbc2ca;
+  }
 }
 
 /**
    ===== Styles for table borders =====
  */
-
 tbody tr:last-child {
-  border-bottom-color: #e1e4e6;
+  border-bottom-color: $table-border-color;
 }
 
-td:first-child {
-  border-left-color: #e1e4e6;
-}
-
-td:last-child {
-  border-right-color: #e1e4e6;
+td {
+  &:first-child {
+    border-left-color: $table-border-color;
+  }
+  &:last-child {
+    border-right-color: $table-border-color;
+  }
 }
 
 /**
    ===== Styles for textarea =====
  */
-
 td textarea, th textarea {
   color: inherit;
   position: absolute;
@@ -112,7 +115,6 @@ thead th textarea {
 /**
    ===== Styles for .resizer-hider =====
  */
-
 .resizer-hider {
   width: var(--textareaResizerWidth);
   height: 100%;
@@ -125,31 +127,28 @@ thead th textarea {
 thead tr:first-child .resizer-hider {
   background-color: inherit;
 }
-
 tr:nth-child(odd) .resizer-hider {
   background: #fff;
 }
-
 tr:nth-child(even) .resizer-hider {
-  background-color: #f0f2f4;
+  background-color: $table-tr-even-background-color;
 }
 
 /**
    ===== Styles for .delete-stick =====
  */
-
 span[role=button].delete-stick {
   width: 12px;
   height: 5px;
-  background: #8ca3a7;
+  background: $table-th-content-color;
   position: absolute;
   top: 0;
   left: 3px;
-}
 
-span[role=button].delete-stick:hover {
-  cursor: default;
-  background: darkred;
+  &:hover {
+    cursor: default;
+    background: darkred;
+  }
 }
 
 /**
@@ -166,18 +165,17 @@ span[role=button].delete-stick:hover {
   font: 600 1.1rem "Consolas";
   line-height: .7;
   transition: none;
-}
 
-.table-panel .btn-close::after {
-  content: 'x';
-  margin-left: 3px;
-  color: white;
+  &::after {
+    content: 'x';
+    margin-left: 3px;
+    color: white;
+  }
 }
 
 /**
    ===== Styles for editing column's name =====
  */
-
 thead tr .edit-mask {
   height: 2.4rem;
   width: calc(2 * var(--wid));
@@ -193,69 +191,57 @@ thead tr .edit-button {
   font-style: italic;
   width: 16px;
   height: 10px;
-  color: #8ca3a7;
+  color: $table-th-content-color;
   position: absolute;
   top: -1px;
   left: 50px;
   line-height: .7;
-}
 
-thead tr .edit-button:hover {
-  cursor: default;
-  background-color: #4f5e61;
-  color: #fff;
-}
-
-thead tr .edit-button.active {
-  background-color: #4f5e61;
-  color: #fff;
+  &:hover, &:active {
+    background-color: $table-th-content-color-interaction;
+    color: #fff;
+  }
+  &:hover {
+    cursor: default;
+  }
 }
 
 /**
    ===== Styles for .sorting-button =====
  */
-
 .sorting-cont {
   position: absolute;
   left: 24px;
   top: -1px;
   width: 20px;
   height: 8px;
-}
 
-.sorting-cont:hover {
-  cursor: default;
-  background-color: #4f5e61;
+  &:hover {
+    cursor: default;
+    background-color: $table-th-content-color-interaction;
+  }
 }
 
 span[role=button].sorting-button {
   position: relative;
   display: block;
-}
 
-span[role=button].sorting-button::before {
-  opacity: .3;
-  content: "\025b4";
-  position: absolute;
-  left: -4px;
-  font-size: 22px;
-  line-height: .4;
-}
-
-span[role=button].sorting-button:hover::before {
-  opacity: .9
-}
-
-span[role=button].sorting-button::after {
-  opacity: .3;
-  content: "\025be";
-  position: absolute;
-  right: -4px;
-  font-size: 22px;
-  z-index: 1;
-  line-height: .4;
-}
-
-span[role=button].sorting-button:hover::after {
-  opacity: .9
+  &::before, &::after {
+    opacity: .3;
+    position: absolute;
+    font-size: 22px;
+    line-height: .4;
+  }
+  &::before {
+    content: "\025b4";
+    left: -4px;
+  }
+  &::after {
+    content: "\025be";
+    right: -4px;
+    z-index: 1;
+  }
+  &:hover::before, &:hover::after {
+    opacity: .9;
+  }
 }

@@ -1,4 +1,7 @@
 /**
+   ========== >>>>> NOTIFICATON STYLES <<<<< ==========
+ */
+/**
    ===== header error, table notification shared styles =====
  */
 .header-error, .notify {
@@ -14,11 +17,10 @@
 .header-error, .notify.error {
   background: #fbeded;
   border-color: brown;
-}
 
-.header-error .btn-cross,
-.notify.error .btn-cross {
-  background: brown;
+  & .btn-cross {
+    background: brown;
+  }
 }
 
 .btn-cross {
@@ -46,7 +48,6 @@
 /**
    ===== table notification =====
  */
-
 .notify-wrapper {
   position: absolute;
   background: transparent;
@@ -61,13 +62,13 @@
   position: relative;
   margin: 0 auto;
   padding: 1rem;
-}
 
-.notify.success {
-  border-color: green;
-  background: #e7f5e7;
-}
+  &.success {
+    border-color: green;
+    background: #e7f5e7;
 
-.notify.success .btn-cross {
-  background: green;
+    & .btn-cross {
+      background: green;
+    }
+  }
 }
