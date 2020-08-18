@@ -724,15 +724,13 @@ thead tr .edit-button {
   line-height: .7;
 }
 
-thead tr .edit-button:hover {
-  cursor: default;
+thead tr .edit-button:hover, thead tr .edit-button:active {
   background-color: #4f5e61;
   color: #fff;
 }
 
-thead tr .edit-button.active {
-  background-color: #4f5e61;
-  color: #fff;
+thead tr .edit-button:hover {
+  cursor: default;
 }
 
 /**
@@ -756,30 +754,25 @@ span[role=button].sorting-button {
   display: block;
 }
 
-span[role=button].sorting-button::before {
+span[role=button].sorting-button::before, span[role=button].sorting-button::after {
   opacity: .3;
-  content: "\025b4";
   position: absolute;
-  left: -4px;
   font-size: 22px;
   line-height: .4;
 }
 
-span[role=button].sorting-button:hover::before {
-  opacity: .9;
+span[role=button].sorting-button::before {
+  content: "\025b4";
+  left: -4px;
 }
 
 span[role=button].sorting-button::after {
-  opacity: .3;
   content: "\025be";
-  position: absolute;
   right: -4px;
-  font-size: 22px;
   z-index: 1;
-  line-height: .4;
 }
 
-span[role=button].sorting-button:hover::after {
+span[role=button].sorting-button:hover::before, span[role=button].sorting-button:hover::after {
   opacity: .9;
 }
 
