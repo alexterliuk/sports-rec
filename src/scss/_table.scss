@@ -1,7 +1,6 @@
 /**
-   ===== Main table styles =====
+   ========== >>>>> TABLE STYLES <<<<< ==========
  */
-
 table {
   display: flex;
   flex-direction: column;
@@ -66,7 +65,6 @@ tbody tr:last-child:hover {
 /**
    ===== Styles for table borders =====
  */
-
 tbody tr:last-child {
   border-bottom-color: #e1e4e6;
 }
@@ -82,7 +80,6 @@ td:last-child {
 /**
    ===== Styles for textarea =====
  */
-
 td textarea, th textarea {
   color: inherit;
   position: absolute;
@@ -112,7 +109,6 @@ thead th textarea {
 /**
    ===== Styles for .resizer-hider =====
  */
-
 .resizer-hider {
   width: var(--textareaResizerWidth);
   height: 100%;
@@ -137,7 +133,6 @@ tr:nth-child(even) .resizer-hider {
 /**
    ===== Styles for .delete-stick =====
  */
-
 span[role=button].delete-stick {
   width: 12px;
   height: 5px;
@@ -177,7 +172,6 @@ span[role=button].delete-stick:hover {
 /**
    ===== Styles for editing column's name =====
  */
-
 thead tr .edit-mask {
   height: 2.4rem;
   width: calc(2 * var(--wid));
@@ -214,7 +208,6 @@ thead tr .edit-button.active {
 /**
    ===== Styles for .sorting-button =====
  */
-
 .sorting-cont {
   position: absolute;
   left: 24px;
