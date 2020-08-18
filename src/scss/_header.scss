@@ -1,41 +1,38 @@
 /**
    ========== >>>>> HEADER STYLES <<<<< ==========
  */
+$header-log-width: 300px;
+$header-height: 83px;
+
 header {
   display: flex;
   background: rgba(82, 70, 55, 0.2);
-  min-width: 300px;
-  height: 83px;
+  min-width: $header-log-width;
+  height: $header-height;
   overflow: hidden;
 }
 
-/**
-   ===== title-block =====
- */
 .title-block {
   flex: auto;
   color: #634545;
   padding-left: 4rem;
-  height: 83px;
+  height: $header-height;
+
+  h1 {
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0 0 .3rem .5rem;
+    text-transform: uppercase;
+    font-size: .7rem;
+    letter-spacing: 1px;
+  }
 }
 
-.title-block p {
-  margin: 0 0 .3rem .5rem;
-  text-transform: uppercase;
-  font-size: .7rem;
-  letter-spacing: 1px;
-}
-
-.title-block h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-/**
-   ===== description =====
- */
 .description {
   font: 1.2rem "Times New Roman";
   line-height: 1.4;
@@ -44,11 +41,11 @@ header {
   color: #444444;
   padding: 1rem;
   margin: 0 auto;
-}
 
-@media(max-width: 50rem) {
-  .description {
-    font-size: 1rem;
+  @media(max-width: 50rem) {
+    & {
+      font-size: 1rem;
+    }
   }
 }
 
@@ -59,7 +56,7 @@ header {
   flex: none;
   padding-bottom: .5rem;
   color: #222222;
-  width: 300px;
+  width: $header-log-width;
 }
 
 .log-panel {
@@ -76,17 +73,17 @@ header {
 }
 
 .login-field {
-  width: 300px;
+  width: $header-log-width;
   padding: .25rem 0 0;
-}
 
-.login-field label {
-  display: inline-block;
-  width: 78px;
-}
+  label {
+    display: inline-block;
+    width: 78px;
+  }
 
-.login-field input {
-  width: 169px;
+  input {
+    width: 169px;
+  }
 }
 
 .login-button {
@@ -126,7 +123,7 @@ header {
     height: 43px;
   }
   .title-block, .sign-container {
-    width: 300px;
+    width: $header-log-width;
     margin: 0 auto;
   }
   .title-block h1 {

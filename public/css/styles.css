@@ -56,21 +56,11 @@ header {
   overflow: hidden;
 }
 
-/**
-   ===== title-block =====
- */
 .title-block {
   flex: auto;
   color: #634545;
   padding-left: 4rem;
   height: 83px;
-}
-
-.title-block p {
-  margin: 0 0 .3rem .5rem;
-  text-transform: uppercase;
-  font-size: .7rem;
-  letter-spacing: 1px;
 }
 
 .title-block h1 {
@@ -80,9 +70,13 @@ header {
   text-transform: uppercase;
 }
 
-/**
-   ===== description =====
- */
+.title-block p {
+  margin: 0 0 .3rem .5rem;
+  text-transform: uppercase;
+  font-size: .7rem;
+  letter-spacing: 1px;
+}
+
 .description {
   font: 1.2rem "Times New Roman";
   line-height: 1.4;
