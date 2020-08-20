@@ -66,8 +66,8 @@ router.get('/tables', auth, async (req, res) => {
     await user.populate({
       path: 'tables',
       options: {
-        limit: parseInt(req.query.limit),
-        skip: parseInt(req.query.skip),
+        limit: parseInt(req.query.limit, 10),
+        skip: parseInt(req.query.skip, 10),
       }
     }).execPopulate();
 

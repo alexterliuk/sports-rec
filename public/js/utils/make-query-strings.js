@@ -11,7 +11,7 @@ function makeQueryStrings(options, queryStringsKeys, makingType) {
   if (typeof options !== 'object' || !makingTypes.includes(makingType)) return '';
 
   const makeQueryStringFrom = {
-    number: key => (int => int > 0 && `${key}=${int}`)(parseInt(data.opts[key])),
+    number: key => (int => int > 0 && `${key}=${int}`)(parseInt(data.opts[key], 10)),
   };
 
   const data = (() => {
