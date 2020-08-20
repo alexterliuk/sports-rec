@@ -1,6 +1,7 @@
 /* Max nesting level - 1
      i.e. CSS var must point to real value (e.g. 2.5rem),
-          or to another CSS var with real value (not to the one which points to some another CSS var) */
+          or to another CSS var with real value (not to the one which points to some another CSS var)
+  If rgb or rgba used, value should stay simple, not compound (e.g. not 'var(--cellPad) rgb(24 134 108)') */
 :root {
   --pad: .25rem;
   --wid: 4rem;

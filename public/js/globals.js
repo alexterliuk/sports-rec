@@ -36,20 +36,48 @@ const parsedCssVars = (() => {
               const entry = val.split(': ');
               const isDotAtStart = val => val[0] === '.';
 
-              parsedVars.push({
+              const parsedVar = {
                 varKey: entry[0],
                 varVal: entry[1],
-                vals: entry[1].trim().split(' ').map(v => {
-                  const result = {};
-                  result.val = v.includes('var') ? v.split(/var\(|\)/)[1] : parseFloat(isDotAtStart(v) ? `0${v}` : v);
-                  result.cssUnit = v.includes('var') ? '' : v === '0' ? 'px' : v.slice(v.search(/[a-z]/));
+              };
 
-                  result.px = !result.val ? 0 : typeof result.val === 'string' ? null :
-                    result.cssUnit === 'px' ? result.val : result.val * oneRem;
+              const splitVarVal = parsedVar.varVal.trim().split(' ');
+              const rgbVal = splitVarVal[0].includes('rgb') && parsedVar.varVal;
 
-                  return result;
-                }),
-              });
+              parsedVar.vals = ((spV, rgbV) => {
+                if (rgbV) {
+                  return [{ val: rgbV, cssUnit: '', px: '' }];
+
+                } else {
+                  return spV.map(v => {
+                    const result = {};
+
+                    const cssVar = v.includes('var(--');
+                    const hexV = v.includes('#');
+                    const keywordV = !cssVar && !/\d/.test(v);
+
+                    if (!hexV && !keywordV) {
+                      result.val = cssVar ? v.split(/var\(|\)/)[1]
+                                          : parseFloat(isDotAtStart(v) ? `0${v}` : v);
+                      result.cssUnit = cssVar ? ''
+                                              : v === '0' ? 'px'
+                                              : v.slice(v.search(/[a-z]/));
+                      result.px = !result.val ? 0
+                                              : typeof result.val === 'string' ? null
+                                              : result.cssUnit === 'px' ? result.val
+                                              : result.val * oneRem;
+                    } else {
+                      result.val = v;
+                      result.cssUnit = '';
+                      result.px = '';
+                    }
+
+                    return result;
+                  });
+                }
+              })(splitVarVal, rgbVal);
+
+              parsedVars.push(parsedVar);
             });
         }
       }
@@ -58,10 +86,10 @@ const parsedCssVars = (() => {
 
   // if instead of number a val is another CSS var, replace it with corresponding value of that var
   parsedVars.forEach(parsedVar => {
-    const pointersToAnotherCssVars = parsedVar.vals.filter(v => typeof v.val === 'string');
-
+    const pointersToAnotherCssVars = parsedVar.vals.filter(v => typeof v.val === 'string' && v.val.includes('--'));
     pointersToAnotherCssVars.forEach(pointer => {
       const foundCssVar = parsedVars.find(cssVar => cssVar.varKey === pointer.val);
+
       pointer.val = foundCssVar.vals[0].val;
       pointer.cssUnit = foundCssVar.vals[0].cssUnit;
       pointer.px = foundCssVar.vals[0].px;
