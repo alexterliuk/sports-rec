@@ -79,7 +79,6 @@ function $emit(response, emitter, emitType) {
   }
 })();
 
-// Make sure .btn-close is always on page at table's right upper corner.
 (function onPageLoad() {
   // Add event listeners for logging, creating/deleting user
   signInForm.addEventListener('submit', signIn);
@@ -87,6 +86,7 @@ function $emit(response, emitter, emitType) {
   pickElem('logOut').addEventListener('click', logOut);
   pickElem('deleteUser').addEventListener('click', deleteUser);
 
+  // Make sure .btn-close is always on visual part of page at table's right upper corner.
   putBtnCloseToRight();
   window.addEventListener('resize', () => { putBtnCloseToRight(); });
 
