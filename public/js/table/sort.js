@@ -1,13 +1,17 @@
 /**
- * sort
+ * Quicksort algorithm implementation with descending order by default.
+ * @param {object} data
+ * @param {string} [sortingKey]
+ * @param {boolean} [ascendingOrder]
  */
-function sort(data, sortingKey) { // if sortingKey, data is array of objects, otherwise - data is array of numbers
+function sort(data, sortingKey, ascendingOrder) { // if sortingKey, data is array of objects, otherwise - array of numbers
   const sorted = [{ initData: data }];
-  const key = (typeof sortingKey === 'number' || typeof sortingKey === 'string') && sortingKey;
+  const key = typeof sortingKey === 'string' && sortingKey;
 
   for (let i = 0; i <= data.length; i++) {
     if (!i) {
       _sort(sorted[i].initData, i);
+
     } else {
       if (sorted[i] && sorted[i].gte.length) _sort(sorted[i].gte, i);
       if (sorted[i] && sorted[i].lt.length) _sort(sorted[i].lt, i);
@@ -26,6 +30,7 @@ function sort(data, sortingKey) { // if sortingKey, data is array of objects, ot
     for (i; i >= 1; i -= 1) {
       if (i === sorted.length - 1) {
         finalSorted.push(sorted[i].pivot);
+
       } else {
         const idx = finalSorted.findIndex(el => i === 1 ?
           (key ? el[key] > sorted[i].pivot[key] : el > sorted[i].pivot) :
@@ -43,7 +48,7 @@ function sort(data, sortingKey) { // if sortingKey, data is array of objects, ot
 
     finalSorted.forEach((val, idx) => { data[idx] = val; });
 
-    return data.reverse(); // init order desc
+    return ascendingOrder ? data : data.reverse();
   }
 
   function _sort(arr, level) {
@@ -52,11 +57,13 @@ function sort(data, sortingKey) { // if sortingKey, data is array of objects, ot
 
     for (let i = 0, j = arr.length - 1; i < j; i++) {
       if (key ? (arr[i][key] >= pivot[key]) : (arr[i] >= pivot)) {
+
         if (key ? (!level && arr[i][key] === pivot[key]) : (!level && arr[i] === pivot)) { // collect equal vals only for the first level, for other ones - put them into gte
           currentLevelContainer.eq = arr.filter(el => key ? el[key] === pivot[key] : el === pivot);
         } else {
           currentLevelContainer.gte.push(arr[i]);
         }
+
       } else {
         currentLevelContainer.lt.push(arr[i]);
       }
@@ -65,3 +72,5 @@ function sort(data, sortingKey) { // if sortingKey, data is array of objects, ot
     sorted.push(currentLevelContainer);
   }
 }
+
+export default sort;
