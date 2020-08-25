@@ -1,26 +1,24 @@
+import sort from './sort.js';
+
 const tableData = {};
 
 /**
- * sortColumn
+ * Prepare data for sorting and invoke sort.
+ * @param {HTMLElement} sortingBtn
+ * @param {object} params
  */
-function sortColumn(column, params) {
-  let dom;
+function sortColumn(sortingBtn, params) {
+  const dom = params.dom;
+  const column = sortingBtn.parentElement.parentElement;
 
-  if (params.dom.constructor.name !== 'Window') {
-    dom = params.dom;
-  } else {
-    dom = { pickElem: id => document.getElementById(id) };
-    const tableIsPristine = querySel(`#${dom.root.id} table`).classList.value.includes('pristine');
-    dom.columnsData = JSON.parse(tableIsPristine ? sessionStorage['initColumnsData'] : sessionStorage['columnsData']);
-  }
+  const clickStyle = params.clickStyle || 'background-color: rgba(112, 128, 144, 0.08)';
 
-  const clickStyle = Array.isArray(params.args) && params.args[0] || 'background-color: rgba(112, 128, 144, 0.08)';
-  const table = querySel(`#${dom.root.id} table`);
-  const tb = querySel(`#${dom.root.id} tbody`);
-  const tableHeadRow = querySel(`#${dom.root.id} thead tr`);
+  const table = querySel(`#${dom.root.tableId}`);
+  const tbody = querySel(`#${dom.root.tableId} tbody`);
+  const theadRow = querySel(`#${dom.root.tableId} thead tr`);
 
   let columnClass, prevSortedColumn;
-  for (const th of tableHeadRow.children) {
+  for (const th of theadRow.children) {
     if (th.id !== column.id) {
       for (const cl of th.classList) {
         if (cl === 'ascending' || cl === 'descending') prevSortedColumn = th;
@@ -41,45 +39,37 @@ function sortColumn(column, params) {
   } else { // prepare dom.sortingMatrix to be passed into sort function
     dom.sortingMatrix = dom.columnsData.find(col => col.id === column.id).vals.map((val, idx) => {
       const item = { sortingColumn: column.id };
-      if (column.id !== 'date') {
-        item.cellSum = val.sum;
-      } else {
-        item.charCellDate = val.charCellDate;
-      }
-
-      item.row = tb.children[idx];
+      item.cellVal = val;
+      item.row = tbody.children[idx];
       item.cellsInRow = dom.columnsData.map(col => col.vals[idx]);
 
       return item;
     });
     tableData.sortingMatrix = dom.sortingMatrix;
 
-    if (column.id === 'date' && table.classList[0] === 'pristine') {
-      table.classList.remove('pristine');
-      column.classList.add('descending');
-      reorder(dom.sortingMatrix.reverse());
-      highlightColumn(column, { dom, clickStyle, eventType: 'click' });
+    table.classList.remove('pristine');
 
-    } else {
-      table.classList.remove('pristine');
-      (sorted => {
-        if (sorted.allValsEqual) return;
-        if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
-        column.classList.add('descending'); // init order
-        reorder(sorted);
-        highlightColumn(column, { dom, clickStyle, eventType: 'click' });
-      })(sort(dom.sortingMatrix, column.id === 'date' ? 'charCellDate' : 'cellSum'));
-    }
+    (sorted => {
+      if (sorted.allValsEqual) return;
+      if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
+      column.classList.add('descending'); // init order
+      reorder(sorted);
+      //highlightColumn(column, { dom, clickStyle, eventType: 'click' });
+    })(sort(dom.sortingMatrix, 'cellVal'));
   }
 
+  /**
+   * Reorder dom.sortingMatrix.
+   * @param {array} sorted
+   */
   function reorder(sorted) {
     sorted.forEach((item, rowIdx) => {
-      tb.appendChild(item.row);
+      tbody.appendChild(item.row);
+
       item.cellsInRow.forEach((cell, colIdx) => {
         dom.columnsData[colIdx].vals[rowIdx] = cell;
       });
     });
-    sessionStorage.setItem('columnsData', JSON.stringify(dom.columnsData));
   }
 }
 
@@ -111,3 +101,5 @@ function highlightColumn(column, params) {
     }
   }
 }
+
+export { sortColumn, highlightColumn };
