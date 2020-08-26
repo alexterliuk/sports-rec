@@ -54,7 +54,7 @@ function sortColumn(sortingBtn, params) {
       if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
       column.classList.add('descending'); // init order
       reorder(sorted);
-      //highlightColumn(column, { dom, clickStyle, eventType: 'click' });
+      highlightColumn(column, { dom, clickStyle, eventType: 'click' });
     })(sort(dom.sortingMatrix, 'cellVal'));
   }
 
@@ -73,8 +73,15 @@ function sortColumn(sortingBtn, params) {
   }
 }
 
+// will hold highlighting columns styles
+const sheetClick = new CSSStyleSheet();
+const sheetHover = new CSSStyleSheet();
+document.adoptedStyleSheets = [sheetClick, sheetHover];
+
 /**
- * highlightColumn
+ * Add visual effect when hovering over column header, or when .sorting-btn clicked.
+ * @param {HTMLElement} column - th
+ * @param {object} params
  */
 function highlightColumn(column, params) {
   const dom = params.dom;
@@ -83,21 +90,62 @@ function highlightColumn(column, params) {
   dom.columnsStyle.hover = dom.columnsStyle.hover || Array.isArray(params.args) && params.args[0] || 'background-color: rgba(204, 222, 239, .2)';
 
   if (params.eventType === 'hover') {
-    document.styleSheets[0].insertRule(`td[data-${column.id}] { ${dom.columnsStyle.hover} }`);
-    column.addEventListener('mouseout', unhighlight);
+    if (!(column.classList.contains('ascending') || column.classList.contains('descending'))) {
+      addRules(sheetHover, dom.columnsStyle.hoverColor);
+      column.addEventListener('mouseout', unhighlight);
+    }
+
   } else { // click
     unhighlight();
-    document.styleSheets[0].insertRule(`td[data-${column.id}] { ${dom.columnsStyle.click} }`, document.styleSheets[0].rules.length);
-    document.styleSheets[0].insertRule(`th#${column.id} { background-color: rgba(0, 0, 0, .1) }`, document.styleSheets[0].rules.length);
+    addRules(sheetClick, dom.columnsStyle.clickColor, { th: '#mtb1Table ', td: 'table'});
   }
 
+  /**
+   * Add CSS rules to style sheet.
+   * @param {CSSStyleSheet} sheet
+   * @param {string} color
+   * @param {object} [expandSelectors] - add additional selectors to win specificity over another styleSheet rules
+   */
+  function addRules(sheet, color, expandSelectors) {
+    const rules = [
+      {
+        name: 'th',
+        sel: `th#${column.id}`,
+        decl: `background-color: ${color}; border-color: ${color};`,
+      },
+      {
+        name: 'td',
+        sel: `#${dom.root.tableId} td:nth-child(${column.cellIndex + 1})`,
+        decl: `background-color: ${color};`,
+      },
+    ];
+
+    rules.forEach(rule => {
+      const expSel = (expandSelectors || {})[rule.name];
+      const sel = `${expSel || ''}${rule.sel}`;
+      sheet.insertRule(`${sel}, ${sel} .resizer-hider { ${rule.decl} }`, sheet.rules.length);
+    });
+  }
+
+  /**
+   * Remove CSS rules from style sheet.
+   * @param {CSSStyleSheet} sheet
+   */
+  function removeRules(sheet) {
+    sheet.deleteRule(sheet.rules.length - 1);
+    sheet.deleteRule(sheet.rules.length - 1);
+  }
+
+  /**
+   * Remove visual effects from column.
+   */
   function unhighlight() {
     if (params.eventType === 'hover') {
       column.removeEventListener('mouseout', unhighlight);
-      document.styleSheets[0].deleteRule(0);
-    } else { // click
-      document.styleSheets[0].deleteRule(document.styleSheets[0].rules.length - 1);
-      document.styleSheets[0].deleteRule(document.styleSheets[0].rules.length - 1);
+      removeRules(sheetHover);
+
+    } else if (sheetClick.rules.length) {
+      removeRules(sheetClick);
     }
   }
 }
