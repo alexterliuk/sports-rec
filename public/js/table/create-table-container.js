@@ -67,6 +67,11 @@ function createTableContainer(event, tableData) {
   if (!tablesConfig.getConfigItem('rowsQty')) tablesConfig.addToConfig({ rowsQty: 3 });
   if (!tablesConfig.getConfigItem('colsQty')) tablesConfig.addToConfig({ colsQty: 3 });
 
+  // add colors for styling a column on click for sorting, or on hover (uncomment if not default colors needed)
+  // to have lighter color on table cells, pass rgb (!rgba) or hex, if color keyword passed (e.g. 'yellow') no lighter tint is created
+  // if (!tablesConfig.getConfigItem('clickColor')) tablesConfig.addToConfig({ clickColor: 'rgb(77 199 158)' });
+  // if (!tablesConfig.getConfigItem('hoverColor')) tablesConfig.addToConfig({ hoverColor: '#a3ead2' });
+
   const tableInitParams = {
     parentSelector: `#${params.contId} .table-panel`,
     contId: tableId,

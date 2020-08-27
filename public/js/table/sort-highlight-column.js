@@ -1,6 +1,8 @@
 import sort from './sort.js';
+import { tablesConfig } from './state-collectors/index.js';
 
 const tableData = {};
+const defaultColors = { click: '#576879', hover: '#6d8298' };
 
 /**
  * Prepare data for sorting and invoke sort.
@@ -10,8 +12,6 @@ const tableData = {};
 function sortColumn(sortingBtn, params) {
   const dom = params.dom;
   const column = sortingBtn.parentElement.parentElement;
-
-  const clickStyle = params.clickStyle || 'background-color: rgba(112, 128, 144, 0.08)';
 
   const table = querySel(`#${dom.root.tableId}`);
   const tbody = querySel(`#${dom.root.tableId} tbody`);
@@ -54,7 +54,7 @@ function sortColumn(sortingBtn, params) {
       if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
       column.classList.add('descending'); // init order
       reorder(sorted);
-      highlightColumn(column, { dom, clickStyle, eventType: 'click' });
+      highlightColumn(column, { dom, eventType: 'click' });
     })(sort(dom.sortingMatrix, 'cellVal'));
   }
 
@@ -85,15 +85,17 @@ document.adoptedStyleSheets = [sheetClick, sheetHover];
  */
 function highlightColumn(column, params) {
   const dom = params.dom;
-  dom.columnsStyle = dom.columnsStyle || {};
-  dom.columnsStyle.click = dom.columnsStyle.click || params.clickStyle;
-  dom.columnsStyle.hover = dom.columnsStyle.hover || Array.isArray(params.args) && params.args[0] || 'background-color: rgba(204, 222, 239, .2)';
+
+  if (!dom.columnsStyle) {
+    dom.columnsStyle = {
+      clickColor: tablesConfig.getConfigItem('clickColor') || defaultColors.click,
+      hoverColor: tablesConfig.getConfigItem('hoverColor') || defaultColors.hover,
+    };
+  }
 
   if (params.eventType === 'hover') {
-    if (!(column.classList.contains('ascending') || column.classList.contains('descending'))) {
-      addRules(sheetHover, dom.columnsStyle.hoverColor);
-      column.addEventListener('mouseout', unhighlight);
-    }
+    addRules(sheetHover, dom.columnsStyle.hoverColor);
+    column.addEventListener('mouseout', unhighlight);
 
   } else { // click
     unhighlight();
@@ -116,7 +118,12 @@ function highlightColumn(column, params) {
       {
         name: 'td',
         sel: `#${dom.root.tableId} td:nth-child(${column.cellIndex + 1})`,
-        decl: `background-color: ${color};`,
+        decl: `background-color: ${getLighterColor(color, 0.9)};`,
+      },
+      {
+        name: 'td',
+        sel: `#${dom.root.tableId} tr:nth-child(even) td:nth-child(${column.cellIndex + 1})`,
+        decl: `background-color: ${getLighterColor(color, 0.8)};`,
       },
     ];
 
@@ -132,8 +139,11 @@ function highlightColumn(column, params) {
    * @param {CSSStyleSheet} sheet
    */
   function removeRules(sheet) {
-    sheet.deleteRule(sheet.rules.length - 1);
-    sheet.deleteRule(sheet.rules.length - 1);
+    let stop = 0;
+    while (sheet.rules.length) {
+      sheet.deleteRule(sheet.rules.length - 1);
+      if (++stop === 1000) break;
+    }
   }
 
   /**
@@ -147,6 +157,51 @@ function highlightColumn(column, params) {
     } else if (sheetClick.rules.length) {
       removeRules(sheetClick);
     }
+  }
+
+  /**
+   * Make lighter color based on incoming color.
+   * @param {string} color - rgb or hex
+   * @param {number} grade - from 0 to 1
+   */
+  function getLighterColor(color, grade) {
+    if (grade < 0 || grade > 1 || typeof color !== 'string') return color;
+
+    const rgb = color[0] === '#' && hex2Rgb(color) || color;
+    if (rgb.slice(0, 4) !== 'rgb(') return color;
+
+    const split = rgb.split(/rgb\(|\)| /).slice(1, -1);
+    const r = parseInt(split[0], 10);
+    const g = parseInt(split[1], 10);
+    const b = parseInt(split[2], 10);
+
+    return 'rgb(' + [r, g, b].map(v => {
+      return (255 - v) * grade + v;
+    }).join(' ') + ')';
+  }
+
+  /**
+   * If hex color, convert it to rgb
+   * @param {string} color
+   */
+  function hex2Rgb(color) {
+    if (typeof color !== 'string') return false;
+
+    // cast to lowercase
+    const lowColor = color.split('').map(c => c.toLowerCase()).join('').trim();
+
+    const hex6Format = /#(\d|[a-f])(\d|[a-f])(\d|[a-f])(\d|[a-f])(\d|[a-f])(\d|[a-f])/g;
+    const hex3Format = /#(\d|[a-f])(\d|[a-f])(\d|[a-f])/g;
+    const hex3Color = lowColor.length === 4 && hex3Format.test(lowColor) && lowColor;
+    const hex6Color = lowColor.length === 7 && hex6Format.test(lowColor) && lowColor;
+
+    if (!hex3Color && !hex6Color) return false;
+
+    const r = hex3Color && hex3Color[1] + hex3Color[1] || hex6Color.slice(1, 3);
+    const g = hex3Color && hex3Color[2] + hex3Color[2] || hex6Color.slice(3, 5);
+    const b = hex3Color && hex3Color[3] + hex3Color[3] || hex6Color.slice(5);
+
+    return `rgb(${parseInt(r, 16)} ${parseInt(g, 16)} ${parseInt(b, 16)})`;
   }
 }
 
