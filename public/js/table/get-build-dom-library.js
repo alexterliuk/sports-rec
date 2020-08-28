@@ -158,7 +158,7 @@ function getBuildDOMLibrary(id, options) {
       this.columnsIndexes = columnsIndexes;
     },
 
-    collectCellsVals() {
+    collectCellsVals(hyphenId) {
       const tbody = querySel(`#${this.root.elementId} tbody`);
       const theadRow = querySel(`#${this.root.elementId} thead tr`);
       const columnsIds = Array.prototype.map.call(theadRow.children, child => child.id);
@@ -171,7 +171,7 @@ function getBuildDOMLibrary(id, options) {
         }
       }
 
-      this.columnsData = columnsData;
+      shownTables.addToTable(hyphenId, { columnsData }, true);
     },
 
     createHyphenId(storedHyphenIds) {

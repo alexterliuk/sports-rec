@@ -152,7 +152,7 @@ function buildDOM(data) {
 
   // dom.root is absent when you create dboItems by createDashboardItems
   // (when batch creating dboItems, you use parent div just as container and don't append it to DOM, so no dom.root is needed)
-  if (dom.root && dom.root.element.tagName === 'TABLE') dom.collectCellsVals();
+  if (dom.root && dom.root.element.tagName === 'TABLE') dom.collectCellsVals(dom.root.hyphenId);
 
   // sessionStorage.setItem('page_v1', querySel('body').children[1].outerHTML);
   // sessionStorage.setItem('data_v1', JSON.stringify(data));
