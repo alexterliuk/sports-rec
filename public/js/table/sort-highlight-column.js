@@ -1,21 +1,22 @@
 import sort from './sort.js';
-import { tablesConfig } from './state-collectors/index.js';
+import { shownTables, tablesConfig } from './state-collectors/index.js';
 
 const tableData = {};
-const defaultColors = { click: '#576879', hover: '#6d8298' };
+const clickColor = tablesConfig.getConfigItem('clickColor') || '#576879';
+const hoverColor = tablesConfig.getConfigItem('hoverColor') || '#6d8298';
 
 /**
  * Prepare data for sorting and invoke sort.
  * @param {HTMLElement} sortingBtn
- * @param {object} params
  */
-function sortColumn(sortingBtn, params) {
-  const dom = params.dom;
+function sortColumn(sortingBtn) {
   const column = sortingBtn.parentElement.parentElement;
+  const currentTable = shownTables.get(`${column.id.slice(-4)}`);
+  const { tableId, columnsData } = currentTable;
 
-  const table = querySel(`#${dom.root.tableId}`);
-  const tbody = querySel(`#${dom.root.tableId} tbody`);
-  const theadRow = querySel(`#${dom.root.tableId} thead tr`);
+  const table = pickElem(tableId);
+  const tbody = querySel(`#${tableId} tbody`);
+  const theadRow = querySel(`#${tableId} thead tr`);
 
   let columnClass, prevSortedColumn;
   for (const th of theadRow.children) {
@@ -31,21 +32,21 @@ function sortColumn(sortingBtn, params) {
   }
 
   if (columnClass) { // column is in sorted order (asc || desc)
-    (dom.sortingMatrix || tableData.sortingMatrix).reverse();
-    reorder(dom.sortingMatrix || tableData.sortingMatrix);
+    (currentTable.sortingMatrix || tableData.sortingMatrix).reverse();
+    reorder(currentTable.sortingMatrix || tableData.sortingMatrix);
     column.classList.remove('ascending', 'descending');
     column.classList.add(columnClass === 'ascending' ? 'descending' : 'ascending');
 
-  } else { // prepare dom.sortingMatrix to be passed into sort function
-    dom.sortingMatrix = dom.columnsData.find(col => col.id === column.id).vals.map((val, idx) => {
+  } else { // prepare sortingMatrix to be passed into sort function
+    currentTable.sortingMatrix = columnsData.find(col => col.id === column.id).vals.map((val, idx) => {
       const item = { sortingColumn: column.id };
       item.cellVal = val;
       item.row = tbody.children[idx];
-      item.cellsInRow = dom.columnsData.map(col => col.vals[idx]);
+      item.cellsInRow = columnsData.map(col => col.vals[idx]);
 
       return item;
     });
-    tableData.sortingMatrix = dom.sortingMatrix;
+    tableData.sortingMatrix = currentTable.sortingMatrix; // TODO: is tableData is really needed?
 
     table.classList.remove('pristine');
 
@@ -54,12 +55,12 @@ function sortColumn(sortingBtn, params) {
       if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
       column.classList.add('descending'); // init order
       reorder(sorted);
-      highlightColumn(column, { dom, eventType: 'click' });
-    })(sort(dom.sortingMatrix, 'cellVal'));
+      highlightColumn(column, { eventType: 'click' });
+    })(sort(currentTable.sortingMatrix, 'cellVal'));
   }
 
   /**
-   * Reorder dom.sortingMatrix.
+   * Reorder currentTable.sortingMatrix.
    * @param {array} sorted
    */
   function reorder(sorted) {
@@ -67,7 +68,7 @@ function sortColumn(sortingBtn, params) {
       tbody.appendChild(item.row);
 
       item.cellsInRow.forEach((cell, colIdx) => {
-        dom.columnsData[colIdx].vals[rowIdx] = cell;
+        columnsData[colIdx].vals[rowIdx] = cell;
       });
     });
   }
@@ -84,22 +85,16 @@ document.adoptedStyleSheets = [sheetClick, sheetHover];
  * @param {object} params
  */
 function highlightColumn(column, params) {
-  const dom = params.dom;
-
-  if (!dom.columnsStyle) {
-    dom.columnsStyle = {
-      clickColor: tablesConfig.getConfigItem('clickColor') || defaultColors.click,
-      hoverColor: tablesConfig.getConfigItem('hoverColor') || defaultColors.hover,
-    };
-  }
+  const currentTable = shownTables.get(`${column.id.slice(-4)}`);
+  const tableId = currentTable.tableId;
 
   if (params.eventType === 'hover') {
-    addRules(sheetHover, dom.columnsStyle.hoverColor);
+    addRules(sheetHover, hoverColor);
     column.addEventListener('mouseout', unhighlight);
 
   } else { // click
     unhighlight();
-    addRules(sheetClick, dom.columnsStyle.clickColor, { th: '#mtb1Table ', td: 'table'});
+    addRules(sheetClick, clickColor, { th: `${tableId} `, td: 'table'});
   }
 
   /**
@@ -117,12 +112,12 @@ function highlightColumn(column, params) {
       },
       {
         name: 'td',
-        sel: `#${dom.root.tableId} td:nth-child(${column.cellIndex + 1})`,
+        sel: `#${tableId} td:nth-child(${column.cellIndex + 1})`,
         decl: `background-color: ${getLighterColor(color, 0.9)};`,
       },
       {
         name: 'td',
-        sel: `#${dom.root.tableId} tr:nth-child(even) td:nth-child(${column.cellIndex + 1})`,
+        sel: `#${tableId} tr:nth-child(even) td:nth-child(${column.cellIndex + 1})`,
         decl: `background-color: ${getLighterColor(color, 0.8)};`,
       },
     ];
