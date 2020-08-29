@@ -11,7 +11,8 @@ const hoverColor = tablesConfig.getConfigItem('hoverColor') || '#6d8298';
  */
 function sortColumn(sortingBtn) {
   const column = sortingBtn.parentElement.parentElement;
-  const currentTable = shownTables.get(`${column.id.slice(-4)}`);
+  const hyphenId = column.id.slice(-4);
+  const currentTable = shownTables.get(hyphenId);
   const { tableId, columnsData } = currentTable;
 
   const table = pickElem(tableId);
@@ -46,7 +47,7 @@ function sortColumn(sortingBtn) {
 
       return item;
     });
-    tableData.sortingMatrix = currentTable.sortingMatrix; // TODO: is tableData is really needed?
+    tableData.sortingMatrix = currentTable.sortingMatrix; // TODO: is tableData really needed?
 
     table.classList.remove('pristine');
 
@@ -71,6 +72,8 @@ function sortColumn(sortingBtn) {
         columnsData[colIdx].vals[rowIdx] = cell;
       });
     });
+
+    shownTables.addToTable(hyphenId, { columnsData }, true);
   }
 }
 
