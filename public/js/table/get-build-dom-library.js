@@ -129,7 +129,7 @@ function getBuildDOMLibrary(id, options) {
     },
 
     addOnHover(elem, onHoverData) {
-      const params = { dom: this, eventType: 'hover' };
+      const params = { eventType: 'hover' };
       if (onHoverData.hasOwnProperty('funcArgs')) params.args = onHoverData.funcArgs;
 
       const call = () => { funcLib[onHoverData.funcName](elem, params); };
