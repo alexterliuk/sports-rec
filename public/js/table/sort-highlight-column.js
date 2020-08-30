@@ -1,5 +1,6 @@
 import sort from './sort.js';
 import { shownTables, tablesConfig } from './state-collectors/index.js';
+import isStringifiedNumber from '../utils/is-stringified-number.js';
 
 const clickColor = tablesConfig.getConfigItem('clickColor') || '#576879';
 const hoverColor = tablesConfig.getConfigItem('hoverColor') || '#6d8298';
@@ -60,7 +61,8 @@ function sortColumn(sortingBtn) {
       item.row = row;
       // for item.cellVal take current value from textarea instead of savedVal,
       // bec. textarea might have been edited and result not saved before clicking Sort column
-      item.cellVal = querySel(`#${cell.id} textarea`).value;
+      const textareaVal = querySel(`#${cell.id} textarea`).value;
+      item.cellVal = isStringifiedNumber(textareaVal) && parseFloat(textareaVal) || textareaVal;
       item.cellsInRow = columnsData.map(col => col.vals[idx]);
       item.cellsInRow[colIdx] = item.cellVal;
 
