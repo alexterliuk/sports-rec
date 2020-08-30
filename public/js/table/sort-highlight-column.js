@@ -129,7 +129,7 @@ function highlightColumn(column, params) {
 
   } else { // click
     unhighlight();
-    addRules(sheetClick, clickColor, { th: `${tableId} `, td: 'table'});
+    addRules(sheetClick, clickColor, { th: `#${tableId} `, td: 'table'});
   }
 
   /**
