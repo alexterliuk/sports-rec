@@ -35,13 +35,25 @@ function sortColumn(sortingBtn) {
   table.classList.remove('pristine');
 
   const sortingMatrix = makeSortingMatrix(columnsData, column);
+  const columnValsBeforeSorting = getSortingVals(sortingMatrix);
 
   (sorted => {
     if (sorted.allValsEqual) return;
     if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
     column.classList.remove('ascending', 'descending');
-    column.classList.add((!columnClass || columnClass === 'ascending') ? 'descending' : 'ascending');
-    reorderTable(sorted);
+
+    const columnNotChanged = getSortingVals(sortingMatrix).every((v, idx) => v === columnValsBeforeSorting[idx]);
+
+    if (columnNotChanged) {
+      const asc = columnValsBeforeSorting[0] < columnValsBeforeSorting[1];
+      column.classList.add(asc ? 'descending' : 'ascending');
+
+    } else {
+      column.classList.add((!columnClass || columnClass === 'ascending') ? 'descending' : 'ascending');
+    }
+
+    reorderTable(columnNotChanged ? sorted.reverse() : sorted);
+
     highlightColumn(column, { eventType: 'click' });
   })(sort(sortingMatrix, 'cellVal', columnClass === 'descending')); // init sorting order - descending
 
@@ -71,12 +83,20 @@ function sortColumn(sortingBtn) {
   }
 
   /**
+   * Get array with values of a single column.
+   * @param {array} sortingMatrix
+   */
+  function getSortingVals(sortingMatrix) {
+    return sortingMatrix.map(row => row.cellVal);
+  }
+
+  /**
    * Change order of rows in table according to sorted values.
-   * @param {array} sorted
+   * @param {array} sorted - sortingMatrix
    */
   function reorderTable(sorted) {
     sorted.forEach((item, rowIdx) => {
-      tbody.appendChild(item.row);
+      tbody.append(item.row);
 
       item.cellsInRow.forEach((cell, colIdx) => {
         columnsData[colIdx].vals[rowIdx] = cell;
