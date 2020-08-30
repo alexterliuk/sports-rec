@@ -1,7 +1,6 @@
 import sort from './sort.js';
 import { shownTables, tablesConfig } from './state-collectors/index.js';
 
-const tableData = {};
 const clickColor = tablesConfig.getConfigItem('clickColor') || '#576879';
 const hoverColor = tablesConfig.getConfigItem('hoverColor') || '#6d8298';
 
@@ -32,39 +31,48 @@ function sortColumn(sortingBtn) {
     }
   }
 
-  if (columnClass) { // column is in sorted order (asc || desc)
-    (currentTable.sortingMatrix || tableData.sortingMatrix).reverse();
-    reorder(currentTable.sortingMatrix || tableData.sortingMatrix);
-    column.classList.remove('ascending', 'descending');
-    column.classList.add(columnClass === 'ascending' ? 'descending' : 'ascending');
+  table.classList.remove('pristine');
 
-  } else { // prepare sortingMatrix to be passed into sort function
-    currentTable.sortingMatrix = columnsData.find(col => col.id === column.id).vals.map((val, idx) => {
+  const sortingMatrix = makeSortingMatrix(columnsData, column);
+
+  (sorted => {
+    if (sorted.allValsEqual) return;
+    if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
+    column.classList.remove('ascending', 'descending');
+    column.classList.add((!columnClass || columnClass === 'ascending') ? 'descending' : 'ascending');
+    reorderTable(sorted);
+    highlightColumn(column, { eventType: 'click' });
+  })(sort(sortingMatrix, 'cellVal', columnClass === 'descending')); // init sorting order - descending
+
+  /**
+   * Make sorting matrix to be passed into sort function.
+   * @param {array} columnsData
+   * @param {HTMLElement} column - th
+   */
+  function makeSortingMatrix(columnsData, column) {
+    const colIdx = column.cellIndex;
+
+    return columnsData.find(col => col.id === column.id).vals.map((savedVal, idx) => {
       const item = { sortingColumn: column.id };
-      item.cellVal = val;
-      item.row = tbody.children[idx];
+      const row = tbody.children[idx];
+      const cell = row.children[colIdx];
+
+      item.row = row;
+      // for item.cellVal take current value from textarea instead of savedVal,
+      // bec. textarea might have been edited and result not saved before clicking Sort column
+      item.cellVal = querySel(`#${cell.id} textarea`).value;
       item.cellsInRow = columnsData.map(col => col.vals[idx]);
+      item.cellsInRow[colIdx] = item.cellVal;
 
       return item;
     });
-    tableData.sortingMatrix = currentTable.sortingMatrix; // TODO: is tableData really needed?
-
-    table.classList.remove('pristine');
-
-    (sorted => {
-      if (sorted.allValsEqual) return;
-      if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
-      column.classList.add('descending'); // init order
-      reorder(sorted);
-      highlightColumn(column, { eventType: 'click' });
-    })(sort(currentTable.sortingMatrix, 'cellVal'));
   }
 
   /**
-   * Reorder currentTable.sortingMatrix.
+   * Change order of rows in table according to sorted values.
    * @param {array} sorted
    */
-  function reorder(sorted) {
+  function reorderTable(sorted) {
     sorted.forEach((item, rowIdx) => {
       tbody.appendChild(item.row);
 
@@ -76,6 +84,8 @@ function sortColumn(sortingBtn) {
     shownTables.addToTable(hyphenId, { columnsData }, true);
   }
 }
+
+
 
 // will hold highlighting columns styles
 const sheetClick = new CSSStyleSheet();
