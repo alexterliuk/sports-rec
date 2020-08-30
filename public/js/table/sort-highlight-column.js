@@ -1,6 +1,7 @@
 import sort from './sort.js';
 import { shownTables, tablesConfig } from './state-collectors/index.js';
 import isStringifiedNumber from '../utils/is-stringified-number.js';
+import collectCellsVals from './table-utils/collect-cells-vals.js';
 
 const clickColor = tablesConfig.getConfigItem('clickColor') || '#576879';
 const hoverColor = tablesConfig.getConfigItem('hoverColor') || '#6d8298';
@@ -13,11 +14,13 @@ function sortColumn(sortingBtn) {
   const column = sortingBtn.parentElement.parentElement;
   const hyphenId = column.id.slice(-4);
   const currentTable = shownTables.get(hyphenId);
-  const { tableId, columnsData } = currentTable;
+  const { tableId } = currentTable;
 
   const table = pickElem(tableId);
   const tbody = querySel(`#${tableId} tbody`);
   const theadRow = querySel(`#${tableId} thead tr`);
+
+  const columnsData = collectCellsVals(tableId, tbody, theadRow);
 
   let columnClass, prevSortedColumn;
   for (const th of theadRow.children) {
@@ -34,7 +37,7 @@ function sortColumn(sortingBtn) {
 
   table.classList.remove('pristine');
 
-  const sortingMatrix = makeSortingMatrix(columnsData, column);
+  const sortingMatrix = makeSortingMatrix(column);
   const columnValsBeforeSorting = getSortingVals(sortingMatrix);
 
   (sorted => {
@@ -59,10 +62,9 @@ function sortColumn(sortingBtn) {
 
   /**
    * Make sorting matrix to be passed into sort function.
-   * @param {array} columnsData
    * @param {HTMLElement} column - th
    */
-  function makeSortingMatrix(columnsData, column) {
+  function makeSortingMatrix(column) {
     const colIdx = column.cellIndex;
 
     return columnsData.find(col => col.id === column.id).vals.map((savedVal, idx) => {
@@ -102,8 +104,6 @@ function sortColumn(sortingBtn) {
         columnsData[colIdx].vals[rowIdx] = cell;
       });
     });
-
-    shownTables.addToTable(hyphenId, { columnsData }, true);
   }
 }
 

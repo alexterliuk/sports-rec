@@ -158,22 +158,6 @@ function getBuildDOMLibrary(id, options) {
       this.columnsIndexes = columnsIndexes;
     },
 
-    collectCellsVals(hyphenId) {
-      const tbody = querySel(`#${this.root.elementId} tbody`);
-      const theadRow = querySel(`#${this.root.elementId} thead tr`);
-      const columnsIds = Array.prototype.map.call(theadRow.children, child => child.id);
-      const columnsData = columnsIds.map(id => ({ id, vals: [] }));
-
-      for (const row of tbody.childNodes) {
-        for (const cell of row.cells) {
-          const textarea = querySel(`#${cell.id} textarea`);
-          columnsData[cell.cellIndex].vals.push(textarea.value);
-        }
-      }
-
-      shownTables.addToTable(hyphenId, { columnsData }, true);
-    },
-
     createHyphenId(storedHyphenIds) {
       let hyphenIds = [];
       for (const table of querySelAll('* table')) {
