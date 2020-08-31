@@ -4,7 +4,7 @@
  * testing: ['019', '-019', '+019', '-0.19', '+01.9', '01.9', '.019', '-.019', '01.95.', '01,9', '019f'].map(str => ({ str, strNum: isStringifiedNumber(str) }));
  */
 function isStringifiedNumber(str) {
-  if (typeof str !== 'string') return false;
+  if (typeof str !== 'string' || !str.length) return false;
 
   let dotAlreadyMet;
 

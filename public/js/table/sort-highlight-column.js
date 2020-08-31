@@ -76,7 +76,9 @@ function sortColumn(sortingBtn) {
       // for item.cellVal take current value from textarea instead of savedVal,
       // bec. textarea might have been edited and result not saved before clicking Sort column
       const textareaVal = querySel(`#${cell.id} textarea`).value;
-      item.cellVal = isStringifiedNumber(textareaVal) && parseFloat(textareaVal) || textareaVal;
+      item.cellVal = textareaVal;
+      if (isStringifiedNumber(textareaVal)) item.cellVal = parseFloat(textareaVal);
+
       item.cellsInRow = columnsData.map(col => col.vals[idx]);
       item.cellsInRow[colIdx] = item.cellVal;
 
@@ -97,13 +99,35 @@ function sortColumn(sortingBtn) {
    * @param {array} sorted - sortingMatrix
    */
   function reorderTable(sorted) {
-    sorted.forEach((item, rowIdx) => {
+    const normalizedSorted = unifyValsByType(sorted);
+
+    normalizedSorted.forEach((item, rowIdx) => {
       tbody.append(item.row);
 
       item.cellsInRow.forEach((cell, colIdx) => {
         columnsData[colIdx].vals[rowIdx] = cell;
       });
     });
+  }
+
+  /**
+   * Strings and numbers might have been sorted together in a column.
+   * If so, unify values type by type, add empty cells to column's end.
+   * @param {array} sorted - sortingMatrix
+   */
+  function unifyValsByType(sorted) {
+    const numbers = [], strings = [], empty = [];
+
+    sorted.forEach(obj => {
+      if (typeof obj.cellVal === 'number') {
+        numbers.push(obj);
+
+      } else {
+        obj.cellVal ? strings.push(obj) : empty.push(obj);
+      }
+    });
+
+    return numbers.concat(strings).concat(empty);
   }
 }
 
