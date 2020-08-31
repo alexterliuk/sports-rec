@@ -1,9 +1,8 @@
-import { shownTables, tablesConfig } from '../../state-collectors/index.js';
+import { shownTables, tablesConfig, sortColumnStyles } from '../../state-collectors/index.js';
 
-// will hold highlighting columns styles
-const sheetClick = new CSSStyleSheet();
+// will hold column styles on hover
 const sheetHover = new CSSStyleSheet();
-document.adoptedStyleSheets = [sheetClick, sheetHover];
+document.adoptedStyleSheets = [sheetHover];
 
 const clickColor = tablesConfig.getConfigItem('clickColor') || '#576879';
 const hoverColor = tablesConfig.getConfigItem('hoverColor') || '#6d8298';
@@ -14,25 +13,37 @@ const hoverColor = tablesConfig.getConfigItem('hoverColor') || '#6d8298';
  * @param {object} params
  */
 function highlightColumn(column, params) {
-  const currentTable = shownTables.get(`${column.id.slice(-4)}`);
+  const hyphenId = column.id.slice(-4);
+  const currentTable = shownTables.get(hyphenId);
   const tableId = currentTable.tableId;
 
+  // hold column styles on click Sort column
+  const sheetClick = (() => {
+    let sheet = sortColumnStyles.getStyleSheet(hyphenId);
+    if (sheet) return sheet;
+
+    sheet = new CSSStyleSheet();
+    sortColumnStyles.addStyleSheet(hyphenId, sheet);
+    document.adoptedStyleSheets = document.adoptedStyleSheets.concat(sheet);
+    return sheet;
+  })();
+
   if (params.eventType === 'hover') {
-    addRules(sheetHover, hoverColor);
+    addRules(tableId, sheetHover, hoverColor);
     column.addEventListener('mouseout', unhighlight);
 
   } else { // click
     unhighlight();
-    addRules(sheetClick, clickColor, { th: `#${tableId} `, td: 'table'});
+    addRules(tableId, sheetClick, clickColor);
   }
 
   /**
    * Add CSS rules to style sheet.
+   * @param {string} tableId
    * @param {CSSStyleSheet} sheet
    * @param {string} color
-   * @param {object} [expandSelectors] - add additional selectors to win specificity over another styleSheet rules
    */
-  function addRules(sheet, color, expandSelectors) {
+  function addRules(tableId, sheet, color) {
     const rules = [
       {
         name: 'th',
@@ -52,22 +63,8 @@ function highlightColumn(column, params) {
     ];
 
     rules.forEach(rule => {
-      const expSel = (expandSelectors || {})[rule.name];
-      const sel = `${expSel || ''}${rule.sel}`;
-      sheet.insertRule(`${sel}, ${sel} .resizer-hider { ${rule.decl} }`, sheet.rules.length);
+      sheet.insertRule(`${rule.sel}, ${rule.sel} .resizer-hider { ${rule.decl} }`, sheet.rules.length);
     });
-  }
-
-  /**
-   * Remove CSS rules from style sheet.
-   * @param {CSSStyleSheet} sheet
-   */
-  function removeRules(sheet) {
-    let stop = 0;
-    while (sheet.rules.length) {
-      sheet.deleteRule(sheet.rules.length - 1);
-      if (++stop === 1000) break;
-    }
   }
 
   /**
@@ -129,4 +126,16 @@ function highlightColumn(column, params) {
   }
 }
 
-export default highlightColumn;
+/**
+ * Remove CSS rules from style sheet.
+ * @param {CSSStyleSheet} sheet
+ */
+function removeRules(sheet) {
+  let stop = 0;
+  while (sheet.rules.length) {
+    sheet.deleteRule(sheet.rules.length - 1);
+    if (++stop === 1000) break;
+  }
+}
+
+export { highlightColumn, removeRules };

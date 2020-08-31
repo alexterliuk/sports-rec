@@ -2,7 +2,7 @@ import sort from '../../../utils/sort.js';
 import isStringifiedNumber from '../../../utils/is-stringified-number.js';
 import { shownTables } from '../../state-collectors/index.js';
 import collectCellsVals from '../../table-utils/collect-cells-vals.js';
-import highlightColumn from './highlight-column.js';
+import { highlightColumn } from './highlight-column.js';
 
 /**
  * Prepare data for sorting and invoke sort.

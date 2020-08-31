@@ -1,4 +1,5 @@
-import { shownTables } from '../state-collectors/index.js';
+import { shownTables, sortColumnStyles } from '../state-collectors/index.js';
+import { removeRules } from './modifiers/highlight-column.js';
 
 /**
  * Close whole table container including title and buttons-block.
@@ -9,7 +10,12 @@ function closeTable(btn, { tableId }) {
   const table = pickElem(tableId);
 
   if (table) {
-    shownTables.remove(table.dataset.hyphenId);
+    const hyphenId = table.dataset.hyphenId;
+    shownTables.remove(hyphenId);
+
+    const sortColumnStyleSheet = sortColumnStyles.getStyleSheet(hyphenId);
+
+    if (sortColumnStyleSheet) removeRules(sortColumnStyleSheet);
   }
 }
 

@@ -6,7 +6,7 @@ import removeEmptyColumns from './remove-empty-columns.js';
 import removeLastEmptyRows from './remove-last-empty-rows.js';
 import resetStyles from './reset-styles.js';
 import sortColumn from './sort-column.js';
-import highlightColumn from './highlight-column.js';
+import { highlightColumn } from './highlight-column.js';
 
 export {
   alignTextAreasHeight,
