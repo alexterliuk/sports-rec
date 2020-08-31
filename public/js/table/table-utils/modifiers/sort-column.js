@@ -20,6 +20,16 @@ function sortColumn(sortingBtn) {
 
   const columnsData = collectCellsVals(tableId, tbody, theadRow);
 
+  // do not sort if only one row in table
+  if (tbody.children.length === 1) return;
+
+  const sortingMatrix = makeSortingMatrix(column);
+  const columnValsBeforeSorting = getSortingVals(sortingMatrix);
+
+  // do not sort if only one val in column and it's in first cell
+  if ((columnValsBeforeSorting[0] || columnValsBeforeSorting[0] === 0) &&
+       columnValsBeforeSorting.filter(v => v || v === 0).length === 1) return;
+
   let columnClass, prevSortedColumn;
   for (const th of theadRow.children) {
     if (th.id !== column.id) {
@@ -34,9 +44,6 @@ function sortColumn(sortingBtn) {
   }
 
   table.classList.remove('pristine');
-
-  const sortingMatrix = makeSortingMatrix(column);
-  const columnValsBeforeSorting = getSortingVals(sortingMatrix);
 
   (sorted => {
     if (sorted.allValsEqual) return;
