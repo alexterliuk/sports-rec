@@ -64,10 +64,10 @@ function addColumn(btn, spec, dom) {
   th.append(createDelStick('Delete column', deleteColumn));
 
   if ((spec.onClick || currentTable.onClick || {}).funcName === 'sortColumn') {
-    th.append(createSortingButton('Sort column', sortColumn));
+    th.append(createSortingButton('Sort column', _dom));
   }
 
-  _dom.hangOnElem(th, currentTable);
+  _dom.hangOnElem(th, shownTables.get(hyphenId));
   theadRow.append(th);
 
   if (spec.columnsNames && Array.isArray(spec.columnsNames)) {

@@ -1,10 +1,10 @@
 /**
  * Create a span for invoking sorting function.
  * @param {string} title
- * @param {function} callback
+ * @param {object} dom
  * @returns {HTMLSpanElement}
  */
-function createSortingButton(title, callback) {
+function createSortingButton(title, dom) {
   const sortingCont = document.createElement('span');
   sortingCont.classList.add('sorting-cont');
 
@@ -14,7 +14,10 @@ function createSortingButton(title, callback) {
   sortingBtn.setAttribute('title', title);
   sortingBtn.setAttribute('role', 'button');
   sortingBtn.classList.add('sorting-button');
-  sortingBtn.addEventListener('click', callback);
+  dom.addOnClick(sortingBtn, {
+    funcName: 'sortColumn',
+    funcArgs: [{ dom }],
+  });
 
   return sortingCont;
 }

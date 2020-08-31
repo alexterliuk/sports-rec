@@ -129,7 +129,7 @@ function getBuildDOMLibrary(id, options) {
     },
 
     addOnHover(elem, onHoverData) {
-      const params = { dom: this, eventType: 'hover' };
+      const params = { eventType: 'hover' };
       if (onHoverData.hasOwnProperty('funcArgs')) params.args = onHoverData.funcArgs;
 
       const call = () => { funcLib[onHoverData.funcName](elem, params); };
@@ -156,38 +156,6 @@ function getBuildDOMLibrary(id, options) {
 
       this.columnsIds = columnsIds;
       this.columnsIndexes = columnsIndexes;
-    },
-
-    collectCellsVals() {
-      const tb = querySel(`#${this.root.elementId} tbody`);
-      const columnsData = Object.entries(this.columnsIds).reduce((acc, curr) => { acc.push({ id: curr[1], vals: [] }); return acc; }, []);
-      const monthChars = { '01': 'a', '02': 'b', '03': 'c', '04': 'd', '05': 'e', '06': 'f', '07': 'g', '08': 'h', '09': 'i', '10': 'j', '11': 'k', '12': 'l' };
-
-      for (const row of tb.childNodes) {
-        for (const cell of row.cells) {
-          const columnId = this.columnsIds[`col${cell.cellIndex}`];
-
-          if (cell.cellIndex) {
-            const chunks = cell.textContent ? cell.textContent.split(': ') : 0;
-            const sum = !cell.textContent ? 0 : (Number.isNaN(+chunks[0]) ? chunks[0].split(/\D/).reduce((acc, curr) => acc += +curr, 0) : +chunks[0]);
-            const sets = !cell.textContent ? [0] : (chunks[1] || chunks[0]).split(/\D/).map(val => +val).filter(num => num);
-            columnsData.find(col => col.id === columnId).vals.push({ sum, sets, id: cell.id });
-
-          } else { // date
-            columnsData.find(col => col.id === columnId).vals.push({
-              cellDate: cell.textContent,
-              charCellDate: monthChars[cell.textContent.slice(-2)] + cell.textContent,
-              id: cell.id,
-            });
-          }
-        }
-      }
-
-      this.columnsData = columnsData;
-
-      const columnsDataJSON = JSON.stringify(columnsData);
-      // sessionStorage.setItem('columnsData', columnsDataJSON);
-      // sessionStorage.setItem('initColumnsData', columnsDataJSON);
     },
 
     createHyphenId(storedHyphenIds) {

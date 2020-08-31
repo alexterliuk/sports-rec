@@ -3,6 +3,7 @@ import { collectRowsData, collectTableDataAndSave, confirmDeletingTable } from '
 import buildTables from './build-tables.js';
 import { addColumn, deleteColumn } from './add-delete-column.js';
 import { addRow, deleteRow} from './add-delete-row.js';
+import { sortColumn, highlightColumn } from './table-utils/modifiers/index.js';
 import watch from '../utils/watch.js';
 import { editTableTitle, changeColumnsWidth, resetStyles } from './table-utils/modifiers/index.js';
 import closeTable from './table-utils/close-table.js';
@@ -14,6 +15,8 @@ const funcLib = {
   deleteRow,
   addColumn,
   deleteColumn,
+  sortColumn,
+  highlightColumn,
   changeColumnsWidth,
   resetStyles,
   collectTableDataAndSave,
@@ -146,8 +149,6 @@ function buildDOM(data) {
       }
     }
   });
-
-  //if (dom.root.element.tagName === 'TABLE') dom.collectCellsVals();
 
   // sessionStorage.setItem('page_v1', querySel('body').children[1].outerHTML);
   // sessionStorage.setItem('data_v1', JSON.stringify(data));
