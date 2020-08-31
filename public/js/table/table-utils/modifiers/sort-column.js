@@ -43,7 +43,12 @@ function sortColumn(sortingBtn) {
     if (prevSortedColumn) prevSortedColumn.classList.remove('ascending', 'descending');
     column.classList.remove('ascending', 'descending');
 
-    const columnNotChanged = getSortingVals(sortingMatrix).every((v, idx) => v === columnValsBeforeSorting[idx]);
+    // if strings and numbers were sorted together, the sorting array has strings at the beginning and numbers - in the end;
+    // normalize it (numbers first, then strings) by calling unifyValsByType;
+    // if exclude this op, then if column was in desc order (default for sort function), it remains in the same state,
+    // but we want to reverse column, so that user does not have a feeling of 'click - no visible action'
+    const columnValsAfterSorting = unifyValsByType(getSortingVals(sorted), true);
+    const columnNotChanged = columnValsAfterSorting.every((v, idx) => v === columnValsBeforeSorting[idx]);
 
     if (columnNotChanged) {
       const asc = columnValsBeforeSorting[0] < columnValsBeforeSorting[1];
@@ -110,18 +115,20 @@ function sortColumn(sortingBtn) {
 
   /**
    * Strings and numbers might have been sorted together in a column.
-   * If so, unify values type by type, add empty cells to column's end.
+   * If so, unify values type by type (numbers first, then strings), add empty cells to column's end.
    * @param {array} sorted - sortingMatrix
+   * @param {boolean} [arrOfPrimitives] - if true, sorted is array of primitives, otherwise - array of objects
    */
-  function unifyValsByType(sorted) {
+  function unifyValsByType(sorted, arrOfPrimitives) {
     const numbers = [], strings = [], empty = [];
+    const getVal = v => arrOfPrimitives ? v : v.cellVal;
 
-    sorted.forEach(obj => {
-      if (typeof obj.cellVal === 'number') {
-        numbers.push(obj);
+    sorted.forEach(v => {
+      if (typeof getVal(v) === 'number') {
+        numbers.push(v);
 
-      } else {
-        obj.cellVal ? strings.push(obj) : empty.push(obj);
+      } else { // string
+        getVal(v) ? strings.push(v) : empty.push(v);
       }
     });
 
