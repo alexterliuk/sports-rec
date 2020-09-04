@@ -31,13 +31,9 @@ function sortColumn(sortingBtn) {
 
   let columnClass, prevSortedColumn;
   for (const th of theadRow.children) {
-    if (th.id !== column.id) {
-      for (const cl of th.classList) {
-        if (cl === 'ascending' || cl === 'descending') prevSortedColumn = th;
-      }
-    } else {
-      for (const cl of th.classList) {
-        if (cl === 'ascending' || cl === 'descending') columnClass = cl;
+    for (const cl of th.classList) {
+      if (cl === 'ascending' || cl === 'descending') {
+        th.id !== column.id ? (prevSortedColumn = th) : (columnClass = cl);
       }
     }
   }
