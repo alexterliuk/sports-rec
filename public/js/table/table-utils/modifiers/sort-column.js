@@ -23,8 +23,7 @@ function sortColumn(sortingBtn) {
   // do not sort if only one row in table
   if (tbody.children.length === 1) return;
 
-  const sortingMatrix = makeSortingMatrix(column);
-  const columnValsBeforeSorting = getSortingVals(sortingMatrix);
+  const { sortingMatrix, notSortingMatrix, columnValsBeforeSorting } = makeMatrix(column);
 
   // do not sort if only one val in column and it's in first cell
   if ((columnValsBeforeSorting[0] || columnValsBeforeSorting[0] === 0) &&
@@ -52,9 +51,11 @@ function sortColumn(sortingBtn) {
 
     // if strings and numbers were sorted together, the sorting array has strings at the beginning and numbers - in the end;
     // normalize it (numbers first, then strings) by calling unifyValsByType;
-    // if exclude this op, then if column was in desc order (default for sort function), it remains in the same state,
+    // if exclude this op, then if column was in desc order (default for sort function), after sorting it remains in the same state,
     // but we want to reverse column, so that user does not have a feeling of 'click - no visible action'
-    const columnValsAfterSorting = unifyValsByType(getSortingVals(sorted), true);
+    const fullMatrix = sorted.concat(notSortingMatrix);
+    const columnValsAfterSorting = unifyValsByType(getSortingVals(fullMatrix), true);
+
     const columnNotChanged = columnValsAfterSorting.every((v, idx) => v === columnValsBeforeSorting[idx]);
 
     if (columnNotChanged) {
@@ -65,19 +66,22 @@ function sortColumn(sortingBtn) {
       column.classList.add((!columnClass || columnClass === 'ascending') ? 'descending' : 'ascending');
     }
 
-    reorderTable(columnNotChanged ? sorted.reverse() : sorted);
+    // avoid 'click - no action' feeling by reversing sorted part
+    reorderTable(columnNotChanged ? sorted.reverse().concat(notSortingMatrix) : fullMatrix);
 
     highlightColumn(column, { eventType: 'click' });
   })(sort(sortingMatrix, 'cellVal', columnClass === 'descending')); // init sorting order - descending
 
   /**
-   * Make sorting matrix to be passed into sort function.
+   * Make matrix. Sorting part of it will be passed into sort function.
    * @param {HTMLElement} column - th
+   * @returns {object}
    */
-  function makeSortingMatrix(column) {
+  function makeMatrix(column) {
     const colIdx = column.cellIndex;
+    const sortingMatrix = [], notSortingMatrix = [], columnValsBeforeSorting = [];
 
-    return columnsData.find(col => col.id === column.id).vals.map((savedVal, idx) => {
+    columnsData.find(col => col.id === column.id).vals.forEach((savedVal, idx) => {
       const item = { sortingColumn: column.id };
       const row = tbody.children[idx];
       const cell = row.children[colIdx];
@@ -92,8 +96,11 @@ function sortColumn(sortingBtn) {
       item.cellsInRow = columnsData.map(col => col.vals[idx]);
       item.cellsInRow[colIdx] = item.cellVal;
 
-      return item;
+      (item.cellVal || item.cellVal === 0) ? sortingMatrix.push(item) : notSortingMatrix.push(item);
+      columnValsBeforeSorting.push(item.cellVal);
     });
+
+    return { sortingMatrix, notSortingMatrix, columnValsBeforeSorting };
   }
 
   /**
@@ -110,14 +117,7 @@ function sortColumn(sortingBtn) {
    */
   function reorderTable(sorted) {
     const normalizedSorted = unifyValsByType(sorted);
-
-    normalizedSorted.forEach((item, rowIdx) => {
-      tbody.append(item.row);
-
-      item.cellsInRow.forEach((cell, colIdx) => {
-        columnsData[colIdx].vals[rowIdx] = cell;
-      });
-    });
+    normalizedSorted.forEach(item => tbody.append(item.row));
   }
 
   /**
