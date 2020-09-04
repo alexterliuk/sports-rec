@@ -24,6 +24,5 @@ const savedTablesHyphenIds = (function() {
   return { add, get, remove, replace };
 })();
 
-const { add, get, remove, replace } = savedTablesHyphenIds;
-
+const  { add, get, remove, replace } = savedTablesHyphenIds;
 export { add, get, remove, replace };

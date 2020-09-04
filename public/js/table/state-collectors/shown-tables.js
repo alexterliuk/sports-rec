@@ -78,6 +78,5 @@ const shownTables = (function() {
   return { add, addToTable, get, getAll, remove, removeAll };
 })();
 
-const { add, addToTable, get, getAll, remove, removeAll } = shownTables;
-
+const  { add, addToTable, get, getAll, remove, removeAll } = shownTables;
 export { add, addToTable, get, getAll, remove, removeAll };

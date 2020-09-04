@@ -12,12 +12,10 @@ const tablesConfig = (function() {
   };
 
   const getConfigItem = name => _config[name];
-
   const getAllConfig = () => _config;
 
   return { addToConfig, getConfigItem, getAllConfig };
 })();
 
-const { addToConfig, getConfigItem, getAllConfig } = tablesConfig;
-
+const  { addToConfig, getConfigItem, getAllConfig } = tablesConfig;
 export { addToConfig, getConfigItem, getAllConfig };
